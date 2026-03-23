@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚔️ Tsurugi センチメント</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg0:       #08080f;
+  --bg1:       #0e0e1a;
+  --bg2:       #14142a;
+  --bg3:       #1c1c30;
+  --border:    rgba(90,100,200,0.18);
+  --border2:   rgba(90,100,200,0.32);
+  --accent:    #5a7fff;
+  --accent2:   #a78bfa;
+  --bull:      #22d3a0;
+  --bear:      #f4455a;
+  --neutral:   #facc15;
+  --txt0:      #eeeeff;
+  --txt1:      #9999cc;
+  --txt2:      #555577;
+  --mono:      'Share Tech Mono', monospace;
+  --head:      'Rajdhani', sans-serif;
+  --body:      'Noto Sans JP', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg0);
+  color: var(--txt0);
+  font-family: var(--body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── GRID BACKGROUND ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(90,127,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90,127,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── SCAN LINE ── */
+body::after {
+  content: '';
+  position: fixed;
+  top: -100%;
+  left: 0; right: 0;
+  height: 200px;
+  background: linear-gradient(transparent, rgba(90,127,255,0.04), transparent);
+  animation: scan 8s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes scan { to { top: 120%; } }
+
+/* ── WRAPPER ── */
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+/* ── HEADER ── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.header-left { display: flex; align-items: center; gap: 14px; }
+.logo {
+  font-family: var(--head);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #fff;
+  position: relative;
+}
+.logo span { color: var(--accent); }
+.logo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+.badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  color: var(--accent2);
+  background: rgba(90,127,255,0.07);
+  letter-spacing: 0.08em;
+}
+#clock {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--txt1);
+  letter-spacing: 0.06em;
+}
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  font-family: var(--head);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--txt2);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sec-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── GAUGE CARD (center) ── */
+.gauge-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+@media(max-width:700px){
+  .gauge-row { grid-template-columns: 1fr; }
+}
+
+.card {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.6;
+}
+
+/* ── SENTIMENT GAUGE ── */
+.gauge-card {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 24px 22px;
+}
+@media(max-width:700px){ .gauge-card { grid-column: auto; } }
+
+.gauge-wrap {
+  position: relative;
+  width: 260px;
+  height: 140px;
+  margin-bottom: 16px;
+}
+#gaugeCanvas { display: block; }
+
+.gauge-center {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.gauge-value {
+  font-family: var(--head);
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--txt0);
+  text-shadow: 0 0 30px currentColor;
+  transition: color 0.5s;
+}
+.gauge-label {
+  font-family: var(--head);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  margin-top: 4px;
+  transition: color 0.5s;
+}
+.gauge-sub {
+  font-size: 11px;
+  color: var(--txt2);
+  margin-top: 6px;
+  font-family: var(--mono);
+}
+.gauge-range {
+  display: flex;
+  justify-content: space-between;
+  width: 260px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--txt2);
+}
+
+/* ── MINI STAT CARDS ── */
+.mini-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mini-stat .lbl {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--txt2);
+  font-family: var(--head);
+}
+.mini-stat .val {
+  font-family: var(--head);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--txt0);
+}
+.mini-stat .val.bull { color: var(--bull); }
+.mini-stat .val.bear { color: var(--bear); }
+.mini-stat .sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--txt1);
+}
+.mini-stat .trend {
+  font-size: 11px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.trend-up   { color: var(--bull); }
+.trend-down { color: var(--bear); }
+
+/* ── MTF TABLE ── */
+.mtf-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+@media(max-width:600px){ .mtf-grid { grid-template-columns: repeat(3,1fr); } }
+
+.tf-card {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+.tf-card:hover { border-color: var(--border2); background: var(--bg2); }
+.tf-card.selected {
+  border-color: var(--accent);
+  background: rgba(90,127,255,0.08);
+}
+.tf-name {
+  font-family: var(--head);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--txt1);
+  margin-bottom: 8px;
+}
+.tf-arrow {
+  font-size: 22px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.tf-arrow.bull { color: var(--bull); }
+.tf-arrow.bear { color: var(--bear); }
+.tf-arrow.rng  { color: var(--neutral); }
+
+.tf-bb, .tf-sma {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--txt2);
+  margin-top: 3px;
+}
+.tf-bb.ext-up  { color: #f472b6; }
+.tf-bb.ext-dn  { color: #f472b6; }
+.tf-bb.mid-up  { color: var(--bull); }
+.tf-bb.mid-dn  { color: var(--bear); }
+.tf-sma.str-up { color: var(--bull); }
+.tf-sma.str-dn { color: var(--bear); }
+.tf-sma.mid-up { color: #a3e635; }
+.tf-sma.mid-dn { color: #fb923c; }
+
+/* ── SIGNAL + NEWS ROW ── */
+.sig-news-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+@media(max-width:700px){ .sig-news-row { grid-template-columns: 1fr; } }
+
+/* ── SIGNAL SETUP ── */
+.setup-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  transition: border-color 0.3s, background 0.3s;
+}
+.step.active  { border-color: var(--bull); background: rgba(34,211,160,0.07); }
+.step.done    { border-color: rgba(34,211,160,0.3); opacity: 0.6; }
+.step.pending { opacity: 0.35; }
+.step.warn    { border-color: var(--bear); background: rgba(244,69,90,0.07); }
+
+.step-num {
+  font-family: var(--head);
+  font-size: 11px;
+  font-weight: 700;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border2);
+  color: var(--txt2);
+  flex-shrink: 0;
+}
+.step.active  .step-num { border-color: var(--bull); color: var(--bull); background: rgba(34,211,160,0.12); }
+.step.done    .step-num { border-color: rgba(34,211,160,0.4); color: var(--bull); }
+.step.warn    .step-num { border-color: var(--bear); color: var(--bear); }
+
+.step-body { flex: 1; }
+.step-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--txt0);
+  margin-bottom: 2px;
+}
+.step-detail {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--txt2);
+}
+.step-icon { font-size: 16px; margin-left: auto; }
+
+/* ── NEWS ── */
+.news-list { display: flex; flex-direction: column; gap: 8px; }
+.news-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  font-size: 12px;
+}
+.news-item.danger { border-color: rgba(244,69,90,0.5); background: rgba(244,69,90,0.07); }
+.news-item.caution { border-color: rgba(250,204,21,0.35); background: rgba(250,204,21,0.05); }
+.news-item.ok { opacity: 0.55; }
+.news-icon { font-size: 16px; flex-shrink: 0; }
+.news-body { flex: 1; }
+.news-title { font-weight: 500; color: var(--txt0); }
+.news-time  { font-family: var(--mono); font-size: 10px; color: var(--txt2); margin-top: 2px; }
+.news-countdown {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.news-item.danger  .news-countdown { background: rgba(244,69,90,0.2); color: var(--bear); }
+.news-item.caution .news-countdown { background: rgba(250,204,21,0.15); color: var(--neutral); }
+.news-item.ok      .news-countdown { background: var(--bg3); color: var(--txt2); }
+
+/* ── BB POSITION BAR ── */
+.bb-viz-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+@media(max-width:700px){ .bb-viz-row { grid-template-columns: 1fr; } }
+
+.bb-band-viz {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bb-tf-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bb-tf-lbl {
+  font-family: var(--head);
+  font-size: 12px;
+  font-weight: 600;
+  width: 32px;
+  color: var(--txt1);
+  letter-spacing: 0.06em;
+}
+.bb-bar-wrap {
+  flex: 1;
+  position: relative;
+  height: 20px;
+  border-radius: 4px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.bb-bar-fill {
+  position: absolute;
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease, background 0.4s;
+}
+.bb-mid-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: rgba(255,255,255,0.25);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.bb-dot {
+  position: absolute;
+  top: 50%;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--bg0);
+  transition: left 0.6s ease;
+  z-index: 2;
+}
+.bb-pct {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--txt2);
+  width: 36px;
+  text-align: right;
+}
+
+/* ── FIBO TABLE ── */
+.fibo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.fibo-table th {
+  font-family: var(--head);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--txt2);
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-weight: 500;
+}
+.fibo-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(90,100,200,0.08);
+  font-family: var(--mono);
+}
+.fibo-table tr:hover td { background: rgba(90,127,255,0.04); }
+.fibo-key { font-family: var(--head); font-size: 12px; font-weight: 600; color: var(--accent2); }
+.fibo-price { color: var(--txt0); }
+.fibo-dist.bull { color: var(--bull); }
+.fibo-dist.bear { color: var(--bear); }
+.fibo-near {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+}
+
+/* ── ENTRY PANEL ── */
+.entry-panel {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+.entry-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+@media(max-width:700px){ .entry-grid { grid-template-columns: repeat(2,1fr); } }
+
+.entry-field { display: flex; flex-direction: column; gap: 5px; }
+.entry-field label {
+  font-family: var(--head);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--txt2);
+}
+.entry-field input {
+  font-family: var(--mono);
+  font-size: 15px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--txt0);
+  padding: 8px 10px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.entry-field input:focus { border-color: var(--accent); }
+.entry-hint {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--txt2);
+  margin-top: 2px;
+}
+.entry-calc-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+@media(max-width:700px){ .entry-calc-row { grid-template-columns: repeat(2,1fr); } }
+
+.calc-item { display: flex; flex-direction: column; gap: 3px; }
+.calc-item .clbl { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--txt2); font-family: var(--head); }
+.calc-item .cval { font-family: var(--head); font-size: 22px; font-weight: 700; color: var(--txt0); }
+.calc-item .cval.bull { color: var(--bull); }
+.calc-item .cval.bear { color: var(--bear); }
+.calc-item .csub { font-family: var(--mono); font-size: 10px; color: var(--txt2); }
+
+/* ── OVERALL SIGNAL BANNER ── */
+.signal-banner {
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.5s, border-color 0.5s;
+  border: 1px solid var(--border);
+}
+.signal-banner.bull-banner {
+  background: rgba(34,211,160,0.07);
+  border-color: rgba(34,211,160,0.35);
+}
+.signal-banner.bear-banner {
+  background: rgba(244,69,90,0.07);
+  border-color: rgba(244,69,90,0.35);
+}
+.signal-banner.neutral-banner {
+  background: rgba(250,204,21,0.05);
+  border-color: rgba(250,204,21,0.25);
+}
+.signal-banner.block-banner {
+  background: rgba(244,69,90,0.1);
+  border-color: rgba(244,69,90,0.4);
+}
+.banner-left { display: flex; flex-direction: column; gap: 4px; }
+.banner-main {
+  font-family: var(--head);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.banner-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--txt1);
+}
+.banner-right {
+  font-size: 48px;
+  opacity: 0.7;
+}
+.banner-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  animation: pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes pulse {
+  0%,100% { opacity: 0; }
+  50%      { opacity: 1; }
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg0); }
+::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+
+/* ── BLINK ── */
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.blink { animation: blink 1s ease-in-out infinite; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <div class="logo">⚔️ TsuRuGi <span>SENTIMENT</span></div>
+      <div class="badge">MTF · HANAME STYLE</div>
+    </div>
+    <div id="clock">--:--:--</div>
+  </header>
+
+  <!-- OVERALL SIGNAL BANNER -->
+  <div id="bannerWrap">
+    <div id="signalBanner" class="signal-banner neutral-banner">
+      <div class="banner-left">
+        <div class="banner-main" id="bannerMain" style="color:var(--neutral)">ANALYZING...</div>
+        <div class="banner-sub" id="bannerSub">マルチタイムフレーム分析中</div>
+      </div>
+      <div class="banner-right" id="bannerIcon">⚡</div>
+    </div>
+  </div>
+
+  <!-- GAUGE ROW -->
+  <div class="sec-title">センチメントゲージ</div>
+  <div class="gauge-row">
+
+    <div class="card gauge-card">
+      <div class="gauge-wrap">
+        <canvas id="gaugeCanvas" width="260" height="140"></canvas>
+        <div class="gauge-center">
+          <div class="gauge-value" id="gaugeValue">--</div>
+          <div class="gauge-label" id="gaugeLabel">--</div>
+        </div>
+      </div>
+      <div class="gauge-range">
+        <span>EXTREME BEAR</span>
+        <span>NEUTRAL</span>
+        <span>EXTREME BULL</span>
+      </div>
+      <div class="gauge-sub" style="margin-top:8px" id="gaugeSub">MTF 統合スコア（D1×H4×H1×M15×M5）</div>
+    </div>
+
+    <div class="card mini-stat" id="bullCard">
+      <div class="lbl">BULL シグナル数</div>
+      <div class="val bull" id="bullCount">0</div>
+      <div class="sub" id="bullTFs">---</div>
+      <div class="trend" id="bullTrend"></div>
+    </div>
+
+    <div class="card mini-stat" id="bearCard">
+      <div class="lbl">BEAR シグナル数</div>
+      <div class="val bear" id="bearCount">0</div>
+      <div class="sub" id="bearTFs">---</div>
+      <div class="trend" id="bearTrend"></div>
+    </div>
+
+  </div>
+
+  <!-- MTF CARDS -->
+  <div class="sec-title">マルチタイムフレーム状況</div>
+  <div class="mtf-grid" id="mtfGrid"></div>
+
+  <!-- BB VIZ + FIBO -->
+  <div class="bb-viz-row">
+    <div class="card">
+      <div class="sec-title">BB位置 (各TF)</div>
+      <div class="bb-band-viz" id="bbViz"></div>
+    </div>
+    <div class="card">
+      <div class="sec-title">フィボナッチ水準</div>
+      <table class="fibo-table" id="fiboTable">
+        <thead>
+          <tr>
+            <th>水準</th>
+            <th>価格</th>
+            <th>現在価格との差</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="fiboBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SIGNAL + NEWS -->
+  <div class="sig-news-row">
+    <div class="card">
+      <div class="sec-title">Tsurugi式セットアップ状態</div>
+      <div class="setup-steps" id="setupSteps"></div>
+    </div>
+    <div class="card">
+      <div class="sec-title">重要指標カレンダー</div>
+      <div class="news-list" id="newsList"></div>
+    </div>
+  </div>
+
+  <!-- ENTRY PANEL -->
+  <div class="entry-panel">
+    <div class="sec-title">エントリー計算</div>
+    <div class="entry-grid">
+      <div class="entry-field">
+        <label>エントリー価格</label>
+        <input type="number" id="entryPrice" value="155.000" step="0.001" oninput="calcEntry()">
+      </div>
+      <div class="entry-field">
+        <label>SL (pips)</label>
+        <input type="number" id="slPips" value="30" step="1" oninput="calcEntry()">
+      </div>
+      <div class="entry-field">
+        <label>RR比率</label>
+        <input type="number" id="rrRatio" value="3.0" step="0.1" oninput="calcEntry()">
+      </div>
+      <div class="entry-field">
+        <label>口座資金 (円)</label>
+        <input type="number" id="capital" value="100000" step="10000" oninput="calcEntry()">
+        <div class="entry-hint">リスク1%自動計算</div>
+      </div>
+    </div>
+    <div class="entry-calc-row" id="entryCalcRow"></div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────
+//  DATA
+// ─────────────────────────────────────────────────────────
+
+// 重要指標（JST）
+const NEWS = [
+  { dt: "2026/03/24 22:45", name: "米 PMI製造業速報 3月" },
+  { dt: "2026/04/03 21:30", name: "米 雇用統計 3月"       },
+  { dt: "2026/04/23 22:45", name: "米 PMI製造業速報 4月"  },
+  { dt: "2026/04/30 03:00", name: "米 FOMC政策金利"        }
+];
+
+// タイムフレーム定義
+const TFS = [
+  { label: "D1",  key: "D1"  },
+  { label: "H4",  key: "H4"  },
+  { label: "H1",  key: "H1"  },
+  { label: "M15", key: "M15" },
+  { label: "M5",  key: "M5"  }
+];
+
+// フィボ水準
+const FIBO_LEVELS = [
+  { key: "0%",    ratio: 0.000 },
+  { key: "23.6%", ratio: 0.236 },
+  { key: "38.2%", ratio: 0.382 },
+  { key: "50%",   ratio: 0.500 },
+  { key: "61.8%", ratio: 0.618 },
+  { key: "78.6%", ratio: 0.786 },
+  { key: "100%",  ratio: 1.000 }
+];
+
+// ─────────────────────────────────────────────────────────
+//  STATE (手動入力 / シミュレーション)
+// ─────────────────────────────────────────────────────────
+
+let state = {
+  // 各TFのトレンド: "UP" | "DN" | "RNG"
+  trend: { D1:"UP", H4:"UP", H1:"RNG", M15:"RNG", M5:"DN" },
+  // BB位置 (0=下バンド付近 50=ミドル 100=上バンド付近)
+  bbPct: { D1:55, H4:48, H1:62, M15:40, M5:35 },
+  // SMA位置: "STR_UP" | "MID_UP" | "MID_DN" | "STR_DN"
+  smaPos: { D1:"STR_UP", H4:"STR_UP", H1:"MID_UP", M15:"MID_UP", M5:"MID_DN" },
+  // Tsurugi式セットアップ: 0=初期, 1=+2σ到達, 2=-2σ到達, 3=エントリー待ち
+  setupState: 1,
+  // フィボ（直近3ヶ月日足ベース）
+  fiboHigh: 160.200,
+  fiboLow:  149.800,
+  currentPrice: 155.420,
+  // 選択中TF
+  selectedTF: "H4"
+};
+
+// ─────────────────────────────────────────────────────────
+//  CLOCK
+// ─────────────────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent =
+    `JST ${now.getFullYear()}.${now.getMonth()+1}.${String(now.getDate()).padStart(2,'0')}  ${h}:${m}:${s}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ─────────────────────────────────────────────────────────
+//  SENTIMENT SCORE
+// ─────────────────────────────────────────────────────────
+function calcSentimentScore() {
+  // 各TFの重み: D1=3, H4=2, H1=1, M15=0.5, M5=0.5
+  const weights = { D1:3, H4:2, H1:1, M15:0.5, M5:0.5 };
+  let bull = 0, bear = 0, total = 0;
+  const bullTFs = [], bearTFs = [];
+
+  for (const tf of TFS) {
+    const w = weights[tf.key];
+    total += w;
+    const t = state.trend[tf.key];
+    if (t === "UP") { bull += w; bullTFs.push(tf.label); }
+    else if (t === "DN") { bear += w; bearTFs.push(tf.label); }
+  }
+
+  const score = Math.round(((bull - bear) / total + 1) / 2 * 100);
+  return { score, bullTFs, bearTFs, bullCount: bullTFs.length, bearCount: bearTFs.length };
+}
+
+// ─────────────────────────────────────────────────────────
+//  GAUGE CANVAS
+// ─────────────────────────────────────────────────────────
+function drawGauge(score) {
+  const canvas = document.getElementById('gaugeCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = 260, H = 140;
+  ctx.clearRect(0, 0, W, H);
+
+  const cx = W / 2, cy = H - 10;
+  const r  = 115;
+
+  // Zone colors
+  const zones = [
+    { from: Math.PI, to: Math.PI * 1.2, color: '#f4455a' },
+    { from: Math.PI * 1.2, to: Math.PI * 1.4, color: '#fb923c' },
+    { from: Math.PI * 1.4, to: Math.PI * 1.6, color: '#facc15' },
+    { from: Math.PI * 1.6, to: Math.PI * 1.8, color: '#a3e635' },
+    { from: Math.PI * 1.8, to: Math.PI * 2,   color: '#22d3a0' },
+  ];
+
+  zones.forEach(z => {
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, z.from, z.to);
+    ctx.arc(cx, cy, r - 22, z.to, z.from, true);
+    ctx.closePath();
+    ctx.fillStyle = z.color + '55';
+    ctx.fill();
+    ctx.strokeStyle = z.color + '22';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  // Track
+  ctx.beginPath();
+  ctx.arc(cx, cy, r - 11, Math.PI, 2 * Math.PI);
+  ctx.strokeStyle = 'rgba(90,100,200,0.12)';
+  ctx.lineWidth = 22;
+  ctx.stroke();
+
+  // Filled arc
+  const angle = Math.PI + (score / 100) * Math.PI;
+  const col = score >= 60 ? '#22d3a0' : score >= 40 ? '#facc15' : '#f4455a';
+
+  const grad = ctx.createLinearGradient(cx - r, cy, cx + r, cy);
+  grad.addColorStop(0, '#f4455a');
+  grad.addColorStop(0.5, '#facc15');
+  grad.addColorStop(1, '#22d3a0');
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, r - 11, Math.PI, angle);
+  ctx.strokeStyle = grad;
+  ctx.lineWidth = 20;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  // Needle
+  const needleAngle = Math.PI + (score / 100) * Math.PI;
+  const nx = cx + (r - 11) * Math.cos(needleAngle);
+  const ny = cy + (r - 11) * Math.sin(needleAngle);
+
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(nx, ny);
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  // Center dot
+  ctx.beginPath();
+  ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+  ctx.fillStyle = '#fff';
+  ctx.fill();
+
+  // Glow dot at needle tip
+  ctx.beginPath();
+  ctx.arc(nx, ny, 4, 0, Math.PI * 2);
+  ctx.fillStyle = col;
+  ctx.shadowColor = col;
+  ctx.shadowBlur = 12;
+  ctx.fill();
+  ctx.shadowBlur = 0;
+}
+
+// ─────────────────────────────────────────────────────────
+//  UPDATE FUNCTIONS
+// ─────────────────────────────────────────────────────────
+
+function getSentLabel(score) {
+  if (score >= 75) return { label: "STRONG BULL ▲▲", color: "var(--bull)" };
+  if (score >= 60) return { label: "BULL ▲",         color: "var(--bull)" };
+  if (score >= 45) return { label: "NEUTRAL →",      color: "var(--neutral)" };
+  if (score >= 30) return { label: "BEAR ▼",          color: "var(--bear)" };
+  return              { label: "STRONG BEAR ▼▼",  color: "var(--bear)" };
+}
+
+function updateGauge() {
+  const { score, bullTFs, bearTFs, bullCount, bearCount } = calcSentimentScore();
+
+  drawGauge(score);
+
+  const sent = getSentLabel(score);
+  const gv = document.getElementById('gaugeValue');
+  const gl = document.getElementById('gaugeLabel');
+  gv.textContent = score;
+  gv.style.color = sent.color;
+  gv.style.textShadow = `0 0 30px ${sent.color}`;
+  gl.textContent = sent.label;
+  gl.style.color = sent.color;
+
+  document.getElementById('bullCount').textContent = bullCount;
+  document.getElementById('bearCount').textContent = bearCount;
+  document.getElementById('bullTFs').textContent = bullTFs.length ? bullTFs.join(' · ') : '---';
+  document.getElementById('bearTFs').textContent = bearTFs.length ? bearTFs.join(' · ') : '---';
+
+  // Banner
+  const banner = document.getElementById('signalBanner');
+  const bannerMain = document.getElementById('bannerMain');
+  const bannerSub  = document.getElementById('bannerSub');
+  const bannerIcon = document.getElementById('bannerIcon');
+
+  // Check news block
+  const newsBlocked = isNewsBlocked();
+  if (newsBlocked) {
+    banner.className = 'signal-banner block-banner';
+    bannerMain.textContent = '⚠ 指標発表ブロック';
+    bannerMain.style.color = 'var(--bear)';
+    bannerSub.textContent  = '重要指標発表の前後30分・4時間前 → エントリー禁止';
+    bannerIcon.textContent = '🚫';
+    return;
+  }
+
+  const d1up = state.trend.D1 === "UP";
+  const h4up = state.trend.H4 === "UP";
+  const sellReady = d1up && h4up && state.setupState >= 2;
+
+  if (score >= 60 && sellReady) {
+    banner.className = 'signal-banner bear-banner';
+    bannerMain.textContent = 'SELL SETUP READY ⚔';
+    bannerMain.style.color = 'var(--bear)';
+    bannerSub.textContent  = 'D1▲UP / H4▲UP / Tsurugi式セットアップ進行中 → Sell特化';
+    bannerIcon.textContent = '📉';
+  } else if (score >= 60) {
+    banner.className = 'signal-banner bull-banner';
+    bannerMain.textContent = 'BULLISH BIAS ▲';
+    bannerMain.style.color = 'var(--bull)';
+    bannerSub.textContent  = `強気 ${bullCount}TF / D1・H4 UPトレンド監視中`;
+    bannerIcon.textContent = '📈';
+  } else if (score <= 40) {
+    banner.className = 'signal-banner bear-banner';
+    bannerMain.textContent = 'BEARISH BIAS ▼';
+    bannerMain.style.color = 'var(--bear)';
+    bannerSub.textContent  = `弱気 ${bearCount}TF / 下降トレンド優勢`;
+    bannerIcon.textContent = '📉';
+  } else {
+    banner.className = 'signal-banner neutral-banner';
+    bannerMain.textContent = 'NEUTRAL / WAIT';
+    bannerMain.style.color = 'var(--neutral)';
+    bannerSub.textContent  = 'トレンド不明瞭 → エントリー見送り推奨';
+    bannerIcon.textContent = '⏳';
+  }
+}
+
+function getTrendClass(trend) {
+  if (trend === "UP")  return "bull";
+  if (trend === "DN")  return "bear";
+  return "rng";
+}
+function getTrendArrow(trend) {
+  if (trend === "UP")  return "▲";
+  if (trend === "DN")  return "▼";
+  return "→";
+}
+function getBBClass(pct) {
+  if (pct >= 90) return "ext-up";
+  if (pct <= 10) return "ext-dn";
+  if (pct >= 50) return "mid-up";
+  return "mid-dn";
+}
+function getBBLabel(pct) {
+  if (pct >= 90) return "外↑";
+  if (pct <= 10) return "外↓";
+  if (pct >= 50) return "中↑";
+  return "中↓";
+}
+function getSmaClass(s) {
+  if (s === "STR_UP") return "str-up";
+  if (s === "STR_DN") return "str-dn";
+  if (s === "MID_UP") return "mid-up";
+  return "mid-dn";
+}
+function getSmaLabel(s) {
+  if (s === "STR_UP") return "強↑";
+  if (s === "STR_DN") return "強↓";
+  if (s === "MID_UP") return "中↑";
+  return "中↓";
+}
+
+function renderMTF() {
+  const grid = document.getElementById('mtfGrid');
+  grid.innerHTML = '';
+  TFS.forEach(tf => {
+    const t = state.trend[tf.key];
+    const bb = state.bbPct[tf.key];
+    const sma = state.smaPos[tf.key];
+    const tc = getTrendClass(t);
+    const sel = state.selectedTF === tf.key ? ' selected' : '';
+    const div = document.createElement('div');
+    div.className = 'tf-card' + sel;
+    div.innerHTML = `
+      <div class="tf-name">${tf.label}</div>
+      <div class="tf-arrow ${tc}">${getTrendArrow(t)}</div>
+      <div class="tf-bb ${getBBClass(bb)}">BB: ${getBBLabel(bb)}</div>
+      <div class="tf-sma ${getSmaClass(sma)}">SMA: ${getSmaLabel(sma)}</div>
+    `;
+    div.onclick = () => { state.selectedTF = tf.key; renderAll(); };
+    grid.appendChild(div);
+  });
+}
+
+function renderBBViz() {
+  const wrap = document.getElementById('bbViz');
+  wrap.innerHTML = '';
+  TFS.forEach(tf => {
+    const pct = state.bbPct[tf.key];
+    const col = pct >= 90 ? '#f472b6' : pct <= 10 ? '#f472b6' : pct >= 50 ? 'var(--bull)' : 'var(--bear)';
+    const row = document.createElement('div');
+    row.className = 'bb-tf-row';
+    row.innerHTML = `
+      <div class="bb-tf-lbl">${tf.label}</div>
+      <div class="bb-bar-wrap">
+        <div class="bb-bar-fill" style="width:${pct}%; background: linear-gradient(90deg, rgba(244,69,90,0.3), ${col}40);"></div>
+        <div class="bb-mid-line"></div>
+        <div class="bb-dot" style="left:${pct}%; background:${col};"></div>
+      </div>
+      <div class="bb-pct">${pct}%</div>
+    `;
+    wrap.appendChild(row);
+  });
+}
+
+function renderFibo() {
+  const cur = state.currentPrice;
+  const hi  = state.fiboHigh;
+  const lo  = state.fiboLow;
+  const rng = hi - lo;
+  const tbody = document.getElementById('fiboBody');
+  tbody.innerHTML = '';
+
+  FIBO_LEVELS.forEach(f => {
+    const price = lo + rng * f.ratio;
+    const dist  = cur - price;
+    const distPips = Math.abs(dist) * 100;
+    const isNear = distPips < 30;
+    const distClass = dist >= 0 ? 'bull' : 'bear';
+    const distStr = (dist >= 0 ? '+' : '') + dist.toFixed(3) +
+                    ` (${distPips.toFixed(0)}p)`;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="fibo-key">${f.key}</td>
+      <td class="fibo-price">${price.toFixed(3)}</td>
+      <td class="fibo-dist ${distClass}">${distStr}</td>
+      <td>${isNear ? '<span class="fibo-near"></span>' : ''}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function renderSetup() {
+  const steps = [
+    {
+      n: "①", title: "+2σ タッチ", detail: "高値 or 終値 ≥ 上バンド（2σ）",
+      done: state.setupState >= 1, active: false
+    },
+    {
+      n: "②", title: "-2σ タッチ（★重要）", detail: "安値 or 終値 ≤ 下バンド（2σ）",
+      done: state.setupState >= 2, active: state.setupState === 1
+    },
+    {
+      n: "③", title: "ミドル付近まで戻る", detail: "再上昇して21MAライン付近へ",
+      done: state.setupState >= 3, active: state.setupState === 2
+    },
+    {
+      n: "④", title: "上ヒゲ陰線確定（エントリー）",
+      detail: "高値>ミドル & 終値<ミドル & 陰線 → 次足Sell",
+      done: false, active: state.setupState === 3
+    }
+  ];
+
+  const wrap = document.getElementById('setupSteps');
+  wrap.innerHTML = '';
+
+  // Check if D1+H4 are both UP
+  const prerequisite = state.trend.D1 === "UP" && state.trend.H4 === "UP";
+
+  if (!prerequisite) {
+    wrap.innerHTML = `
+      <div class="step warn">
+        <div class="step-num" style="border-color:var(--bear);color:var(--bear)">!</div>
+        <div class="step-body">
+          <div class="step-title">前提条件 未充足</div>
+          <div class="step-detail">D1・H4 ともに▲UPトレンド が必要です</div>
+        </div>
+        <div class="step-icon">🚫</div>
+      </div>
+    `;
+    return;
+  }
+
+  steps.forEach((s, i) => {
+    const cls = s.active ? 'active' : s.done ? 'done' : 'pending';
+    const icon = s.active ? '◉' : s.done ? '✓' : '○';
+    const div = document.createElement('div');
+    div.className = `step ${cls}`;
+    div.innerHTML = `
+      <div class="step-num">${s.n}</div>
+      <div class="step-body">
+        <div class="step-title">${s.title}</div>
+        <div class="step-detail">${s.detail}</div>
+      </div>
+      <div class="step-icon">${icon}</div>
+    `;
+    wrap.appendChild(div);
+  });
+}
+
+// ─────────────────────────────────────────────────────────
+//  NEWS
+// ─────────────────────────────────────────────────────────
+function parseJST(dtStr) {
+  const [date, time] = dtStr.split(' ');
+  const [y,mo,d] = date.split('/').map(Number);
+  const [h,mi] = time.split(':').map(Number);
+  return new Date(y, mo-1, d, h, mi, 0);
+}
+
+function isNewsBlocked() {
+  const now = new Date();
+  for (const n of NEWS) {
+    const t = parseJST(n.dt);
+    const diffMin = (t - now) / 60000;
+    if (diffMin >= -30 && diffMin <= 30)  return true;  // 前後30分
+    if (diffMin > 0 && diffMin <= 240)    return true;  // 4時間前
+  }
+  return false;
+}
+
+function renderNews() {
+  const now = new Date();
+  const wrap = document.getElementById('newsList');
+  wrap.innerHTML = '';
+
+  const visible = NEWS.map(n => ({ ...n, dt_obj: parseJST(n.dt) }))
+    .filter(n => (n.dt_obj - now) / 60000 > -60)  // 1時間以上前はスキップ
+    .slice(0, 5);
+
+  if (!visible.length) {
+    wrap.innerHTML = '<div style="font-size:12px;color:var(--txt2);padding:8px">直近の重要指標はありません</div>';
+    return;
+  }
+
+  visible.forEach(n => {
+    const diffMin = Math.round((n.dt_obj - now) / 60000);
+    let cls = 'ok', icon = '📅', countdown = '';
+
+    if (diffMin <= 0 && diffMin >= -30) {
+      cls = 'danger'; icon = '🔴'; countdown = '発表中';
+    } else if (diffMin > 0 && diffMin <= 30) {
+      cls = 'danger'; icon = '⚠️'; countdown = `${diffMin}分後`;
+    } else if (diffMin > 0 && diffMin <= 240) {
+      cls = 'caution'; icon = '⏰'; countdown = `${diffMin}分後`;
+    } else if (diffMin > 0) {
+      const h = Math.floor(diffMin/60), m = diffMin%60;
+      countdown = h > 0 ? `${h}時間${m}分後` : `${m}分後`;
+    }
+
+    const div = document.createElement('div');
+    div.className = `news-item ${cls}`;
+    div.innerHTML = `
+      <div class="news-icon">${icon}</div>
+      <div class="news-body">
+        <div class="news-title">${n.name}</div>
+        <div class="news-time">${n.dt} JST</div>
+      </div>
+      <div class="news-countdown">${countdown}</div>
+    `;
+    wrap.appendChild(div);
+  });
+}
+
+// ─────────────────────────────────────────────────────────
+//  ENTRY CALC
+// ─────────────────────────────────────────────────────────
+function calcEntry() {
+  const entry   = parseFloat(document.getElementById('entryPrice').value) || 155;
+  const slPips  = parseFloat(document.getElementById('slPips').value)     || 30;
+  const rr      = parseFloat(document.getElementById('rrRatio').value)    || 3.0;
+  const capital = parseFloat(document.getElementById('capital').value)    || 100000;
+
+  const pip     = 0.01;       // USDJPY: 1pip = 0.01円
+  const slPrice = entry + slPips * pip;  // Sell: SLは上
+  const tpPrice = entry - slPips * pip * rr;
+  const riskAmt = capital * 0.01;        // 1%
+  // XM 1lot = 100,000通貨 / 0.01lot = 1000通貨
+  // USDJPY 1pip value at 0.01lot ≈ 10円（概算）
+  const pipValue  = 10;  // 0.01lot XM USDJPY ≈ 10円/pip
+  const recLot    = Math.floor((riskAmt / (slPips * pipValue)) * 100) / 100;
+  const profitAmt = riskAmt * rr;
+
+  document.getElementById('entryCalcRow').innerHTML = `
+    <div class="calc-item">
+      <div class="clbl">SL ライン</div>
+      <div class="cval bear">${slPrice.toFixed(3)}</div>
+      <div class="csub">エントリーから +${slPips}pips 上</div>
+    </div>
+    <div class="calc-item">
+      <div class="clbl">TP ライン</div>
+      <div class="cval bull">${tpPrice.toFixed(3)}</div>
+      <div class="csub">RR 1:${rr} = ${(slPips*rr).toFixed(0)}pips下</div>
+    </div>
+    <div class="calc-item">
+      <div class="clbl">推奨ロット (1%リスク)</div>
+      <div class="cval">${recLot.toFixed(2)}lot</div>
+      <div class="csub">リスク ¥${Math.round(riskAmt).toLocaleString()}</div>
+    </div>
+    <div class="calc-item">
+      <div class="clbl">想定利益</div>
+      <div class="cval bull">¥${Math.round(profitAmt).toLocaleString()}</div>
+      <div class="csub">勝利時（RR ${rr}倍）</div>
+    </div>
+    <div class="calc-item">
+      <div class="clbl">想定損失</div>
+      <div class="cval bear">¥${Math.round(riskAmt).toLocaleString()}</div>
+      <div class="csub">敗北時（資金の1%）</div>
+    </div>
+    <div class="calc-item">
+      <div class="clbl">期待値（勝率32%）</div>
+      <div class="cval ${(0.32*rr - 0.68) >= 0 ? 'bull' : 'bear'}">${((0.32*rr - 0.68)*100).toFixed(1)}%</div>
+      <div class="csub">1トレード期待値</div>
+    </div>
+  `;
+}
+
+// ─────────────────────────────────────────────────────────
+//  INTERACTIVE: TF CLICK TO CYCLE TREND
+// ─────────────────────────────────────────────────────────
+// (Already wired via onclick in renderMTF)
+
+// ─────────────────────────────────────────────────────────
+//  RENDER ALL
+// ─────────────────────────────────────────────────────────
+function renderAll() {
+  updateGauge();
+  renderMTF();
+  renderBBViz();
+  renderFibo();
+  renderSetup();
+  renderNews();
+  calcEntry();
+}
+
+renderAll();
+setInterval(renderNews, 30000);
+
+// ─────────────────────────────────────────────────────────
+//  INTERACTIVE CONTROLS
+//  TFカードをクリックするとトレンドを切り替えられる
+// ─────────────────────────────────────────────────────────
+document.getElementById('mtfGrid').addEventListener('click', e => {
+  const card = e.target.closest('.tf-card');
+  if (!card) return;
+  const tfLabel = card.querySelector('.tf-name').textContent.trim();
+  const tf = TFS.find(t => t.label === tfLabel);
+  if (!tf) return;
+  // Cycle: UP → DN → RNG → UP
+  const cycle = { UP: 'DN', DN: 'RNG', RNG: 'UP' };
+  state.trend[tf.key] = cycle[state.trend[tf.key]] || 'UP';
+  renderAll();
+});
+
+// Setup state cycle button (click on setup steps)
+document.getElementById('setupSteps').addEventListener('click', () => {
+  state.setupState = (state.setupState + 1) % 4;
+  renderAll();
+});
+</script>
+</body>
+</html>
