@@ -1,1 +1,60 @@
-
+{
+  "date": "2026.03.23",
+  "heroTitle": "今日の注目は <span class=\"bear\">USD/JPY ロング70%</span>。現時点では逆張りショートを最優先で監視。",
+  "topAlert": "+40pt",
+  "heroLead": "主要3ペアのセンチメントを一覧で確認できる軽量ダッシュボードです。偏りの強さを先に把握して、詳細はレポートで確認する運用を想定しています。",
+  "heroConclusion": "<strong>結論：</strong> USD/JPY はロング偏りが強く、逆張り目線では最も警戒度が高い状態です。ただし、センチメント単体では入らず、価格アクションとセットで判断します。",
+  "quick": {
+    "topPair": "USD/JPY",
+    "bias": "SELL バイアス",
+    "second": "EUR/USD 注視",
+    "wait": "GBP/USD"
+  },
+  "pairs": [
+    {
+      "name": "USD/JPY",
+      "label": "ドル円",
+      "long": 70,
+      "short": 30,
+      "diff": 40,
+      "level": "high",
+      "levelLabel": "High +40pt",
+      "status": "ロング過多",
+      "bias": "SELL バイアス",
+      "strategy": "逆張り候補"
+    },
+    {
+      "name": "EUR/USD",
+      "label": "ユーロドル",
+      "long": 60,
+      "short": 40,
+      "diff": 20,
+      "level": "mid",
+      "levelLabel": "Medium +20pt",
+      "status": "やや買い優勢",
+      "bias": "中立〜やや SELL",
+      "strategy": "様子見"
+    },
+    {
+      "name": "GBP/USD",
+      "label": "ポンドドル",
+      "long": 55,
+      "short": 45,
+      "diff": 10,
+      "level": "low",
+      "levelLabel": "Low +10pt",
+      "status": "均衡",
+      "bias": "WAIT",
+      "strategy": "トレンド待ち"
+    }
+  ],
+  "summary": [
+    "<strong>1.</strong> <span class=\"bear\">USD/JPY</span> は今回最大の偏り。ロング70%は逆張り視点で最重要監視対象。",
+    "<strong>2.</strong> <span class=\"warn\">EUR/USD</span> はまだ注視段階。65%超に乗るかが次の分岐。",
+    "<strong>3.</strong> <span class=\"bull\">GBP/USD</span> は優位性が薄く、今は無理に触らない方がいい状態。"
+  ],
+  "latestReport": {
+    "url": "./report-2026-03-23.html",
+    "description": "今日のセンチメント分析を文章で詳しく確認したい方向け。背景・戦略・注意点までまとめています。"
+  }
+}
