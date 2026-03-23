@@ -54,11 +54,7 @@
       flex-wrap:wrap;
     }
 
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
+    .brand{ display:flex; flex-direction:column; gap:6px; }
 
     .brand-kicker{
       font-family:var(--head);
@@ -74,7 +70,6 @@
       font-weight:900;
       letter-spacing:-.02em;
     }
-
     .brand-title .accent{color:var(--accent)}
     .brand-title .bear{color:var(--bear)}
 
@@ -98,10 +93,7 @@
       gap:18px;
       margin-bottom:20px;
     }
-
-    @media (max-width: 860px){
-      .hero{grid-template-columns:1fr}
-    }
+    @media (max-width: 860px){ .hero{grid-template-columns:1fr} }
 
     .panel{
       background:#fff;
@@ -115,12 +107,10 @@
       position:relative;
       overflow:hidden;
     }
-
     .hero-main::after{
       content:"⚔";
       position:absolute;
-      right:20px;
-      top:10px;
+      right:20px; top:10px;
       font-size:90px;
       opacity:.05;
       line-height:1;
@@ -150,7 +140,6 @@
       line-height:1.35;
       max-width:720px;
     }
-
     .main-title .bear{color:var(--bear)}
 
     .score-box{
@@ -160,7 +149,6 @@
       border-radius:10px;
       padding:12px 14px;
     }
-
     .score-label{
       font-family:var(--head);
       font-size:10px;
@@ -169,7 +157,6 @@
       color:var(--bear);
       margin-bottom:4px;
     }
-
     .score-value{
       font-family:var(--mono);
       font-size:28px;
@@ -178,10 +165,7 @@
       line-height:1.1;
     }
 
-    .lead{
-      color:var(--ink2);
-      margin-bottom:18px;
-    }
+    .lead{ color:var(--ink2); margin-bottom:18px; }
 
     .alert{
       display:flex;
@@ -193,49 +177,70 @@
       border-radius:10px;
       padding:14px 16px;
     }
+    .alert-icon{ flex-shrink:0; font-size:18px; line-height:1.4; }
 
-    .alert-icon{
-      flex-shrink:0;
-      font-size:18px;
-      line-height:1.4;
-    }
-
+    /* ── QUICK GRID（ここを大改善）── */
     .quick-grid{
-      padding:20px;
+      padding:16px;
       display:grid;
       grid-template-columns:1fr;
-      gap:12px;
+      gap:10px;
     }
 
     .quick-card{
-      border:1px solid var(--border);
       border-radius:12px;
       padding:14px 16px;
-      background:linear-gradient(180deg,#fff,var(--bg));
+      border:2px solid transparent;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* 最優先ペア → 赤系 */
+    .quick-card.card-sell{
+      background:linear-gradient(135deg,#fef1f3,#fde8ec);
+      border-color:#f2bcc7;
+    }
+    /* 方向性 → 濃い赤 */
+    .quick-card.card-sell-dark{
+      background:linear-gradient(135deg,var(--bear),#8b1226);
+      border-color:#8b1226;
+    }
+    /* 次点 → 橙系 */
+    .quick-card.card-warn{
+      background:linear-gradient(135deg,#fef4e8,#fdecd4);
+      border-color:#f0d39d;
+    }
+    /* 待機 → グレー系 */
+    .quick-card.card-wait{
+      background:linear-gradient(135deg,#f5f3f0,#ece8e2);
+      border-color:#ccc7bf;
     }
 
     .quick-label{
       font-family:var(--head);
-      font-size:10px;
+      font-size:11px;
       letter-spacing:.15em;
       text-transform:uppercase;
-      color:var(--ink3);
-      margin-bottom:6px;
+      margin-bottom:4px;
     }
+    .card-sell      .quick-label { color:var(--bear); }
+    .card-sell-dark .quick-label { color:rgba(255,255,255,0.7); }
+    .card-warn      .quick-label { color:var(--warn); }
+    .card-wait      .quick-label { color:var(--ink3); }
 
     .quick-value{
-      font-size:14px;
-      font-weight:700;
-      color:var(--ink);
+      font-size:18px;
+      font-weight:800;
+      line-height:1.2;
+      letter-spacing:.02em;
     }
+    .card-sell      .quick-value { color:var(--bear); }
+    .card-sell-dark .quick-value { color:#fff; }
+    .card-warn      .quick-value { color:var(--warn); }
+    .card-wait      .quick-value { color:var(--ink2); }
 
-    .quick-value.sell{color:var(--bear)}
-    .quick-value.wait{color:var(--ink3)}
-    .quick-value.warn{color:var(--warn)}
-
-    .section{
-      margin-top:26px;
-    }
+    /* ── SECTION ── */
+    .section{ margin-top:26px; }
 
     .section-head{
       display:flex;
@@ -245,27 +250,15 @@
       margin-bottom:14px;
       flex-wrap:wrap;
     }
-
-    .section-title{
-      font-size:20px;
-      font-weight:800;
-      letter-spacing:.01em;
-    }
-
-    .section-sub{
-      color:var(--ink3);
-      font-size:13px;
-    }
+    .section-title{ font-size:20px; font-weight:800; letter-spacing:.01em; }
+    .section-sub{ color:var(--ink3); font-size:13px; }
 
     .cards{
       display:grid;
       grid-template-columns:repeat(3,1fr);
       gap:16px;
     }
-
-    @media (max-width: 980px){
-      .cards{grid-template-columns:1fr}
-    }
+    @media (max-width: 980px){ .cards{grid-template-columns:1fr} }
 
     .pair{
       background:#fff;
@@ -276,13 +269,11 @@
       position:relative;
       overflow:hidden;
     }
-
     .pair::before{
       content:"";
       position:absolute;
       left:0;top:0;bottom:0;width:5px;
     }
-
     .pair.high::before{background:var(--bear)}
     .pair.mid::before{background:var(--warn)}
     .pair.low::before{background:var(--ink3)}
@@ -294,7 +285,6 @@
       align-items:flex-start;
       margin-bottom:12px;
     }
-
     .pair-name{
       font-family:var(--head);
       font-size:26px;
@@ -303,11 +293,7 @@
       line-height:1;
       margin-bottom:6px;
     }
-
-    .pair-jp{
-      color:var(--ink2);
-      font-size:13px;
-    }
+    .pair-jp{ color:var(--ink2); font-size:13px; }
 
     .badge{
       display:inline-flex;
@@ -320,15 +306,11 @@
       text-transform:uppercase;
       border:1px solid;
     }
+    .badge.danger  {background:var(--bear-bg);color:var(--bear);border-color:#f1bcc8}
+    .badge.caution {background:var(--warn-bg);color:var(--warn);border-color:#f0d39d}
+    .badge.neutral {background:var(--bg2);color:var(--ink3);border-color:var(--border)}
 
-    .badge.danger{background:var(--bear-bg);color:var(--bear);border-color:#f1bcc8}
-    .badge.caution{background:var(--warn-bg);color:var(--warn);border-color:#f0d39d}
-    .badge.neutral{background:var(--bg2);color:var(--ink3);border-color:var(--border)}
-
-    .long-value{
-      text-align:right;
-    }
-
+    .long-value{ text-align:right; }
     .long-value strong{
       display:block;
       font-family:var(--mono);
@@ -336,7 +318,6 @@
       color:var(--bull);
       line-height:1;
     }
-
     .long-value span{
       font-size:11px;
       color:var(--ink3);
@@ -351,7 +332,6 @@
       letter-spacing:.08em;
       margin-bottom:6px;
     }
-
     .bar-labels .l{color:var(--bull)}
     .bar-labels .s{color:var(--bear)}
 
@@ -363,17 +343,8 @@
       display:flex;
       margin-bottom:6px;
     }
-
-    .bar .long{
-      background:linear-gradient(90deg,#0e7c5c,#22c97a);
-      height:100%;
-    }
-
-    .bar .short{
-      background:linear-gradient(90deg,#f4455a,#b91c3a);
-      height:100%;
-      flex:1;
-    }
+    .bar .long{background:linear-gradient(90deg,#0e7c5c,#22c97a);height:100%;}
+    .bar .short{background:linear-gradient(90deg,#f4455a,#b91c3a);height:100%;flex:1;}
 
     .bar-nums{
       display:flex;
@@ -381,30 +352,18 @@
       align-items:center;
       margin-bottom:14px;
     }
-
-    .bar-nums .n{
-      font-family:var(--mono);
-      font-size:13px;
-      font-weight:700;
-    }
-
+    .bar-nums .n{ font-family:var(--mono); font-size:13px; font-weight:700; }
     .bar-nums .n.long{color:var(--bull)}
     .bar-nums .n.short{color:var(--bear)}
     .bar-nums .diff{font-size:11px;color:var(--ink3);font-family:var(--mono)}
 
-    .mini-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-
+    .mini-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .mini{
       background:var(--bg);
       border:1px solid var(--border);
       border-radius:10px;
       padding:10px 12px;
     }
-
     .mini .k{
       font-family:var(--head);
       font-size:10px;
@@ -413,13 +372,7 @@
       color:var(--ink3);
       margin-bottom:4px;
     }
-
-    .mini .v{
-      font-size:13px;
-      font-weight:700;
-      line-height:1.5;
-    }
-
+    .mini .v{ font-size:13px; font-weight:700; line-height:1.5; }
     .mini .v.sell{color:var(--bear)}
     .mini .v.wait{color:var(--ink3)}
     .mini .v.warn{color:var(--warn)}
@@ -432,7 +385,6 @@
       padding:24px;
       box-shadow:var(--shadow);
     }
-
     .summary-title{
       font-family:var(--head);
       font-size:12px;
@@ -441,18 +393,8 @@
       color:rgba(240,237,232,.45);
       margin-bottom:12px;
     }
-
-    .summary ul{
-      list-style:none;
-      display:grid;
-      gap:10px;
-    }
-
-    .summary li{
-      font-size:14px;
-      color:rgba(240,237,232,.9);
-    }
-
+    .summary ul{ list-style:none; display:grid; gap:10px; }
+    .summary li{ font-size:14px; color:rgba(240,237,232,.9); }
     .summary strong{color:#fff}
     .summary .bear{color:#f3a0ae}
     .summary .warn{color:#f6d18a}
@@ -464,10 +406,7 @@
       grid-template-columns:1fr 1fr;
       gap:16px;
     }
-
-    @media (max-width: 860px){
-      .links{grid-template-columns:1fr}
-    }
+    @media (max-width: 860px){ .links{grid-template-columns:1fr} }
 
     .link-card{
       background:#fff;
@@ -476,17 +415,8 @@
       padding:18px 20px;
       box-shadow:var(--shadow);
     }
-
-    .link-card h3{
-      font-size:16px;
-      margin-bottom:8px;
-    }
-
-    .link-card p{
-      font-size:13px;
-      color:var(--ink2);
-      margin-bottom:10px;
-    }
+    .link-card h3{ font-size:16px; margin-bottom:8px; }
+    .link-card p{ font-size:13px; color:var(--ink2); margin-bottom:10px; }
 
     .cta{
       display:inline-flex;
@@ -500,11 +430,7 @@
       font-weight:700;
       text-decoration:none;
     }
-
-    .cta:hover{
-      text-decoration:none;
-      opacity:.92;
-    }
+    .cta:hover{ text-decoration:none; opacity:.92; }
 
     .foot{
       margin-top:24px;
@@ -535,7 +461,7 @@
         <div class="eyebrow">Today's Focus</div>
         <div class="main-head">
           <div class="main-title">
-            今日の注目は <span class="bear">USD/JPY ロング70%</span>。  
+            今日の注目は <span class="bear">USD/JPY ロング70%</span>。<br>
             現時点では逆張りショートを最優先で監視。
           </div>
           <div class="score-box">
@@ -559,22 +485,23 @@
         </div>
       </div>
 
+      <!-- QUICK GRID -->
       <div class="panel quick-grid">
-        <div class="quick-card">
+        <div class="quick-card card-sell">
           <div class="quick-label">最優先ペア</div>
-          <div class="quick-value sell">USD/JPY</div>
+          <div class="quick-value">USD/JPY</div>
         </div>
-        <div class="quick-card">
+        <div class="quick-card card-sell-dark">
           <div class="quick-label">現在の方向性</div>
-          <div class="quick-value sell">SELL バイアス</div>
+          <div class="quick-value">SELL バイアス</div>
         </div>
-        <div class="quick-card">
+        <div class="quick-card card-warn">
           <div class="quick-label">次点</div>
-          <div class="quick-value warn">EUR/USD 注視</div>
+          <div class="quick-value">EUR/USD 注視</div>
         </div>
-        <div class="quick-card">
+        <div class="quick-card card-wait">
           <div class="quick-label">待機ペア</div>
-          <div class="quick-value wait">GBP/USD</div>
+          <div class="quick-value">GBP/USD</div>
         </div>
       </div>
     </section>
@@ -599,11 +526,7 @@
               <span>LONG</span>
             </div>
           </div>
-
-          <div style="margin-bottom:10px;">
-            <span class="badge danger">高偏りゾーン</span>
-          </div>
-
+          <div style="margin-bottom:10px;"><span class="badge danger">高偏りゾーン</span></div>
           <div class="bar-labels">
             <span class="l">▲ LONG</span>
             <span class="s">SHORT ▼</span>
@@ -617,24 +540,11 @@
             <span class="diff">差：40pt</span>
             <span class="n short">30%</span>
           </div>
-
           <div class="mini-grid">
-            <div class="mini">
-              <div class="k">状態</div>
-              <div class="v sell">ロング過多</div>
-            </div>
-            <div class="mini">
-              <div class="k">方向性</div>
-              <div class="v sell">SELL バイアス</div>
-            </div>
-            <div class="mini">
-              <div class="k">判定</div>
-              <div class="v sell">High +40pt</div>
-            </div>
-            <div class="mini">
-              <div class="k">戦略</div>
-              <div class="v">逆張り候補</div>
-            </div>
+            <div class="mini"><div class="k">状態</div><div class="v sell">ロング過多</div></div>
+            <div class="mini"><div class="k">方向性</div><div class="v sell">SELL バイアス</div></div>
+            <div class="mini"><div class="k">判定</div><div class="v sell">High +40pt</div></div>
+            <div class="mini"><div class="k">戦略</div><div class="v">逆張り候補</div></div>
           </div>
         </article>
 
@@ -649,11 +559,7 @@
               <span>LONG</span>
             </div>
           </div>
-
-          <div style="margin-bottom:10px;">
-            <span class="badge caution">やや偏り</span>
-          </div>
-
+          <div style="margin-bottom:10px;"><span class="badge caution">やや偏り</span></div>
           <div class="bar-labels">
             <span class="l">▲ LONG</span>
             <span class="s">SHORT ▼</span>
@@ -667,24 +573,11 @@
             <span class="diff">差：20pt</span>
             <span class="n short">40%</span>
           </div>
-
           <div class="mini-grid">
-            <div class="mini">
-              <div class="k">状態</div>
-              <div class="v warn">やや買い優勢</div>
-            </div>
-            <div class="mini">
-              <div class="k">方向性</div>
-              <div class="v warn">中立〜やや SELL</div>
-            </div>
-            <div class="mini">
-              <div class="k">判定</div>
-              <div class="v warn">Medium +20pt</div>
-            </div>
-            <div class="mini">
-              <div class="k">戦略</div>
-              <div class="v">様子見</div>
-            </div>
+            <div class="mini"><div class="k">状態</div><div class="v warn">やや買い優勢</div></div>
+            <div class="mini"><div class="k">方向性</div><div class="v warn">中立〜やや SELL</div></div>
+            <div class="mini"><div class="k">判定</div><div class="v warn">Medium +20pt</div></div>
+            <div class="mini"><div class="k">戦略</div><div class="v">様子見</div></div>
           </div>
         </article>
 
@@ -699,11 +592,7 @@
               <span>LONG</span>
             </div>
           </div>
-
-          <div style="margin-bottom:10px;">
-            <span class="badge neutral">均衡</span>
-          </div>
-
+          <div style="margin-bottom:10px;"><span class="badge neutral">均衡</span></div>
           <div class="bar-labels">
             <span class="l">▲ LONG</span>
             <span class="s">SHORT ▼</span>
@@ -717,24 +606,11 @@
             <span class="diff">差：10pt</span>
             <span class="n short">45%</span>
           </div>
-
           <div class="mini-grid">
-            <div class="mini">
-              <div class="k">状態</div>
-              <div class="v wait">均衡</div>
-            </div>
-            <div class="mini">
-              <div class="k">方向性</div>
-              <div class="v wait">WAIT</div>
-            </div>
-            <div class="mini">
-              <div class="k">判定</div>
-              <div class="v wait">Low +10pt</div>
-            </div>
-            <div class="mini">
-              <div class="k">戦略</div>
-              <div class="v">トレンド待ち</div>
-            </div>
+            <div class="mini"><div class="k">状態</div><div class="v wait">均衡</div></div>
+            <div class="mini"><div class="k">方向性</div><div class="v wait">WAIT</div></div>
+            <div class="mini"><div class="k">判定</div><div class="v wait">Low +10pt</div></div>
+            <div class="mini"><div class="k">戦略</div><div class="v">トレンド待ち</div></div>
           </div>
         </article>
       </div>
@@ -755,7 +631,6 @@
         <p>今日のセンチメント分析を文章で詳しく確認したい方向け。背景・戦略・注意点までまとめています。</p>
         <a class="cta" href="./report-2026-03-23.html">詳細レポートへ →</a>
       </div>
-
       <div class="link-card">
         <h3>Xで更新を追う</h3>
         <p>Tsurugi式ロジックやセンチメント更新、EA公開情報はXで告知予定です。</p>
@@ -764,7 +639,7 @@
     </section>
 
     <div class="foot">
-      本ページはセンチメントの偏りを素早く確認するためのダッシュボードです。  
+      本ページはセンチメントの偏りを素早く確認するためのダッシュボードです。<br>
       売買判断は価格アクション、ボリンジャーバンド、重要指標の時間帯を含めて総合判断してください。
     </div>
 
