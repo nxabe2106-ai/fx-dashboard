@@ -1,654 +1,1044 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>⚔️ Tsurugi センチメントダッシュボード</title>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#f8f7f4;
-      --bg2:#f0ede8;
-      --bg3:#e8e3dc;
-      --ink:#1a1714;
-      --ink2:#4a4540;
-      --ink3:#8a837a;
-      --bull:#0e7c5c;
-      --bull-bg:#edf7f3;
-      --bear:#b91c3a;
-      --bear-bg:#fdf1f3;
-      --warn:#b45309;
-      --warn-bg:#fef8ed;
-      --accent:#1a3a8f;
-      --accent-bg:#eef2fb;
-      --border:#d8d1c8;
-      --head:'Rajdhani',sans-serif;
-      --body:'Zen Kaku Gothic New',sans-serif;
-      --mono:'Share Tech Mono',monospace;
-      --shadow:0 10px 30px rgba(26,23,20,0.06);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚔️ Tsurugi FX センチメント分析レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #f8f7f4;
+  --bg2:       #f0ede8;
+  --bg3:       #e8e3dc;
+  --ink:       #1a1714;
+  --ink2:      #4a4540;
+  --ink3:      #8a837a;
+  --bull:      #0e7c5c;
+  --bull-bg:   #edf7f3;
+  --bear:      #b91c3a;
+  --bear-bg:   #fdf1f3;
+  --warn:      #b45309;
+  --warn-bg:   #fef8ed;
+  --accent:    #1a3a8f;
+  --accent-bg: #eef2fb;
+  --border:    #d8d1c8;
+  --head:      'Rajdhani', sans-serif;
+  --body:      'Zen Kaku Gothic New', sans-serif;
+  --mono:      'Share Tech Mono', monospace;
+}
 
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      background:linear-gradient(180deg,var(--bg),#fcfbf9 40%,var(--bg));
-      color:var(--ink);
-      font-family:var(--body);
-      line-height:1.75;
-      font-size:15px;
-    }
-    a{color:var(--accent);text-decoration:none}
-    a:hover{text-decoration:underline}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:28px 18px 80px;
-    }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  line-height: 1.8;
+  font-size: 15px;
+}
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      margin-bottom:20px;
-      flex-wrap:wrap;
-    }
+/* ── PAGE WRAP ── */
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
 
-    .brand{ display:flex; flex-direction:column; gap:6px; }
+/* ── HEADER BLOCK ── */
+.article-header {
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+}
 
-    .brand-kicker{
-      font-family:var(--head);
-      font-size:11px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:var(--ink3);
-    }
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.meta-tag {
+  font-family: var(--head);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 2px;
+  border: 1px solid;
+}
+.tag-analysis { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.tag-fx       { border-color: var(--ink3);   color: var(--ink3);   background: var(--bg2); }
+.tag-date     { color: var(--ink3); font-size: 12px; font-family: var(--mono); margin-left: auto; }
 
-    .brand-title{
-      font-size:clamp(24px,4vw,38px);
-      line-height:1.2;
-      font-weight:900;
-      letter-spacing:-.02em;
-    }
-    .brand-title .accent{color:var(--accent)}
-    .brand-title .bear{color:var(--bear)}
+.article-title {
+  font-family: var(--body);
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 900;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.article-title .accent { color: var(--accent); }
+.article-title .bear   { color: var(--bear); }
 
-    .status-chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      background:#fff;
-      border:1px solid var(--border);
-      box-shadow:var(--shadow);
-      font-family:var(--mono);
-      font-size:13px;
-      color:var(--ink2);
-    }
+.article-lead {
+  font-size: 14px;
+  color: var(--ink2);
+  line-height: 1.9;
+  border-left: 3px solid var(--border);
+  padding-left: 16px;
+}
 
-    .hero{
-      display:grid;
-      grid-template-columns:1.45fr .9fr;
-      gap:18px;
-      margin-bottom:20px;
-    }
-    @media (max-width: 860px){ .hero{grid-template-columns:1fr} }
+/* ── OVERVIEW BOX ── */
+.overview-box {
+  background: var(--ink);
+  color: #f0ede8;
+  border-radius: 8px;
+  padding: 24px 28px;
+  margin-bottom: 36px;
+  position: relative;
+  overflow: hidden;
+}
+.overview-box::before {
+  content: '⚔';
+  position: absolute;
+  right: 20px; top: 12px;
+  font-size: 80px;
+  opacity: 0.06;
+  line-height: 1;
+}
+.overview-label {
+  font-family: var(--head);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,237,232,0.5);
+  margin-bottom: 10px;
+}
+.overview-text {
+  font-size: 14px;
+  line-height: 1.95;
+  color: rgba(240,237,232,0.88);
+}
+.overview-text strong { color: #fff; font-weight: 700; }
+.overview-highlight {
+  display: inline-block;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 3px;
+  padding: 1px 7px;
+  font-family: var(--mono);
+  font-size: 13px;
+}
 
-    .panel{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:14px;
-      box-shadow:var(--shadow);
-    }
+/* ── SECTION ── */
+.section {
+  margin-bottom: 44px;
+}
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.section-num {
+  font-family: var(--head);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ink3);
+  width: 28px; height: 28px;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
 
-    .hero-main{
-      padding:24px;
-      position:relative;
-      overflow:hidden;
-    }
-    .hero-main::after{
-      content:"⚔";
-      position:absolute;
-      right:20px; top:10px;
-      font-size:90px;
-      opacity:.05;
-      line-height:1;
-    }
+/* ── PAIR CARD ── */
+.pair-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.pair-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+}
+.pair-card.high-bull::before  { background: var(--bear); }
+.pair-card.mid-bull::before   { background: var(--warn); }
+.pair-card.balanced::before   { background: var(--ink3); }
 
-    .eyebrow{
-      font-family:var(--head);
-      font-size:11px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:var(--ink3);
-      margin-bottom:10px;
-    }
+.pair-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.pair-name {
+  font-family: var(--head);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+}
+.pair-badge {
+  font-family: var(--head);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 3px;
+  margin-top: 4px;
+}
+.badge-danger  { background: var(--bear-bg); color: var(--bear); border: 1px solid #f4b8c4; }
+.badge-caution { background: var(--warn-bg); color: var(--warn); border: 1px solid #f5d49a; }
+.badge-neutral { background: var(--bg2);     color: var(--ink3); border: 1px solid var(--border); }
 
-    .main-head{
-      display:flex;
-      justify-content:space-between;
-      gap:20px;
-      align-items:flex-start;
-      margin-bottom:16px;
-      flex-wrap:wrap;
-    }
+/* ── SENTIMENT BAR ── */
+.sent-bar-wrap {
+  margin-bottom: 16px;
+}
+.sent-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--head);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 5px;
+}
+.sent-bar-labels .bull-lbl { color: var(--bull); }
+.sent-bar-labels .bear-lbl { color: var(--bear); }
+.sent-bar {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--bg3);
+  overflow: hidden;
+  position: relative;
+}
+.sent-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+}
+.sent-fill-bull {
+  height: 100%;
+  border-radius: 5px 0 0 5px;
+  transition: width 0.8s ease;
+}
+.sent-fill-bear {
+  height: 100%;
+  border-radius: 0 5px 5px 0;
+  flex: 1;
+}
+.sent-bar-nums {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+.sent-num {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+.sent-num.bull { color: var(--bull); }
+.sent-num.bear { color: var(--bear); }
+.sent-diff {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink3);
+}
 
-    .main-title{
-      font-size:clamp(20px,3vw,30px);
-      font-weight:900;
-      line-height:1.35;
-      max-width:720px;
-    }
-    .main-title .bear{color:var(--bear)}
+/* ── ANALYSIS GRID ── */
+.analysis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+@media(max-width:560px){ .analysis-grid { grid-template-columns: 1fr; } }
 
-    .score-box{
-      min-width:170px;
-      background:var(--bear-bg);
-      border:1px solid #f2bcc7;
-      border-radius:10px;
-      padding:12px 14px;
-    }
-    .score-label{
-      font-family:var(--head);
-      font-size:10px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:var(--bear);
-      margin-bottom:4px;
-    }
-    .score-value{
-      font-family:var(--mono);
-      font-size:28px;
-      font-weight:700;
-      color:var(--bear);
-      line-height:1.1;
-    }
+.analysis-cell {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+.analysis-cell .cell-label {
+  font-family: var(--head);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 5px;
+}
+.analysis-cell .cell-val {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.analysis-cell .cell-val.bull { color: var(--bull); font-weight: 700; }
+.analysis-cell .cell-val.bear { color: var(--bear); font-weight: 700; }
+.analysis-cell .cell-val.warn { color: var(--warn); font-weight: 700; }
 
-    .lead{ color:var(--ink2); margin-bottom:18px; }
+/* ── CALLOUT BOXES ── */
+.callout {
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin: 20px 0;
+  font-size: 13.5px;
+  line-height: 1.85;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.callout-icon { font-size: 18px; flex-shrink: 0; line-height: 1.5; }
+.callout-body { flex: 1; }
+.callout-body strong { font-weight: 700; }
+.callout.bear-callout {
+  background: var(--bear-bg);
+  border: 1px solid #f4b8c4;
+  color: #7c1028;
+}
+.callout.bull-callout {
+  background: var(--bull-bg);
+  border: 1px solid #9ed8c0;
+  color: #0a5a40;
+}
+.callout.warn-callout {
+  background: var(--warn-bg);
+  border: 1px solid #f5d49a;
+  color: #7c3d08;
+}
+.callout.info-callout {
+  background: var(--accent-bg);
+  border: 1px solid #b8c8f0;
+  color: #1a2f6a;
+}
 
-    .alert{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      background:var(--warn-bg);
-      border:1px solid #f0d39d;
-      color:#7b420b;
-      border-radius:10px;
-      padding:14px 16px;
-    }
-    .alert-icon{ flex-shrink:0; font-size:18px; line-height:1.4; }
+/* ── KNOWLEDGE BOX ── */
+.knowledge-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin: 20px 0;
+}
+.knowledge-box .kb-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.knowledge-box ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.knowledge-box li {
+  font-size: 13px;
+  color: var(--ink2);
+  padding-left: 16px;
+  position: relative;
+}
+.knowledge-box li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--ink3);
+  font-weight: 700;
+}
 
-    /* ── QUICK GRID（ここを大改善）── */
-    .quick-grid{
-      padding:16px;
-      display:grid;
-      grid-template-columns:1fr;
-      gap:10px;
-    }
+/* ── STRATEGY TABLE ── */
+.strategy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 12px;
+}
+.strategy-table th {
+  background: var(--ink);
+  color: #f0ede8;
+  font-family: var(--head);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 9px 12px;
+  text-align: left;
+  font-weight: 600;
+}
+.strategy-table th:first-child { border-radius: 6px 0 0 0; }
+.strategy-table th:last-child  { border-radius: 0 6px 0 0; }
+.strategy-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink2);
+  vertical-align: top;
+}
+.strategy-table tr:nth-child(even) td { background: var(--bg); }
+.strategy-table tr:last-child td { border-bottom: none; }
+.strategy-table .pair-col { font-family: var(--head); font-size: 14px; font-weight: 700; color: var(--ink); }
+.strategy-table .dir-sell { color: var(--bear); font-weight: 700; }
+.strategy-table .dir-buy  { color: var(--bull); font-weight: 700; }
+.strategy-table .dir-wait { color: var(--ink3); }
+.priority-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.dot-high   { background: var(--bear); }
+.dot-medium { background: var(--warn); }
+.dot-low    { background: var(--ink3); }
 
-    .quick-card{
-      border-radius:12px;
-      padding:14px 16px;
-      border:2px solid transparent;
-      position:relative;
-      overflow:hidden;
-    }
+/* ── SUMMARY BOX ── */
+.summary-box {
+  background: linear-gradient(135deg, #1a1714, #2a2420);
+  color: #f0ede8;
+  border-radius: 10px;
+  padding: 30px 32px;
+  margin-bottom: 36px;
+}
+.summary-box .sb-title {
+  font-family: var(--head);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240,237,232,0.45);
+  margin-bottom: 14px;
+}
+.summary-points {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.summary-point {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.sp-num {
+  font-family: var(--head);
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(240,237,232,0.35);
+  width: 20px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.sp-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: rgba(240,237,232,0.88);
+}
+.sp-text strong { color: #fff; }
+.sp-text .hl-bear { color: #f4a0ae; }
+.sp-text .hl-bull { color: #88dcb8; }
+.sp-text .hl-warn { color: #fcd58a; }
 
-    /* 最優先ペア → 赤系 */
-    .quick-card.card-sell{
-      background:linear-gradient(135deg,#fef1f3,#fde8ec);
-      border-color:#f2bcc7;
-    }
-    /* 方向性 → 濃い赤 */
-    .quick-card.card-sell-dark{
-      background:linear-gradient(135deg,var(--bear),#8b1226);
-      border-color:#8b1226;
-    }
-    /* 次点 → 橙系 */
-    .quick-card.card-warn{
-      background:linear-gradient(135deg,#fef4e8,#fdecd4);
-      border-color:#f0d39d;
-    }
-    /* 待機 → グレー系 */
-    .quick-card.card-wait{
-      background:linear-gradient(135deg,#f5f3f0,#ece8e2);
-      border-color:#ccc7bf;
-    }
+/* ── FOOTER ── */
+.article-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  margin-top: 8px;
+}
+.footer-disclaimer {
+  font-size: 12px;
+  color: var(--ink3);
+  line-height: 1.8;
+  background: var(--bg2);
+  border-radius: 6px;
+  padding: 14px 18px;
+}
+.footer-sig {
+  margin-top: 20px;
+  text-align: right;
+  font-family: var(--head);
+  font-size: 13px;
+  color: var(--ink3);
+  letter-spacing: 0.06em;
+}
 
-    .quick-label{
-      font-family:var(--head);
-      font-size:11px;
-      letter-spacing:.15em;
-      text-transform:uppercase;
-      margin-bottom:4px;
-    }
-    .card-sell      .quick-label { color:var(--bear); }
-    .card-sell-dark .quick-label { color:rgba(255,255,255,0.7); }
-    .card-warn      .quick-label { color:var(--warn); }
-    .card-wait      .quick-label { color:var(--ink3); }
+/* ── SCORE CHIP ── */
+.score-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+.chip-danger  { color: var(--bear); border-color: #f4b8c4; background: var(--bear-bg); }
+.chip-caution { color: var(--warn); border-color: #f5d49a; background: var(--warn-bg); }
+.chip-neutral { color: var(--ink3); border-color: var(--border); background: var(--bg2); }
 
-    .quick-value{
-      font-size:18px;
-      font-weight:800;
-      line-height:1.2;
-      letter-spacing:.02em;
-    }
-    .card-sell      .quick-value { color:var(--bear); }
-    .card-sell-dark .quick-value { color:#fff; }
-    .card-warn      .quick-value { color:var(--warn); }
-    .card-wait      .quick-value { color:var(--ink2); }
-
-    /* ── SECTION ── */
-    .section{ margin-top:26px; }
-
-    .section-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:end;
-      gap:16px;
-      margin-bottom:14px;
-      flex-wrap:wrap;
-    }
-    .section-title{ font-size:20px; font-weight:800; letter-spacing:.01em; }
-    .section-sub{ color:var(--ink3); font-size:13px; }
-
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:16px;
-    }
-    @media (max-width: 980px){ .cards{grid-template-columns:1fr} }
-
-    .pair{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:20px;
-      box-shadow:var(--shadow);
-      position:relative;
-      overflow:hidden;
-    }
-    .pair::before{
-      content:"";
-      position:absolute;
-      left:0;top:0;bottom:0;width:5px;
-    }
-    .pair.high::before{background:var(--bear)}
-    .pair.mid::before{background:var(--warn)}
-    .pair.low::before{background:var(--ink3)}
-
-    .pair-top{
-      display:flex;
-      justify-content:space-between;
-      gap:16px;
-      align-items:flex-start;
-      margin-bottom:12px;
-    }
-    .pair-name{
-      font-family:var(--head);
-      font-size:26px;
-      font-weight:700;
-      letter-spacing:.04em;
-      line-height:1;
-      margin-bottom:6px;
-    }
-    .pair-jp{ color:var(--ink2); font-size:13px; }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      padding:4px 10px;
-      border-radius:999px;
-      font-family:var(--head);
-      font-size:11px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      border:1px solid;
-    }
-    .badge.danger  {background:var(--bear-bg);color:var(--bear);border-color:#f1bcc8}
-    .badge.caution {background:var(--warn-bg);color:var(--warn);border-color:#f0d39d}
-    .badge.neutral {background:var(--bg2);color:var(--ink3);border-color:var(--border)}
-
-    .long-value{ text-align:right; }
-    .long-value strong{
-      display:block;
-      font-family:var(--mono);
-      font-size:26px;
-      color:var(--bull);
-      line-height:1;
-    }
-    .long-value span{
-      font-size:11px;
-      color:var(--ink3);
-      letter-spacing:.12em;
-    }
-
-    .bar-labels{
-      display:flex;
-      justify-content:space-between;
-      font-family:var(--head);
-      font-size:11px;
-      letter-spacing:.08em;
-      margin-bottom:6px;
-    }
-    .bar-labels .l{color:var(--bull)}
-    .bar-labels .s{color:var(--bear)}
-
-    .bar{
-      height:12px;
-      border-radius:999px;
-      background:var(--bg3);
-      overflow:hidden;
-      display:flex;
-      margin-bottom:6px;
-    }
-    .bar .long{background:linear-gradient(90deg,#0e7c5c,#22c97a);height:100%;}
-    .bar .short{background:linear-gradient(90deg,#f4455a,#b91c3a);height:100%;flex:1;}
-
-    .bar-nums{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:14px;
-    }
-    .bar-nums .n{ font-family:var(--mono); font-size:13px; font-weight:700; }
-    .bar-nums .n.long{color:var(--bull)}
-    .bar-nums .n.short{color:var(--bear)}
-    .bar-nums .diff{font-size:11px;color:var(--ink3);font-family:var(--mono)}
-
-    .mini-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-    .mini{
-      background:var(--bg);
-      border:1px solid var(--border);
-      border-radius:10px;
-      padding:10px 12px;
-    }
-    .mini .k{
-      font-family:var(--head);
-      font-size:10px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:var(--ink3);
-      margin-bottom:4px;
-    }
-    .mini .v{ font-size:13px; font-weight:700; line-height:1.5; }
-    .mini .v.sell{color:var(--bear)}
-    .mini .v.wait{color:var(--ink3)}
-    .mini .v.warn{color:var(--warn)}
-
-    .summary{
-      margin-top:26px;
-      background:linear-gradient(135deg,#181512,#28221e);
-      color:#f0ede8;
-      border-radius:16px;
-      padding:24px;
-      box-shadow:var(--shadow);
-    }
-    .summary-title{
-      font-family:var(--head);
-      font-size:12px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:rgba(240,237,232,.45);
-      margin-bottom:12px;
-    }
-    .summary ul{ list-style:none; display:grid; gap:10px; }
-    .summary li{ font-size:14px; color:rgba(240,237,232,.9); }
-    .summary strong{color:#fff}
-    .summary .bear{color:#f3a0ae}
-    .summary .warn{color:#f6d18a}
-    .summary .bull{color:#96dfbe}
-
-    .links{
-      margin-top:26px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:16px;
-    }
-    @media (max-width: 860px){ .links{grid-template-columns:1fr} }
-
-    .link-card{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:18px 20px;
-      box-shadow:var(--shadow);
-    }
-    .link-card h3{ font-size:16px; margin-bottom:8px; }
-    .link-card p{ font-size:13px; color:var(--ink2); margin-bottom:10px; }
-
-    .cta{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:9px 12px;
-      background:var(--ink);
-      color:#fff;
-      border-radius:10px;
-      font-size:13px;
-      font-weight:700;
-      text-decoration:none;
-    }
-    .cta:hover{ text-decoration:none; opacity:.92; }
-
-    .foot{
-      margin-top:24px;
-      font-size:12px;
-      color:var(--ink3);
-      background:var(--bg2);
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:14px 16px;
-    }
-  </style>
+/* ── PRINT ── */
+@media print {
+  body { background: #fff; }
+  .pair-card { break-inside: avoid; }
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
+<div class="page">
 
-    <div class="topbar">
-      <div class="brand">
-        <div class="brand-kicker">Tsurugi FX Dashboard</div>
-        <div class="brand-title">⚔️ <span class="accent">センチメント</span> ダッシュボード</div>
-      </div>
-      <div class="status-chip">
-        最終更新 <span id="today"></span>
-      </div>
+  <!-- ══════════════════════════════════════ HEADER -->
+  <header class="article-header">
+    <div class="article-meta">
+      <span class="meta-tag tag-analysis">FX Analysis</span>
+      <span class="meta-tag tag-fx">Sentiment</span>
+      <span class="tag-date" id="articleDate">2026.03.23</span>
     </div>
 
-    <section class="hero">
-      <div class="panel hero-main">
-        <div class="eyebrow">Today's Focus</div>
-        <div class="main-head">
-          <div class="main-title">
-            今日の注目は <span class="bear">USD/JPY ロング70%</span>。<br>
-            現時点では逆張りショートを最優先で監視。
-          </div>
-          <div class="score-box">
-            <div class="score-label">Top Alert</div>
-            <div class="score-value">+40pt</div>
-          </div>
-        </div>
+    <h1 class="article-title">
+      【警告】<span class="bear">ドル円ロング70%</span> → "崩れる前兆"か？<br>
+      <span style="font-size:0.72em; font-weight:500; color:var(--ink2)">
+        ― クロス円3ペア センチメント分析レポート ―
+      </span>
+    </h1>
 
-        <p class="lead">
-          主要3ペアのセンチメントを一覧で確認できる軽量ダッシュボードです。
-          偏りの強さを先に把握して、詳細はレポートで確認する運用を想定しています。
-        </p>
+    <p class="article-lead">
+      USDJPY・EURUSD・GBPUSDの最新センチメントデータを基に、
+      市場参加者の偏りと逆張りトレードの可能性を分析します。
+      ポジション比率が一方向に偏っているとき、プロのトレーダーは何を考えているのか。
+      初心者の方にも理解できるよう、丁寧に解説します。
+    </p>
+  </header>
 
-        <div class="alert">
-          <div class="alert-icon">⚠️</div>
-          <div>
-            <strong>結論：</strong>
-            USD/JPY はロング偏りが強く、逆張り目線では最も警戒度が高い状態です。
-            ただし、センチメント単体では入らず、価格アクションとセットで判断します。
-          </div>
-        </div>
-      </div>
-
-      <!-- QUICK GRID -->
-      <div class="panel quick-grid">
-        <div class="quick-card card-sell">
-          <div class="quick-label">最優先ペア</div>
-          <div class="quick-value">USD/JPY</div>
-        </div>
-        <div class="quick-card card-sell-dark">
-          <div class="quick-label">現在の方向性</div>
-          <div class="quick-value">SELL バイアス</div>
-        </div>
-        <div class="quick-card card-warn">
-          <div class="quick-label">次点</div>
-          <div class="quick-value">EUR/USD 注視</div>
-        </div>
-        <div class="quick-card card-wait">
-          <div class="quick-label">待機ペア</div>
-          <div class="quick-value">GBP/USD</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <div class="section-title">主要3ペアのセンチメント一覧</div>
-          <div class="section-sub">偏りが大きいほど逆張り候補として優先度が上がります。</div>
-        </div>
-      </div>
-
-      <div class="cards">
-        <article class="pair high">
-          <div class="pair-top">
-            <div>
-              <div class="pair-name">USD/JPY</div>
-              <div class="pair-jp">ドル円</div>
-            </div>
-            <div class="long-value">
-              <strong>70%</strong>
-              <span>LONG</span>
-            </div>
-          </div>
-          <div style="margin-bottom:10px;"><span class="badge danger">高偏りゾーン</span></div>
-          <div class="bar-labels">
-            <span class="l">▲ LONG</span>
-            <span class="s">SHORT ▼</span>
-          </div>
-          <div class="bar">
-            <div class="long" style="width:70%"></div>
-            <div class="short"></div>
-          </div>
-          <div class="bar-nums">
-            <span class="n long">70%</span>
-            <span class="diff">差：40pt</span>
-            <span class="n short">30%</span>
-          </div>
-          <div class="mini-grid">
-            <div class="mini"><div class="k">状態</div><div class="v sell">ロング過多</div></div>
-            <div class="mini"><div class="k">方向性</div><div class="v sell">SELL バイアス</div></div>
-            <div class="mini"><div class="k">判定</div><div class="v sell">High +40pt</div></div>
-            <div class="mini"><div class="k">戦略</div><div class="v">逆張り候補</div></div>
-          </div>
-        </article>
-
-        <article class="pair mid">
-          <div class="pair-top">
-            <div>
-              <div class="pair-name">EUR/USD</div>
-              <div class="pair-jp">ユーロドル</div>
-            </div>
-            <div class="long-value">
-              <strong>60%</strong>
-              <span>LONG</span>
-            </div>
-          </div>
-          <div style="margin-bottom:10px;"><span class="badge caution">やや偏り</span></div>
-          <div class="bar-labels">
-            <span class="l">▲ LONG</span>
-            <span class="s">SHORT ▼</span>
-          </div>
-          <div class="bar">
-            <div class="long" style="width:60%"></div>
-            <div class="short"></div>
-          </div>
-          <div class="bar-nums">
-            <span class="n long">60%</span>
-            <span class="diff">差：20pt</span>
-            <span class="n short">40%</span>
-          </div>
-          <div class="mini-grid">
-            <div class="mini"><div class="k">状態</div><div class="v warn">やや買い優勢</div></div>
-            <div class="mini"><div class="k">方向性</div><div class="v warn">中立〜やや SELL</div></div>
-            <div class="mini"><div class="k">判定</div><div class="v warn">Medium +20pt</div></div>
-            <div class="mini"><div class="k">戦略</div><div class="v">様子見</div></div>
-          </div>
-        </article>
-
-        <article class="pair low">
-          <div class="pair-top">
-            <div>
-              <div class="pair-name">GBP/USD</div>
-              <div class="pair-jp">ポンドドル</div>
-            </div>
-            <div class="long-value">
-              <strong>55%</strong>
-              <span>LONG</span>
-            </div>
-          </div>
-          <div style="margin-bottom:10px;"><span class="badge neutral">均衡</span></div>
-          <div class="bar-labels">
-            <span class="l">▲ LONG</span>
-            <span class="s">SHORT ▼</span>
-          </div>
-          <div class="bar">
-            <div class="long" style="width:55%"></div>
-            <div class="short"></div>
-          </div>
-          <div class="bar-nums">
-            <span class="n long">55%</span>
-            <span class="diff">差：10pt</span>
-            <span class="n short">45%</span>
-          </div>
-          <div class="mini-grid">
-            <div class="mini"><div class="k">状態</div><div class="v wait">均衡</div></div>
-            <div class="mini"><div class="k">方向性</div><div class="v wait">WAIT</div></div>
-            <div class="mini"><div class="k">判定</div><div class="v wait">Low +10pt</div></div>
-            <div class="mini"><div class="k">戦略</div><div class="v">トレンド待ち</div></div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="summary">
-      <div class="summary-title">Dashboard Summary</div>
-      <ul>
-        <li><strong>1.</strong> <span class="bear">USD/JPY</span> は今回最大の偏り。ロング70%は逆張り視点で最重要監視対象。</li>
-        <li><strong>2.</strong> <span class="warn">EUR/USD</span> はまだ注視段階。65%超に乗るかが次の分岐。</li>
-        <li><strong>3.</strong> <span class="bull">GBP/USD</span> は優位性が薄く、今は無理に触らない方がいい状態。</li>
-      </ul>
-    </section>
-
-    <section class="links">
-      <div class="link-card">
-        <h3>詳細レポートを見る</h3>
-        <p>今日のセンチメント分析を文章で詳しく確認したい方向け。背景・戦略・注意点までまとめています。</p>
-        <a class="cta" href="./report-2026-03-23.html">詳細レポートへ →</a>
-      </div>
-      <div class="link-card">
-        <h3>Xで更新を追う</h3>
-        <p>Tsurugi式ロジックやセンチメント更新、EA公開情報はXで告知予定です。</p>
-        <a class="cta" href="https://x.com/omochi2106" target="_blank" rel="noopener noreferrer">Xを開く →</a>
-      </div>
-    </section>
-
-    <div class="foot">
-      本ページはセンチメントの偏りを素早く確認するためのダッシュボードです。<br>
-      売買判断は価格アクション、ボリンジャーバンド、重要指標の時間帯を含めて総合判断してください。
+  <!-- ══════════════════════════════════════ OVERVIEW -->
+  <div class="overview-box">
+    <div class="overview-label">Executive Summary</div>
+    <div class="overview-text">
+      今回の3ペア分析で最も注目すべきは <strong>USDJPY（ドル円）</strong> です。
+      ロングポジションが <span class="overview-highlight">70%</span> を占め、
+      ショートが <span class="overview-highlight">30%</span> という状況は
+      「市場参加者の大多数がドル買い・円売りに賭けている」ことを意味します。
+      これほどの偏りは<strong>逆張りの観点から要警戒ゾーン</strong>です。
+      EURUSDは中程度の偏り、GBPUSDはほぼ均衡という対照的な結果となっています。
+      <br><br>
+      <strong>結論：</strong>
+      現時点で最も優位性が高いのはUSDJPYの逆張りショート戦略。
+      ただし単独エントリーは禁止。
     </div>
-
   </div>
 
-  <script>
-    const d = new Date();
-    const text = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
-    document.getElementById('today').textContent = text;
-  </script>
+  <!-- ══════════════════════════════════════ SEC 1: センチメントとは -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">1</div>
+      <div class="section-title">そもそも「センチメント」とは？ ― 初心者向け解説</div>
+    </div>
+
+    <p style="margin-bottom:14px; color:var(--ink2);">
+      FXにおけるセンチメントとは、<strong>「今この瞬間、どれだけのトレーダーが買い（ロング）に賭け、どれだけが売り（ショート）に賭けているか」</strong>を示す指標です。
+    </p>
+
+    <div class="knowledge-box">
+      <div class="kb-title">📚 センチメントの読み方 — 基本ルール</div>
+      <ul>
+        <li><strong>ロング比率が高い（70%超）</strong> → 「みんながドル買い」。買いの余力が少なくなり、売りに転じるリスクが高い状態</li>
+        <li><strong>均衡（45〜55%）</strong> → どちらにも動きやすい。トレンドフォローに向く</li>
+        <li><strong>ショート比率が高い（70%超）</strong> → 「みんなが売り」。逆に上昇（ショートスクイーズ）リスクに注意</li>
+        <li>センチメント単体では売買シグナルにならない。他の指標・価格アクションと組み合わせて使う</li>
+      </ul>
+    </div>
+
+    <div class="callout info-callout">
+      <div class="callout-icon">💡</div>
+      <div class="callout-body">
+        <strong>なぜ「みんなが買っているのに上がりにくい」のか？</strong><br>
+        多くの参加者がすでにロングを持っているということは、「これから新たに買う人が少ない」状態です。
+        相場は新規の買い手がいなければ上昇できません。逆に、ロング勢が損切りや利確を始めると、
+        一気に売りが殺到して急落することがあります。これが「逆張り」の根拠です。
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════ SEC 2: ペアごとの分析 -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">2</div>
+      <div class="section-title">通貨ペアごとの詳細分析</div>
+    </div>
+
+    <!-- ── USDJPY ── -->
+    <div class="pair-card high-bull">
+      <div class="pair-top">
+        <div>
+          <div class="pair-name">USD/JPY　ドル円</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+            <span class="pair-badge badge-danger">⚠ 高偏りゾーン</span>
+            <span class="score-chip chip-danger">偏り +40pt</span>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--bull)">70%</div>
+          <div style="font-size:10px;color:var(--ink3);letter-spacing:0.1em;">LONG</div>
+        </div>
+      </div>
+
+      <div class="sent-bar-wrap">
+        <div class="sent-bar-labels">
+          <span class="bull-lbl">▲ LONG（買い）</span>
+          <span class="bear-lbl">SHORT（売り）▼</span>
+        </div>
+        <div class="sent-bar">
+          <div class="sent-bar-fill">
+            <div class="sent-fill-bull" style="width:70%; background:linear-gradient(90deg, #0e7c5c, #22c97a);"></div>
+            <div class="sent-fill-bear" style="background:linear-gradient(90deg, #f4455a, #b91c3a);"></div>
+          </div>
+        </div>
+        <div class="sent-bar-nums">
+          <span class="sent-num bull">70%</span>
+          <span class="sent-diff">差：40ポイント</span>
+          <span class="sent-num bear">30%</span>
+        </div>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="analysis-cell">
+          <div class="cell-label">市場の状態</div>
+          <div class="cell-val bear">ロング過多・警戒ゾーン</div>
+        </div>
+        <div class="analysis-cell">
+          <div class="cell-label">偏り判定</div>
+          <div class="cell-val bear">High（+40pt） 逆張り候補</div>
+        </div>
+        <div class="analysis-cell">
+          <div class="cell-label">逆張りシナリオ</div>
+          <div class="cell-val">円高（ドル安）方向への反転</div>
+        </div>
+        <div class="analysis-cell">
+          <div class="cell-label">方向性</div>
+          <div class="cell-val bear">Sell バイアス（逆張り）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout bear-callout">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-body">
+        <strong>USDJPY 分析：ロング70%は「危険信号」</strong><br>
+        市場参加者の70%がドル買い（ロング）に傾いています。
+        これはFXセンチメント分析において「逆張りを検討すべき偏りの強さ」とされる水準です。
+        大多数がすでにロングを保有しているということは、
+        新規の買い手が減少し、ポジション解消（利確・損切り）が起きやすい状態です。
+        <br><br>
+        <strong>初心者向けポイント：</strong>
+        ドル円が「まだまだ上がる！」という雰囲気が市場全体に広がっているときほど、
+        プロのトレーダーは「そろそろ天井ではないか」と慎重になります。
+        直近の価格アクション・ボリンジャーバンドの位置と合わせて確認しましょう。
+      </div>
+    </div>
+
+    <!-- ── EURUSD ── -->
+    <div class="pair-card mid-bull">
+      <div class="pair-top">
+        <div>
+          <div class="pair-name">EUR/USD　ユーロドル</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+            <span class="pair-badge badge-caution">△ やや偏り</span>
+            <span class="score-chip chip-caution">偏り +20pt</span>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--bull)">60%</div>
+          <div style="font-size:10px;color:var(--ink3);letter-spacing:0.1em;">LONG</div>
+        </div>
+      </div>
+
+      <div class="sent-bar-wrap">
+        <div class="sent-bar-labels">
+          <span class="bull-lbl">▲ LONG（買い）</span>
+          <span class="bear-lbl">SHORT（売り）▼</span>
+        </div>
+        <div class="sent-bar">
+          <div class="sent-bar-fill">
+            <div class="sent-fill-bull" style="width:60%; background:linear-gradient(90deg, #0e7c5c, #22c97a);"></div>
+            <div class="sent-fill-bear" style="background:linear-gradient(90deg, #f4455a, #b91c3a);"></div>
+          </div>
+        </div>
+        <div class="sent-bar-nums">
+          <span class="sent-num bull">60%</span>
+          <span class="sent-diff">差：20ポイント</span>
+          <span class="sent-num bear">40%</span>
+        </div>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="analysis-cell">
+          <div class="cell-label">市場の状態</div>
+          <div class="cell-val warn">やや買い優勢・中程度の偏り</div>
+        </div>
+        <div class="analysis-cell">
+          <div class="cell-label">偏り判定</div>
+          <div class="cell-val warn">Medium（+20pt） 様子見</div>
+        </div>
+        <div class="analysis-cell">
+          <div class="cell-label">逆張りシナリオ</div>
+          <div class="cell-val">ドル高（ユーロ安）への転換注視</div>
+        </div>
+        <div class="analysis-cell">
+          <div class="cell-label">方向性</div>
+          <div class="cell-val">中立〜やや Sell</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout warn-callout">
+      <div class="callout-icon">🔍</div>
+      <div class="callout-body">
+        <strong>EURUSD 分析：60%ロングは「注視フェーズ」</strong><br>
+        ロング60%は「やや買い偏り」の状態です。
+        逆張りを仕掛けるほどの偏りではありませんが、
+        ロング偏りが継続して65〜70%以上に達した場合は逆張り候補に昇格します。
+        現時点では<strong>エントリーは急がず、価格アクションの確認を優先</strong>するのが得策です。
+        ユーロ圏の経済指標・ECBの発言にも注目しましょう。
+      </div>
+    </div>
+
+    <!-- ── GBPUSD ── -->
+    <div class="pair-card balanced">
+      <div class="pair-top">
+        <div>
+          <div class="pair-name">GBP/USD　ポンドドル</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+            <span class="pair-badge badge-neutral">○ ほぼ均衡</span>
+            <span class="score-chip chip-neutral">偏り +10pt</span>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--bull)">55%</div>
+          <div style="font-size:10px;color:var(--ink3);letter-spacing:0.1em;">LONG</div>
+        </div>
+      </div>
+
+      <div class="sent-bar-wrap">
+        <div class="sent-bar-labels">
+          <span class="bull-lbl">▲ LONG（買い）</span>
+          <span class="bear-lbl">SHORT（売り）▼</span>
+        </div>
+        <div class="sent-bar">
+          <div class="sent-bar-fill">
+            <div class="sent-fill-bull" style="width:55%; background:linear-gradient(90deg, #0e7c5c, #22c97a);"></div>
+            <div class="sent-fill-bear" style="background:linear-gradient(90deg, #f4455a, #b91c3a);"></div>
+          </div>
+        </div>
+        <div class="sent-bar-nums">
+          <span class="sent-num bull">55%</span>
+          <span class="sent-diff">差：10ポイント</span>
+          <span class="sent-num bear">45%</span>
+        </div>
+      </div>
+
+      <div class="analysis-grid">
+        <div class="analysis-cell">
+          <div class="cell-label">市場の状態</div>
+          <div class="cell-val">均衡・方向感なし</div>
+        </div>
+        <div class="analysis-cell">
+          <div class="cell-label">偏り判定</div>
+          <div class="cell-val">Low（+10pt） 様子見</div>
+        </div>
+        <div class="analysis-cell">
+          <div class="cell-label">逆張りシナリオ</div>
+          <div class="cell-val">現時点では不向き</div>
+        </div>
+        <div class="analysis-cell">
+          <div class="cell-label">方向性</div>
+          <div class="cell-val">中立 → トレンド待ち</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout bull-callout">
+      <div class="callout-icon">✅</div>
+      <div class="callout-body">
+        <strong>GBPUSD 分析：55%ロングは「健全な均衡状態」</strong><br>
+        55/45という比率は市場参加者の意見が拮抗しており、
+        センチメント面では特に偏りのない「自然な状態」です。
+        逆張りの根拠としては弱く、むしろ<strong>トレンドフォロー（方向感が出たら乗る）</strong>に向いている状況です。
+        ポンドは英国の経済指標・政治リスクへの感応度が高いため、
+        センチメントよりもファンダメンタルズを重視するのが得策です。
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════ SEC 3: 偏りランキング -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">3</div>
+      <div class="section-title">偏りが強いペアのランキング</div>
+    </div>
+
+    <table class="strategy-table">
+      <thead>
+        <tr>
+          <th>順位</th>
+          <th>ペア</th>
+          <th>ロング比率</th>
+          <th>偏り幅</th>
+          <th>判定</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="priority-dot dot-high"></span>1位</td>
+          <td class="pair-col">USD/JPY</td>
+          <td><span style="color:var(--bull);font-weight:700;font-family:var(--mono)">70%</span></td>
+          <td><span style="font-family:var(--mono);font-weight:700;color:var(--bear)">+40pt</span></td>
+          <td><span class="pair-badge badge-danger" style="font-size:10px;padding:2px 7px;">要注意 ⚠</span></td>
+        </tr>
+        <tr>
+          <td><span class="priority-dot dot-medium"></span>2位</td>
+          <td class="pair-col">EUR/USD</td>
+          <td><span style="color:var(--bull);font-weight:700;font-family:var(--mono)">60%</span></td>
+          <td><span style="font-family:var(--mono);font-weight:700;color:var(--warn)">+20pt</span></td>
+          <td><span class="pair-badge badge-caution" style="font-size:10px;padding:2px 7px;">注視 △</span></td>
+        </tr>
+        <tr>
+          <td><span class="priority-dot dot-low"></span>3位</td>
+          <td class="pair-col">GBP/USD</td>
+          <td><span style="color:var(--bull);font-weight:700;font-family:var(--mono)">55%</span></td>
+          <td><span style="font-family:var(--mono);font-weight:700;color:var(--ink3)">+10pt</span></td>
+          <td><span class="pair-badge badge-neutral" style="font-size:10px;padding:2px 7px;">均衡 ○</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout info-callout" style="margin-top:18px;">
+      <div class="callout-icon">📌</div>
+      <div class="callout-body">
+        <strong>一般的な偏りの目安：</strong>
+        偏り幅 ±30pt以上（ロング65%超 or ショート65%超）で逆張り候補として意識されます。
+        ±40pt（70/30）は特に強いシグナルとされますが、
+        「偏りが解消されるまでの時間は読めない」ため、単独のシグナルとして使わないことが重要です。
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════ SEC 4: 逆張り視点 -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">4</div>
+      <div class="section-title">逆張り視点でのトレード考察</div>
+    </div>
+
+    <p style="color:var(--ink2); margin-bottom:18px;">
+      逆張りはセンチメントの偏りだけで仕掛けるものではありません。
+      以下に「何が揃ったら初めて動けるか」を整理します。
+    </p>
+
+    <div class="knowledge-box" style="margin-bottom:18px;">
+      <div class="kb-title">⚔ Tsurugi式 × センチメント 逆張りの組み合わせ</div>
+      <ul>
+        <li><strong>センチメント70/30（USDJPY）</strong>→ 売り圧力が高まりやすい環境と判断</li>
+        <li><strong>D1・H4ともにアップトレンド</strong>→ Tsurugi式の前提条件「上昇トレンド中の逆張り」に合致</li>
+        <li><strong>BB +2σタッチ → -2σタッチ → ミドルライン陰線</strong>→ セットアップ完成でSellエントリー</li>
+        <li><strong>センチメントが逆張り根拠を強化</strong>→ 「ロング勢の損切りを巻き込んだ下落」が期待できる</li>
+      </ul>
+    </div>
+
+    <table class="strategy-table">
+      <thead>
+        <tr>
+          <th>ペア</th>
+          <th>センチメント根拠</th>
+          <th>推奨方向</th>
+          <th>条件（追加確認事項）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pair-col">USD/JPY</td>
+          <td>ロング70%過多・偏り最大</td>
+          <td class="dir-sell">SELL 優先</td>
+          <td>BB +2σタッチ確認後、ミドル陰線でエントリー</td>
+        </tr>
+        <tr>
+          <td class="pair-col">EUR/USD</td>
+          <td>ロング60%・やや過多</td>
+          <td class="dir-sell">SELL 候補</td>
+          <td>偏りが65%超に達したら再検討。現状は様子見</td>
+        </tr>
+        <tr>
+          <td class="pair-col">GBP/USD</td>
+          <td>55%・均衡</td>
+          <td class="dir-wait">WAIT（待機）</td>
+          <td>センチメント根拠薄。テクニカル・ファンダ優先</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn-callout" style="margin-top:18px;">
+      <div class="callout-icon">🛡️</div>
+      <div class="callout-body">
+        <strong>逆張りで必ず守ること：</strong><br>
+        センチメントの偏りが「解消」されるまでの期間は数日〜数週間と幅があります。
+        「偏りが高い ≠ 今すぐ反転する」ことを忘れずに。
+        必ずSL（ストップロス）を設定し、<strong>資金の1%以内のリスク</strong>に抑えましょう（Tsurugi EA 推奨設定）。
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════ SEC 5: 総合コメント -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">5</div>
+      <div class="section-title">総合コメント</div>
+    </div>
+
+    <div class="summary-box">
+      <div class="sb-title">⚔ Tsurugi Analysis — Summary</div>
+      <div class="summary-points">
+        <div class="summary-point">
+          <div class="sp-num">01</div>
+          <div class="sp-text">
+            <strong>USDJPY</strong>のロング<span class="hl-bear">70%</span>は今回最大の注目ポイント。
+            これだけ多くのトレーダーがドル買いに賭けている状況は、
+            <span class="hl-bear">ロング勢の損切りを巻き込む急落（ショートスクイーズの逆）</span>が起きやすい環境を示しています。
+          </div>
+        </div>
+        <div class="summary-point">
+          <div class="sp-num">02</div>
+          <div class="sp-text">
+            ただし、センチメントは「いつ反転するかのタイミング」を教えてくれません。
+            Tsurugi式のセットアップ（+2σ → -2σ → ミドル陰線）が<span class="hl-bull">揃ったときに初めて動く</span>のが鉄則です。
+          </div>
+        </div>
+        <div class="summary-point">
+          <div class="sp-num">03</div>
+          <div class="sp-text">
+            <strong>EURUSD</strong>はロング60%。注視フェーズ。
+            <span class="hl-warn">65%超に達したら逆張り候補</span>として格上げ。現段階ではエントリー不急。
+          </div>
+        </div>
+        <div class="summary-point">
+          <div class="sp-num">04</div>
+          <div class="sp-text">
+            <strong>GBPUSD</strong>は55%均衡。センチメント面での優位性は低く、
+            <span class="hl-bull">テクニカル分析とファンダメンタルズ優先</span>で判断する。
+          </div>
+        </div>
+        <div class="summary-point">
+          <div class="sp-num">05</div>
+          <div class="sp-text">
+            3ペア共通で<span class="hl-warn">重要指標（FOMC・雇用統計・PMI）の前後30分・4時間前はポジション禁止</span>。
+            センチメントがどれだけ偏っていても、指標ブロック中は静観する。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════ SEC 6: 戦略 -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-num">6</div>
+      <div class="section-title">今後の戦略まとめ</div>
+    </div>
+
+    <table class="strategy-table">
+      <thead>
+        <tr>
+          <th>ペア</th>
+          <th>優先度</th>
+          <th>方向</th>
+          <th>トリガー</th>
+          <th>根拠</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pair-col">USD/JPY</td>
+          <td><span class="priority-dot dot-high"></span>高</td>
+          <td class="dir-sell">SELL</td>
+          <td>BB +2σ後ミドル陰線確定</td>
+          <td>センチメント偏り最大（70/30）+ Tsurugi式セットアップ</td>
+        </tr>
+        <tr>
+          <td class="pair-col">EUR/USD</td>
+          <td><span class="priority-dot dot-medium"></span>中</td>
+          <td class="dir-wait">様子見</td>
+          <td>ロング65%超で再評価</td>
+          <td>偏り中程度（60/40）。追加偏りを待つ</td>
+        </tr>
+        <tr>
+          <td class="pair-col">GBP/USD</td>
+          <td><span class="priority-dot dot-low"></span>低</td>
+          <td class="dir-wait">待機</td>
+          <td>明確な偏り発生まで静観</td>
+          <td>均衡状態（55/45）。センチメント優位性なし</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout info-callout" style="margin-top:18px;">
+      <div class="callout-icon">🗓️</div>
+      <div class="callout-body">
+        <strong>直近の注意指標：</strong><br>
+        ・2026/03/24 22:45 JST ― 米PMI製造業速報（3月）<br>
+        ・2026/04/03 21:30 JST ― 米雇用統計（3月）<br>
+        ・2026/04/30 03:00 JST ― 米FOMC政策金利<br>
+        <br>
+        これらの<strong>4時間前にはポジションを解消</strong>し、前後30分はエントリー禁止です。
+        特に雇用統計・FOMCはドル円の大きな動きを伴うことが多く、センチメントが一瞬でリセットされる場合があります。
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════ FOOTER -->
+  <footer class="article-footer">
+    <div style="margin-top:20px;padding:16px;background:#111;color:#fff;border-radius:6px;">
+  <strong>▼ Tsurugi式ロジックを自動化したい方へ</strong><br>
+  MT5用EAを開発中。完成次第Xで公開します。<br>
+  フォローはこちら → <a href="https://x.com/omochi2106" style="color:#1d9bf0;">https://x.com/omochi2106</a>
+</div>
+
+    <div class="footer-disclaimer">
+      ⚠ <strong>免責事項：</strong>
+      本記事はFX取引の知識向上を目的とした情報提供であり、特定の売買を推奨するものではありません。
+      FX取引には価格変動リスクが伴い、投資した資金を超える損失が発生する可能性があります。
+      実際の取引にあたっては、ご自身の判断と責任のもとで行ってください。
+      センチメントデータは取得タイミングによって変動するため、最新の情報を必ず確認してください。
+    </div>
+    <div class="footer-sig">⚔️ Tsurugi Analysis Report — Tsurugi式ロジック</div>
+  </footer>
+
+</div>
+
+<script>
+  const d = new Date();
+  const str = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+  document.getElementById('articleDate').textContent = str;
+</script>
 </body>
 </html>
