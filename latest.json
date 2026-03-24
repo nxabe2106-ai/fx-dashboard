@@ -1,26 +1,66 @@
 {
-  "date": "2026/03/24",
+  "date": "2026.03.24",
+  "heroTitle": "今日の注目は <span class=\"bear\">USD/JPY ロング72%</span>。逆張りショートを最優先で監視。",
+  "topAlert": "+44pt",
+  "heroLead": "センチメントの偏りから今の市場の歪みを確認。",
+  "heroConclusion": "<strong>結論：</strong> USD/JPYはロング過多。崩れ待ち。GBP/USDはショート優勢だが、現時点ではUSD/JPYの偏りが最も強い。",
+  "quick": {
+    "topPair": "USD/JPY",
+    "bias": "SELL",
+    "second": "GBP/USD",
+    "wait": "EUR/USD"
+  },
   "pairs": [
     {
-      "pair": "USDJPY",
+      "name": "USD/JPY",
+      "label": "ドル円",
       "long": 72,
       "short": 28,
-      "score": 44,
-      "signal": "強いロング偏り"
+      "diff": 44,
+      "level": "high",
+      "levelLabel": "High",
+      "status": "ロング過多",
+      "bias": "SELL",
+      "strategy": "逆張り候補",
+      "trendStrength": "strong",
+      "signal": "初動SELL"
     },
     {
-      "pair": "EURUSD",
+      "name": "EUR/USD",
+      "label": "ユーロドル",
       "long": 47,
       "short": 53,
-      "score": -6,
-      "signal": "中立"
+      "diff": 6,
+      "level": "low",
+      "levelLabel": "Low",
+      "status": "中立",
+      "bias": "WAIT",
+      "strategy": "待機",
+      "trendStrength": "weak",
+      "signal": "WAIT"
     },
     {
-      "pair": "GBPUSD",
+      "name": "GBP/USD",
+      "label": "ポンドドル",
       "long": 38,
       "short": 62,
-      "score": -24,
-      "signal": "ショート優勢"
+      "diff": 24,
+      "level": "mid",
+      "levelLabel": "Medium",
+      "status": "ショート優勢",
+      "bias": "WATCH",
+      "strategy": "確認待ち",
+      "trendStrength": "weak",
+      "signal": "確認SELL待ち"
     }
-  ]
+  ],
+  "summary": [
+    "USDJPYが最も偏り大。ロング72%で逆張り監視対象。",
+    "EURUSDは中立圏で優位性が薄い。",
+    "GBPUSDはショート優勢だが、確認型で見る局面。"
+  ],
+  "latestReport": {
+    "url": "./report-2026-03-24.html",
+    "description": "2026.03.24 の詳細レポートはこちら"
+  }
 }
