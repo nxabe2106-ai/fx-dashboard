@@ -3,7 +3,7 @@
   "heroTitle": "今日の注目は <span class=\"bear\">USD/JPY ロング72%</span>。逆張りショートを最優先で監視。",
   "topAlert": "+44pt",
   "heroLead": "センチメントの偏りから今の市場の歪みを確認。",
-  "heroConclusion": "<strong>結論：</strong> USD/JPYはロング過多。崩れ待ち。GBP/USDはショート優勢だが、現時点ではUSD/JPYの偏りが最も強い。",
+  "heroConclusion": "<strong>結論：</strong> USD/JPY はロング偏りが突出しており、逆張りSell目線で最優先監視。GBP/USD はショート優勢でBuy候補として注目。EUR/USD は中立につき静観。",
   "quick": {
     "topPair": "USD/JPY",
     "bias": "SELL",
@@ -21,7 +21,7 @@
       "levelLabel": "High",
       "status": "ロング過多",
       "bias": "SELL",
-      "strategy": "逆張り候補",
+      "strategy": "BB +2σタッチ後の−2σ往復→ミドル付近の上ヒゲ陰線確定でSellエントリー",
       "trendStrength": "strong",
       "signal": "初動SELL"
     },
@@ -30,12 +30,12 @@
       "label": "ユーロドル",
       "long": 47,
       "short": 53,
-      "diff": 6,
+      "diff": -6,
       "level": "low",
       "levelLabel": "Low",
-      "status": "中立",
+      "status": "ほぼ均衡",
       "bias": "WAIT",
-      "strategy": "待機",
+      "strategy": "スコア±20を超えるまで静観",
       "trendStrength": "weak",
       "signal": "WAIT"
     },
@@ -44,23 +44,24 @@
       "label": "ポンドドル",
       "long": 38,
       "short": 62,
-      "diff": 24,
+      "diff": -24,
       "level": "mid",
       "levelLabel": "Medium",
       "status": "ショート優勢",
       "bias": "WATCH",
-      "strategy": "確認待ち",
+      "strategy": "BB −2σタッチ後のミドル戻りを確認してからBuyエントリー検討。ボラ高めにつきSL幅広めで対応",
       "trendStrength": "weak",
-      "signal": "確認SELL待ち"
+      "signal": "WAIT"
     }
   ],
   "summary": [
-    "USDJPYが最も偏り大。ロング72%で逆張り監視対象。",
-    "EURUSDは中立圏で優位性が薄い。",
-    "GBPUSDはショート優勢だが、確認型で見る局面。"
+    "USD/JPY はロング72%・スコア+44と突出した偏りあり。逆張り視点で最重要監視対象。",
+    "GBP/USD はショート62%・スコア−24でショート優勢。逆張りBuy候補として次点で注目。",
+    "EUR/USD はスコア−6でほぼ均衡。センチメントからは方向性が読み取れず、今週は静観。"
   ],
   "latestReport": {
     "url": "./report-2026-03-24.html",
-    "description": "2026.03.24 の詳細レポートはこちら"
+    "title": "FXセンチメント分析｜USDJPYに強いロング偏り・GBPUSDはショート優勢【2026年3月24日】",
+    "description": "USDJPY・EURUSD・GBPUSDの最新センチメントデータと、Tsurugi式トレード方針をまとめたレポートです。"
   }
 }
