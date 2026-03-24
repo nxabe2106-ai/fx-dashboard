@@ -3,7 +3,7 @@
   "heroTitle": "今日の注目は <span class=\"bear\">USD/JPY ロング72%</span>。逆張りショートを最優先で監視。",
   "topAlert": "+44pt",
   "heroLead": "センチメントの偏りから今の市場の歪みを確認。",
-  "heroConclusion": "<strong>結論：</strong> USD/JPY はロング偏りが突出しており、逆張りSell目線で最優先監視。GBP/USD はショート優勢でBuy候補として注目。EUR/USD は中立につき静観。",
+  "heroConclusion": "<strong>結論：</strong> USD/JPYはロング72%・スコア+44ptと強い偏り。逆張りSELLを最優先で監視。",
   "quick": {
     "topPair": "USD/JPY",
     "bias": "SELL",
@@ -19,9 +19,9 @@
       "diff": 44,
       "level": "high",
       "levelLabel": "High",
-      "status": "ロング過多",
+      "status": "強いロング偏り",
       "bias": "SELL",
-      "strategy": "BB +2σタッチ後の−2σ往復→ミドル付近の上ヒゲ陰線確定でSellエントリー",
+      "strategy": "ロング過多につき逆張りSELL監視。BBセットアップ確認後にエントリー検討。",
       "trendStrength": "strong",
       "signal": "初動SELL"
     },
@@ -30,12 +30,12 @@
       "label": "ユーロドル",
       "long": 47,
       "short": 53,
-      "diff": -6,
+      "diff": 6,
       "level": "low",
       "levelLabel": "Low",
-      "status": "ほぼ均衡",
+      "status": "中立",
       "bias": "WAIT",
-      "strategy": "スコア±20を超えるまで静観",
+      "strategy": "偏りが小さく根拠が弱い。方向感が出るまで静観。",
       "trendStrength": "weak",
       "signal": "WAIT"
     },
@@ -44,24 +44,23 @@
       "label": "ポンドドル",
       "long": 38,
       "short": 62,
-      "diff": -24,
+      "diff": 24,
       "level": "mid",
       "levelLabel": "Medium",
       "status": "ショート優勢",
       "bias": "WATCH",
-      "strategy": "BB −2σタッチ後のミドル戻りを確認してからBuyエントリー検討。ボラ高めにつきSL幅広めで対応",
+      "strategy": "ショート優勢につき逆張りBUY方向をWATCH。条件揃い次第で検討。",
       "trendStrength": "weak",
       "signal": "WAIT"
     }
   ],
   "summary": [
-    "USD/JPY はロング72%・スコア+44と突出した偏りあり。逆張り視点で最重要監視対象。",
-    "GBP/USD はショート62%・スコア−24でショート優勢。逆張りBuy候補として次点で注目。",
-    "EUR/USD はスコア−6でほぼ均衡。センチメントからは方向性が読み取れず、今週は静観。"
+    "USD/JPYはロング72%・スコア+44pt。強いロング偏り。",
+    "EUR/USDはスコア-6pt。中立。",
+    "GBP/USDはスコア-24pt。ショート優勢。"
   ],
   "latestReport": {
     "url": "./report-2026-03-24.html",
-    "title": "FXセンチメント分析｜USDJPYに強いロング偏り・GBPUSDはショート優勢【2026年3月24日】",
-    "description": "USDJPY・EURUSD・GBPUSDの最新センチメントデータと、Tsurugi式トレード方針をまとめたレポートです。"
+    "description": "2026.03.24のFXセンチメント分析レポート。各通貨ペアの偏り状況と逆張り戦略をまとめています。"
   }
 }
