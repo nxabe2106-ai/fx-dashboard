@@ -7,145 +7,205 @@
   <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#f8f7f4; --bg2:#f0ede8; --bg3:#e8e3dc;
-      --ink:#1a1714; --ink2:#4a4540; --ink3:#8a837a;
-      --bull:#0e7c5c; --bull-bg:#edf7f3;
-      --bear:#b91c3a; --bear-bg:#fdf1f3;
-      --warn:#b45309; --warn-bg:#fef8ed;
-      --accent:#1a3a8f; --accent-bg:#eef2fb;
+      --bg:#f8f7f4;
+      --bg2:#f0ede8;
+      --bg3:#e8e3dc;
+      --ink:#1a1714;
+      --ink2:#4a4540;
+      --ink3:#8a837a;
+      --bull:#0e7c5c;
+      --bull-bg:#edf7f3;
+      --bear:#b91c3a;
+      --bear-bg:#fdf1f3;
+      --warn:#b45309;
+      --warn-bg:#fef8ed;
+      --accent:#1a3a8f;
+      --accent-bg:#eef2fb;
       --border:#d8d1c8;
+
+      --panel:#161821;
+      --panel2:#1c1f2a;
+      --panel3:#242838;
+      --line:rgba(255,255,255,.08);
+      --white:#ffffff;
+
       --head:'Rajdhani',sans-serif;
       --body:'Zen Kaku Gothic New',sans-serif;
       --mono:'Share Tech Mono',monospace;
-      --shadow:0 10px 30px rgba(26,23,20,0.06);
+
+      --shadow:0 12px 32px rgba(16,18,26,.22);
     }
+
     *{box-sizing:border-box;margin:0;padding:0}
+
     body{
-      background:linear-gradient(180deg,var(--bg),#fcfbf9 40%,var(--bg));
+      background:
+        radial-gradient(circle at top left, rgba(26,58,143,.12), transparent 28%),
+        linear-gradient(180deg,#f5f3ef 0%, #f8f7f4 100%);
       color:var(--ink);
       font-family:var(--body);
       line-height:1.75;
       font-size:15px;
     }
-    a{color:var(--accent);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:1100px;margin:0 auto;padding:28px 18px 80px}
-    .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}
-    .brand{display:flex;flex-direction:column;gap:6px}
-    .brand-kicker{font-family:var(--head);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
-    .brand-title{font-size:clamp(24px,4vw,38px);line-height:1.2;font-weight:900;letter-spacing:-.02em}
-    .brand-title .accent{color:var(--accent)}
-    .status-chip{
-      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
-      background:#fff;border:1px solid var(--border);box-shadow:var(--shadow);
-      font-family:var(--mono);font-size:13px;color:var(--ink2)
+
+    a{
+      color:inherit;
+      text-decoration:none;
     }
-    .hero{display:grid;grid-template-columns:1.45fr .9fr;gap:18px;margin-bottom:20px}
-    @media (max-width:860px){.hero{grid-template-columns:1fr}}
-    .panel{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow)}
-    .hero-main{padding:24px;position:relative;overflow:hidden}
+
+    .wrap{
+      max-width:1180px;
+      margin:0 auto;
+      padding:30px 18px 80px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      margin-bottom:24px;
+      flex-wrap:wrap;
+    }
+
+    .brand-kicker{
+      font-family:var(--head);
+      font-size:10px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:var(--ink3);
+      margin-bottom:6px;
+    }
+
+    .brand-title{
+      font-size:clamp(24px,4vw,42px);
+      line-height:1.2;
+      font-weight:900;
+      letter-spacing:-.02em;
+    }
+
+    .brand-title .accent{
+      color:var(--accent);
+    }
+
+    .update-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:9px 14px;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:999px;
+      box-shadow:0 8px 20px rgba(26,23,20,.06);
+      color:var(--ink2);
+      font-size:12px;
+      font-family:var(--mono);
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1.45fr .95fr;
+      gap:18px;
+      margin-bottom:28px;
+    }
+
+    @media (max-width:980px){
+      .hero{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .panel{
+      background:linear-gradient(180deg,var(--panel),var(--panel2));
+      color:var(--white);
+      border-radius:16px;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+    }
+
+    .hero-main{
+      padding:24px;
+      position:relative;
+      overflow:hidden;
+    }
+
     .hero-main::after{
-      content:"⚔";position:absolute;right:20px;top:10px;font-size:90px;opacity:.05;line-height:1
+      content:"⚔";
+      position:absolute;
+      right:22px;
+      top:10px;
+      font-size:88px;
+      opacity:.06;
+      line-height:1;
     }
-    .eyebrow{font-family:var(--head);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
-    .main-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap}
-    .main-title{font-size:clamp(20px,3vw,30px);font-weight:900;line-height:1.35;max-width:720px}
-    .main-title .bear{color:var(--bear)}
-    .score-box{min-width:170px;background:var(--bear-bg);border:1px solid #f2bcc7;border-radius:10px;padding:12px 14px}
-    .score-label{font-family:var(--head);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--bear);margin-bottom:4px}
-    .score-value{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--bear);line-height:1.1}
-    .lead{color:var(--ink2);margin-bottom:18px}
-    .alert{display:flex;gap:12px;align-items:flex-start;background:var(--warn-bg);border:1px solid #f0d39d;color:#7b420b;border-radius:10px;padding:14px 16px}
-    .alert-icon{flex-shrink:0;font-size:18px;line-height:1.4}
-    .quick-grid{padding:20px;display:grid;grid-template-columns:1fr;gap:12px}
-    .quick-card{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:linear-gradient(180deg,#fff,var(--bg))}
-    .quick-label{font-family:var(--head);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
-    .quick-value{font-size:14px;font-weight:700;color:var(--ink)}
-    .quick-value.sell{color:var(--bear)}
-    .quick-value.wait{color:var(--ink3)}
-    .quick-value.warn{color:var(--warn)}
-    .section{margin-top:26px}
-    .section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:14px;flex-wrap:wrap}
-    .section-title{font-size:20px;font-weight:800;letter-spacing:.01em}
-    .section-sub{color:var(--ink3);font-size:13px}
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    @media (max-width:980px){.cards{grid-template-columns:1fr}}
-    .pair{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-    .pair::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px}
-    .pair.high::before{background:var(--bear)}
-    .pair.mid::before{background:var(--warn)}
-    .pair.low::before{background:var(--ink3)}
-    .pair-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:12px}
-    .pair-name{font-family:var(--head);font-size:26px;font-weight:700;letter-spacing:.04em;line-height:1;margin-bottom:6px}
-    .pair-jp{color:var(--ink2);font-size:13px}
-    .badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-family:var(--head);font-size:11px;letter-spacing:.08em;text-transform:uppercase;border:1px solid}
-    .badge.danger{background:var(--bear-bg);color:var(--bear);border-color:#f1bcc8}
-    .badge.caution{background:var(--warn-bg);color:var(--warn);border-color:#f0d39d}
-    .badge.neutral{background:var(--bg2);color:var(--ink3);border-color:var(--border)}
-    .long-value{text-align:right}
-    .long-value strong{display:block;font-family:var(--mono);font-size:26px;color:var(--bull);line-height:1}
-    .long-value span{font-size:11px;color:var(--ink3);letter-spacing:.12em}
-    .bar-labels{display:flex;justify-content:space-between;font-family:var(--head);font-size:11px;letter-spacing:.08em;margin-bottom:6px}
-    .bar-labels .l{color:var(--bull)}
-    .bar-labels .s{color:var(--bear)}
-    .bar{height:12px;border-radius:999px;background:var(--bg3);overflow:hidden;display:flex;margin-bottom:6px}
-    .bar .long{background:linear-gradient(90deg,#0e7c5c,#22c97a);height:100%}
-    .bar .short{background:linear-gradient(90deg,#f4455a,#b91c3a);height:100%;flex:1}
-    .bar-nums{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-    .bar-nums .n{font-family:var(--mono);font-size:13px;font-weight:700}
-    .bar-nums .n.long{color:var(--bull)}
-    .bar-nums .n.short{color:var(--bear)}
-    .bar-nums .diff{font-size:11px;color:var(--ink3);font-family:var(--mono)}
-    .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .mini{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
-    .mini .k{font-family:var(--head);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
-    .mini .v{font-size:13px;font-weight:700;line-height:1.5}
-    .mini .v.sell{color:var(--bear)}
-    .mini .v.wait{color:var(--ink3)}
-    .mini .v.warn{color:var(--warn)}
-    .signal-chip{
-      display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;
-      font-family:var(--head);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
-      border:1px solid;margin-top:8px
-    }
-    .signal-chip.sell{background:var(--bear-bg);color:var(--bear);border-color:#f1bcc8}
-    .signal-chip.confirm{background:var(--warn-bg);color:var(--warn);border-color:#f0d39d}
-    .signal-chip.wait{background:var(--bg2);color:var(--ink3);border-color:var(--border)}
-    .summary{margin-top:26px;background:linear-gradient(135deg,#181512,#28221e);color:#f0ede8;border-radius:16px;padding:24px;box-shadow:var(--shadow)}
-    .summary-title{font-family:var(--head);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:12px}
-    .summary ul{list-style:none;display:grid;gap:10px}
-    .summary li{font-size:14px;color:rgba(240,237,232,.9)}
-    .summary strong{color:#fff}
-    .summary .bear{color:#f3a0ae}
-    .summary .warn{color:#f6d18a}
-    .summary .bull{color:#96dfbe}
-    .links{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    @media (max-width:860px){.links{grid-template-columns:1fr}}
-    .link-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
-    .link-card h3{font-size:16px;margin-bottom:8px}
-    .link-card p{font-size:13px;color:var(--ink2);margin-bottom:10px}
-    .cta{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;background:var(--ink);color:#fff;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none}
-    .cta:hover{text-decoration:none;opacity:.92}
-    .report-list{display:grid;gap:12px}
-    .report-item{
-      display:block;background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 18px;
-      box-shadow:var(--shadow)
-    }
-    .report-date{font-family:var(--mono);font-size:12px;color:var(--ink3);margin-bottom:4px}
-    .report-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px}
-    .report-desc{font-size:13px;color:var(--ink2)}
-    .foot{margin-top:24px;font-size:12px;color:var(--ink3);background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
 
+    .eyebrow{
+      font-family:var(--head);
+      font-size:10px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.42);
+      margin-bottom:10px;
+    }
 
-   /* ===== UI改善（右上カード） ===== */     /* 右上サマリーカード全体 */
+    .hero-title{
+      font-size:clamp(24px,3vw,38px);
+      font-weight:900;
+      line-height:1.35;
+      margin-bottom:16px;
+      max-width:700px;
+    }
+
+    .hero-title .bear{
+      color:#ff7f8f;
+    }
+
+    .hero-lead{
+      color:rgba(255,255,255,.76);
+      margin-bottom:18px;
+      font-size:14px;
+      line-height:1.9;
+    }
+
+    .top-alert-box{
+      display:inline-block;
+      background:rgba(185,28,58,.16);
+      border:1px solid rgba(244,184,196,.34);
+      color:#ff97a6;
+      font-family:var(--mono);
+      font-size:28px;
+      font-weight:700;
+      border-radius:12px;
+      padding:12px 16px;
+      margin-bottom:16px;
+    }
+
+    .hero-conclusion{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      background:rgba(180,83,9,.14);
+      border:1px solid rgba(245,212,154,.26);
+      color:#ffd28c;
+      border-radius:12px;
+      padding:14px 16px;
+      font-size:13.5px;
+      line-height:1.8;
+    }
+
+    .hero-conclusion .icon{
+      flex-shrink:0;
+      font-size:18px;
+      line-height:1.4;
+    }
+
     .quick-grid{
       padding:20px;
       display:grid;
       grid-template-columns:1fr;
       gap:12px;
     }
-    
-    /* 各カード */
+
     .quick-card{
       border:1px solid rgba(255,255,255,0.08);
       border-radius:12px;
@@ -153,14 +213,12 @@
       background:linear-gradient(180deg,#2b2b31 0%, #1c1d24 100%);
       box-shadow:0 8px 24px rgba(0,0,0,0.22);
     }
-    
-    /* 最優先ペアだけ少し強調 */
+
     .quick-card:first-child{
       background:linear-gradient(135deg,#3a1116 0%, #1c1d24 100%);
       border:1px solid rgba(248,113,113,0.25);
     }
-    
-    /* ラベル */
+
     .quick-label{
       font-family:var(--head);
       font-size:10px;
@@ -169,8 +227,7 @@
       color:rgba(255,255,255,0.48);
       margin-bottom:8px;
     }
-    
-    /* 値の基本 */
+
     .quick-value{
       font-size:15px;
       font-weight:700;
@@ -178,47 +235,418 @@
       color:#ffffff;
       letter-spacing:.01em;
     }
-    
-    /* SELL系 */
-    .quick-value.sell{
-      color:#f87171;
-      font-weight:700;
-    }
-    
-    /* WAIT系 */
-    .quick-value.wait{
-      color:#d1d5db;
-      font-weight:700;
-    }
-    
-    /* WATCH系 / 注視系 */
-    .quick-value.warn{
-      color:#fbbf24;
-      font-weight:700;
-    }
-    
-    /* 最優先ペア名をさらに見やすくしたい時用 */
+
+    .quick-value.sell{ color:#f87171; }
+    .quick-value.wait{ color:#d1d5db; }
+    .quick-value.warn{ color:#fbbf24; }
+
     #quickTopPair{
       font-size:16px;
       font-weight:800;
       letter-spacing:.04em;
     }
-    
-    /* 方向性も少し目立たせる */
+
     #quickBias{
       font-size:15px;
       font-weight:800;
+    }
+
+    .section{
+      margin-top:28px;
+    }
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:16px;
+      margin-bottom:14px;
+      flex-wrap:wrap;
+    }
+
+    .section-title{
+      font-size:22px;
+      font-weight:900;
+      color:var(--ink);
+      letter-spacing:-.01em;
+    }
+
+    .section-sub{
+      color:var(--ink3);
+      font-size:13px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+    }
+
+    @media (max-width:980px){
+      .cards{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .pair-card{
+      background:linear-gradient(180deg,var(--panel),var(--panel2));
+      color:#fff;
+      border-radius:16px;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      padding:20px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .pair-card::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      width:4px;
+    }
+
+    .pair-card.high::before{ background:var(--bear); }
+    .pair-card.mid::before{ background:var(--warn); }
+    .pair-card.low::before{ background:#6b7280; }
+
+    .pair-top{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      align-items:flex-start;
+      margin-bottom:14px;
+    }
+
+    .pair-name{
+      font-family:var(--head);
+      font-size:28px;
+      font-weight:700;
+      line-height:1;
+      margin-bottom:8px;
+      letter-spacing:.04em;
+    }
+
+    .pair-jp{
+      color:rgba(255,255,255,.55);
+      font-size:12px;
+    }
+
+    .percent-box{
+      text-align:right;
+      min-width:76px;
+    }
+
+    .percent-box .num{
+      display:block;
+      font-family:var(--mono);
+      font-size:28px;
+      font-weight:700;
+      color:#7ee7b7;
+      line-height:1;
+    }
+
+    .percent-box .lbl{
+      display:block;
+      margin-top:4px;
+      font-size:10px;
+      letter-spacing:.14em;
+      color:rgba(255,255,255,.42);
+    }
+
+    .signal-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 10px;
+      border-radius:999px;
+      font-family:var(--head);
+      font-size:11px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      border:1px solid;
+      margin-top:8px;
+    }
+
+    .signal-chip.sell{
+      background:rgba(185,28,58,.16);
+      color:#ff97a6;
+      border-color:rgba(244,184,196,.32);
+    }
+
+    .signal-chip.confirm{
+      background:rgba(180,83,9,.14);
+      color:#ffd28c;
+      border-color:rgba(245,212,154,.26);
+    }
+
+    .signal-chip.wait{
+      background:rgba(255,255,255,.06);
+      color:#d1d5db;
+      border-color:rgba(255,255,255,.08);
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      padding:4px 10px;
+      border-radius:999px;
+      font-family:var(--head);
+      font-size:11px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      border:1px solid;
+      margin-bottom:10px;
+    }
+
+    .badge.danger{
+      background:rgba(185,28,58,.16);
+      color:#ff97a6;
+      border-color:rgba(244,184,196,.32);
+    }
+
+    .badge.caution{
+      background:rgba(180,83,9,.14);
+      color:#ffd28c;
+      border-color:rgba(245,212,154,.26);
+    }
+
+    .badge.neutral{
+      background:rgba(255,255,255,.06);
+      color:#d1d5db;
+      border-color:rgba(255,255,255,.08);
+    }
+
+    .bar-labels{
+      display:flex;
+      justify-content:space-between;
+      font-family:var(--head);
+      font-size:11px;
+      letter-spacing:.08em;
+      margin-bottom:6px;
+    }
+
+    .bar-labels .l{ color:#7ee7b7; }
+    .bar-labels .s{ color:#ff7f8f; }
+
+    .bar{
+      height:12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;
+      display:flex;
+      margin-bottom:6px;
+    }
+
+    .bar .long{
+      background:linear-gradient(90deg,#0e7c5c,#22c97a);
+      height:100%;
+    }
+
+    .bar .short{
+      background:linear-gradient(90deg,#f4455a,#b91c3a);
+      height:100%;
+      flex:1;
+    }
+
+    .bar-nums{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:14px;
+    }
+
+    .bar-nums .n{
+      font-family:var(--mono);
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .bar-nums .n.long{ color:#7ee7b7; }
+    .bar-nums .n.short{ color:#ff7f8f; }
+
+    .bar-nums .diff{
+      font-family:var(--mono);
+      font-size:11px;
+      color:rgba(255,255,255,.42);
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .mini{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:10px;
+      padding:10px 12px;
+    }
+
+    .mini .k{
+      font-family:var(--head);
+      font-size:10px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.42);
+      margin-bottom:4px;
+    }
+
+    .mini .v{
+      font-size:13px;
+      font-weight:700;
+      line-height:1.5;
+      color:#fff;
+    }
+
+    .mini .v.sell{ color:#ff97a6; }
+    .mini .v.wait{ color:#d1d5db; }
+    .mini .v.warn{ color:#ffd28c; }
+    .mini .v.buy{ color:#7ee7b7; }
+
+    .summary-box{
+      background:linear-gradient(135deg,#181512,#28221e);
+      color:#f0ede8;
+      border-radius:16px;
+      padding:24px;
+      box-shadow:0 12px 28px rgba(16,18,26,.16);
+    }
+
+    .summary-title{
+      font-family:var(--head);
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(240,237,232,.45);
+      margin-bottom:12px;
+    }
+
+    .summary-list{
+      display:grid;
+      gap:10px;
+    }
+
+    .summary-item{
+      font-size:14px;
+      color:rgba(240,237,232,.9);
+      line-height:1.8;
+    }
+
+    .link-panels{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+      margin-top:24px;
+    }
+
+    @media (max-width:860px){
+      .link-panels{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .link-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:20px;
+      box-shadow:0 12px 24px rgba(26,23,20,.06);
+    }
+
+    .link-card h3{
+      font-size:17px;
+      font-weight:800;
+      margin-bottom:8px;
+      color:var(--ink);
+    }
+
+    .link-card p{
+      font-size:13px;
+      color:var(--ink2);
+      margin-bottom:12px;
+      line-height:1.8;
+    }
+
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      background:var(--ink);
+      color:#fff;
+      border-radius:10px;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .cta:hover{
+      opacity:.92;
+    }
+
+    .report-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .report-item{
+      display:block;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px 18px;
+      box-shadow:0 10px 24px rgba(26,23,20,.05);
+      transition:.16s ease;
+    }
+
+    .report-item:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 28px rgba(26,23,20,.08);
+    }
+
+    .report-date{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--ink3);
+      margin-bottom:4px;
+    }
+
+    .report-title{
+      font-size:15px;
+      font-weight:800;
+      color:var(--ink);
+      margin-bottom:4px;
+      line-height:1.55;
+    }
+
+    .report-desc{
+      font-size:13px;
+      color:var(--ink2);
+      line-height:1.8;
+    }
+
+    .foot{
+      margin-top:28px;
+      font-size:12px;
+      color:var(--ink3);
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:14px 16px;
+      line-height:1.9;
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="topbar">
-      <div class="brand">
+      <div>
         <div class="brand-kicker">Tsurugi FX Dashboard</div>
         <div class="brand-title">⚔️ <span class="accent">センチメント</span> ダッシュボード</div>
       </div>
-      <div class="status-chip">
+      <div class="update-chip">
         最終更新 <span id="today">-</span>
       </div>
     </div>
@@ -226,17 +654,12 @@
     <section class="hero">
       <div class="panel hero-main">
         <div class="eyebrow">Today's Focus</div>
-        <div class="main-head">
-          <div class="main-title" id="heroTitle">読み込み中...</div>
-          <div class="score-box">
-            <div class="score-label">Top Alert</div>
-            <div class="score-value" id="topAlert">-</div>
-          </div>
-        </div>
-        <p class="lead" id="heroLead">最新データを読み込んでいます。</p>
-        <div class="alert">
-          <div class="alert-icon">⚠️</div>
-          <div id="heroConclusion">結論を読み込んでいます。</div>
+        <div class="hero-title" id="heroTitle">読み込み中...</div>
+        <div class="top-alert-box" id="topAlert">-</div>
+        <p class="hero-lead" id="heroLead">センチメントの偏りから今の市場の歪みを確認。</p>
+        <div class="hero-conclusion">
+          <div class="icon">⚠️</div>
+          <div id="heroConclusion">結論を読み込み中...</div>
         </div>
       </div>
 
@@ -245,14 +668,17 @@
           <div class="quick-label">最優先ペア</div>
           <div class="quick-value sell" id="quickTopPair">-</div>
         </div>
+
         <div class="quick-card">
           <div class="quick-label">現在の方向性</div>
-          <div class="quick-value sell" id="quickBias">-</div>
+          <div class="quick-value" id="quickBias">-</div>
         </div>
+
         <div class="quick-card">
-          <div class="quick-label">次点</div>
+          <div class="quick-label">次点の対象</div>
           <div class="quick-value warn" id="quickSecond">-</div>
         </div>
+
         <div class="quick-card">
           <div class="quick-label">待機ペア</div>
           <div class="quick-value wait" id="quickWait">-</div>
@@ -264,26 +690,29 @@
       <div class="section-head">
         <div>
           <div class="section-title">主要3ペアのセンチメント一覧</div>
-          <div class="section-sub">偏りが大きいほど逆張り候補として優先度が上がります。</div>
+          <div class="section-sub">偏りの強さと売買方向を一瞬で把握できるように整理しています。</div>
         </div>
       </div>
       <div class="cards" id="pairCards"></div>
     </section>
 
-    <section class="summary">
-      <div class="summary-title">Dashboard Summary</div>
-      <ul id="summaryList"></ul>
+    <section class="section">
+      <div class="summary-box">
+        <div class="summary-title">Dashboard Summary</div>
+        <div class="summary-list" id="summaryList"></div>
+      </div>
     </section>
 
-    <section class="links">
+    <section class="link-panels">
       <div class="link-card">
-        <h3>詳細レポートを見る</h3>
-        <p id="latestReportText">今日の詳細レポートを確認します。</p>
+        <h3>最新レポートを見る</h3>
+        <p id="latestReportText">チャート・戦略・注意点を含む詳細レポートです。</p>
         <a class="cta" id="latestReportLink" href="#">詳細レポートへ →</a>
       </div>
+
       <div class="link-card">
         <h3>Xで更新を追う</h3>
-        <p>Tsurugi式ロジックやセンチメント更新、EA公開情報はXで告知予定です。</p>
+        <p>Tsurugi式ロジック、EA開発、センチメント更新はXでも発信しています。</p>
         <a class="cta" href="https://x.com/omochi2106" target="_blank" rel="noopener noreferrer">Xを開く →</a>
       </div>
     </section>
@@ -291,8 +720,8 @@
     <section class="section">
       <div class="section-head">
         <div>
-          <div class="section-title">過去レポート</div>
-          <div class="section-sub">新しい順に並びます。</div>
+          <div class="section-title">過去レポート一覧</div>
+          <div class="section-sub">新しい順に並びます。記事ストックがそのまま資産になります。</div>
         </div>
       </div>
       <div class="report-list" id="reportList"></div>
@@ -300,7 +729,7 @@
 
     <div class="foot">
       本ページはセンチメントの偏りを素早く確認するためのダッシュボードです。  
-      売買判断は価格アクション、ボリンジャーバンド、重要指標の時間帯を含めて総合判断してください。
+      売買判断は、センチメント単体ではなく、BB位置・上位足の方向・価格アクション・重要指標を含めて総合判断してください。
     </div>
   </div>
 
@@ -323,46 +752,49 @@
       return '均衡';
     }
 
-    function biasClass(bias){
-      if((bias || '').includes('SELL')) return 'sell';
-      if((bias || '').includes('WAIT')) return 'wait';
-      return 'warn';
-    }
-
     function signalClass(signal){
       if((signal || '').includes('初動')) return 'sell';
       if((signal || '').includes('確認')) return 'confirm';
       return 'wait';
     }
 
+    function valueClass(text){
+      const t = (text || '').toUpperCase();
+      if(t.includes('BUY')) return 'buy';
+      if(t.includes('SELL')) return 'sell';
+      if(t.includes('WATCH')) return 'warn';
+      if(t.includes('WAIT')) return 'wait';
+      return '';
+    }
+
     function renderPairs(pairs){
       const wrap = document.getElementById('pairCards');
       wrap.innerHTML = pairs.map(p => `
-        <article class="pair ${levelClass(p.level)}">
+        <article class="pair-card ${levelClass(p.level)}">
           <div class="pair-top">
             <div>
               <div class="pair-name">${p.name}</div>
               <div class="pair-jp">${p.label}</div>
               <div class="signal-chip ${signalClass(p.signal)}">${p.signal}</div>
             </div>
-            <div class="long-value">
-              <strong>${p.long}%</strong>
-              <span>LONG</span>
+            <div class="percent-box">
+              <span class="num">${p.long}%</span>
+              <span class="lbl">LONG</span>
             </div>
           </div>
 
-          <div style="margin-bottom:10px;">
-            <span class="badge ${badgeClass(p.level)}">${badgeText(p.level)}</span>
-          </div>
+          <span class="badge ${badgeClass(p.level)}">${badgeText(p.level)}</span>
 
           <div class="bar-labels">
             <span class="l">▲ LONG</span>
             <span class="s">SHORT ▼</span>
           </div>
+
           <div class="bar">
             <div class="long" style="width:${p.long}%"></div>
             <div class="short"></div>
           </div>
+
           <div class="bar-nums">
             <span class="n long">${p.long}%</span>
             <span class="diff">差：${p.diff}pt</span>
@@ -371,16 +803,16 @@
 
           <div class="mini-grid">
             <div class="mini">
-              <div class="k">状態</div>
-              <div class="v ${biasClass(p.bias)}">${p.status}</div>
+              <div class="k">市場の状態</div>
+              <div class="v ${valueClass(p.status)}">${p.status}</div>
             </div>
             <div class="mini">
               <div class="k">方向性</div>
-              <div class="v ${biasClass(p.bias)}">${p.bias}</div>
+              <div class="v ${valueClass(p.bias)}">${p.bias}</div>
             </div>
             <div class="mini">
               <div class="k">判定</div>
-              <div class="v ${biasClass(p.bias)}">${p.levelLabel}</div>
+              <div class="v">${p.levelLabel}</div>
             </div>
             <div class="mini">
               <div class="k">戦略</div>
@@ -411,26 +843,31 @@
       const latest = await latestRes.json();
       const reports = await reportsRes.json();
 
-      document.getElementById('today').textContent = latest.date;
-      document.getElementById('heroTitle').innerHTML = latest.heroTitle;
-      document.getElementById('topAlert').textContent = latest.topAlert;
-      document.getElementById('heroLead').textContent = latest.heroLead;
-      document.getElementById('heroConclusion').innerHTML = latest.heroConclusion;
+      document.getElementById('today').textContent = latest.date || '-';
+      document.getElementById('heroTitle').innerHTML = latest.heroTitle || '読み込み失敗';
+      document.getElementById('topAlert').textContent = latest.topAlert || '-';
+      document.getElementById('heroLead').textContent = latest.heroLead || '';
+      document.getElementById('heroConclusion').innerHTML = latest.heroConclusion || '';
 
-      document.getElementById('quickTopPair').textContent = latest.quick.topPair;
-      document.getElementById('quickBias').textContent = latest.quick.bias;
-      document.getElementById('quickSecond').textContent = latest.quick.second;
-      document.getElementById('quickWait').textContent = latest.quick.wait;
+      document.getElementById('quickTopPair').textContent = latest.quick?.topPair || '-';
+      document.getElementById('quickBias').textContent = latest.quick?.bias || '-';
+      document.getElementById('quickSecond').textContent = latest.quick?.second || '-';
+      document.getElementById('quickWait').textContent = latest.quick?.wait || '-';
 
-      renderPairs(latest.pairs);
+      const quickBiasEl = document.getElementById('quickBias');
+      quickBiasEl.className = 'quick-value ' + valueClass(latest.quick?.bias || '');
+
+      renderPairs(latest.pairs || []);
 
       document.getElementById('summaryList').innerHTML =
-        latest.summary.map(s => `<li>${s}</li>`).join('');
+        (latest.summary || []).map(s => `<div class="summary-item">${s}</div>`).join('');
 
-      document.getElementById('latestReportText').textContent = latest.latestReport.description;
-      document.getElementById('latestReportLink').href = latest.latestReport.url;
+      document.getElementById('latestReportText').textContent =
+        latest.latestReport?.description || '最新レポートはこちら';
+      document.getElementById('latestReportLink').href =
+        latest.latestReport?.url || '#';
 
-      renderReports(reports);
+      renderReports(reports || []);
     }
 
     init().catch(err => {
