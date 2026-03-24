@@ -1,66 +1,26 @@
 {
-  "date": "2026.03.23",
-  "heroTitle": "今日の注目は <span class=\"bear\">USD/JPY ロング70%</span>。逆張りショートを最優先で監視。",
-  "topAlert": "+40pt",
-  "heroLead": "センチメントの偏りから今の市場の歪みを確認。",
-  "heroConclusion": "<strong>結論：</strong> USD/JPYはロング過多。崩れ待ち。",
-  "quick": {
-    "topPair": "USD/JPY",
-    "bias": "SELL",
-    "second": "EUR/USD",
-    "wait": "GBP/USD"
-  },
+  "date": "2026/03/24",
   "pairs": [
     {
-      "name": "USD/JPY",
-      "label": "ドル円",
-      "long": 70,
-      "short": 30,
-      "diff": 40,
-      "level": "high",
-      "levelLabel": "High",
-      "status": "ロング過多",
-      "bias": "SELL",
-      "strategy": "逆張り候補",
-      "trendStrength": "strong",
-      "signal": "初動SELL"
+      "pair": "USDJPY",
+      "long": 72,
+      "short": 28,
+      "score": 44,
+      "signal": "強いロング偏り"
     },
     {
-      "name": "EUR/USD",
-      "label": "ユーロドル",
-      "long": 60,
-      "short": 40,
-      "diff": 20,
-      "level": "mid",
-      "levelLabel": "Medium",
-      "status": "やや偏り",
-      "bias": "WATCH",
-      "strategy": "様子見",
-      "trendStrength": "weak",
-      "signal": "WAIT"
+      "pair": "EURUSD",
+      "long": 47,
+      "short": 53,
+      "score": -6,
+      "signal": "中立"
     },
     {
-      "name": "GBP/USD",
-      "label": "ポンドドル",
-      "long": 55,
-      "short": 45,
-      "diff": 10,
-      "level": "low",
-      "levelLabel": "Low",
-      "status": "均衡",
-      "bias": "WAIT",
-      "strategy": "待機",
-      "trendStrength": "weak",
-      "signal": "WAIT"
+      "pair": "GBPUSD",
+      "long": 38,
+      "short": 62,
+      "score": -24,
+      "signal": "ショート優勢"
     }
-  ],
-  "summary": [
-    "USDJPYが最も偏り大",
-    "EURUSDは注視段階",
-    "GBPUSDは優位性なし"
-  ],
-  "latestReport": {
-    "url": "./report-2026-03-23.html",
-    "description": "詳細レポートはこちら"
-  }
+  ]
 }
