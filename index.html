@@ -103,6 +103,14 @@
     .mini .v.sell{color:var(--bear)}
     .mini .v.wait{color:var(--ink3)}
     .mini .v.warn{color:var(--warn)}
+    .signal-chip{
+      display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;
+      font-family:var(--head);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+      border:1px solid;margin-top:8px
+    }
+    .signal-chip.sell{background:var(--bear-bg);color:var(--bear);border-color:#f1bcc8}
+    .signal-chip.confirm{background:var(--warn-bg);color:var(--warn);border-color:#f0d39d}
+    .signal-chip.wait{background:var(--bg2);color:var(--ink3);border-color:var(--border)}
     .summary{margin-top:26px;background:linear-gradient(135deg,#181512,#28221e);color:#f0ede8;border-radius:16px;padding:24px;box-shadow:var(--shadow)}
     .summary-title{font-family:var(--head);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,237,232,.45);margin-bottom:12px}
     .summary ul{list-style:none;display:grid;gap:10px}
@@ -247,6 +255,12 @@
       return 'warn';
     }
 
+    function signalClass(signal){
+      if((signal || '').includes('初動')) return 'sell';
+      if((signal || '').includes('確認')) return 'confirm';
+      return 'wait';
+    }
+
     function renderPairs(pairs){
       const wrap = document.getElementById('pairCards');
       wrap.innerHTML = pairs.map(p => `
@@ -255,6 +269,7 @@
             <div>
               <div class="pair-name">${p.name}</div>
               <div class="pair-jp">${p.label}</div>
+              <div class="signal-chip ${signalClass(p.signal)}">${p.signal}</div>
             </div>
             <div class="long-value">
               <strong>${p.long}%</strong>
