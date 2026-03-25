@@ -851,6 +851,7 @@
 
       document.getElementById('today').textContent = latest.date || '-';
       document.getElementById('heroTitle').innerHTML = latest.heroTitle || '読み込み失敗';
+      renderHistory(history);
       document.getElementById('topAlert').textContent = latest.topAlert || '-';
       document.getElementById('heroLead').textContent = latest.heroLead || '';
       document.getElementById('heroConclusion').innerHTML = latest.heroConclusion || '';
