@@ -840,6 +840,10 @@
         fetch('./history.json?' + new Date().getTime()),
         fetch('./reports.json?' + new Date().getTime())
 ]);
+      const latest = await latestRes.json();
+      const history = await historyRes.json();
+      const reports = await reportsRes.json();
+      
       ]);
 
       const latest = await latestRes.json();
