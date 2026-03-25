@@ -239,6 +239,7 @@
     .quick-value.sell{ color:#f87171; }
     .quick-value.wait{ color:#d1d5db; }
     .quick-value.warn{ color:#fbbf24; }
+    .quick-value.buy{ color:#7ee7b7; }
 
     #quickTopPair{
       font-size:16px;
@@ -586,6 +587,32 @@
       opacity:.92;
     }
 
+    .history-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .history-item{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px 16px;
+      box-shadow:0 10px 24px rgba(26,23,20,.05);
+    }
+
+    .history-date{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--ink3);
+      margin-bottom:4px;
+    }
+
+    .history-main{
+      font-size:14px;
+      font-weight:800;
+      color:var(--ink);
+    }
+
     .report-list{
       display:grid;
       gap:12px;
@@ -720,6 +747,16 @@
     <section class="section">
       <div class="section-head">
         <div>
+          <div class="section-title">直近の履歴</div>
+          <div class="section-sub">latestとは別に、過去データの保存用history.jsonを参照しています。</div>
+        </div>
+      </div>
+      <div class="history-list" id="history"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
           <div class="section-title">過去レポート一覧</div>
           <div class="section-sub">新しい順に並びます。記事ストックがそのまま資産になります。</div>
         </div>
@@ -774,11 +811,11 @@
           <div class="pair-top">
             <div>
               <div class="pair-name">${p.name}</div>
-              <div class="pair-jp">${p.label}</div>
-              <div class="signal-chip ${signalClass(p.signal)}">${p.signal}</div>
+              <div class="pair-jp">${p.label || ''}</div>
+              <div class="signal-chip ${signalClass(p.signal)}">${p.signal || '-'}</div>
             </div>
             <div class="percent-box">
-              <span class="num">${p.long}%</span>
+              <span class="num">${p.long ?? '-'}%</span>
               <span class="lbl">LONG</span>
             </div>
           </div>
@@ -791,41 +828,53 @@
           </div>
 
           <div class="bar">
-            <div class="long" style="width:${p.long}%"></div>
+            <div class="long" style="width:${p.long || 0}%"></div>
             <div class="short"></div>
           </div>
 
           <div class="bar-nums">
-            <span class="n long">${p.long}%</span>
-            <span class="diff">差：${p.diff}pt</span>
-            <span class="n short">${p.short}%</span>
+            <span class="n long">${p.long ?? '-'}%</span>
+            <span class="diff">差：${p.diff ?? '-'}pt</span>
+            <span class="n short">${p.short ?? '-'}%</span>
           </div>
 
           <div class="mini-grid">
             <div class="mini">
               <div class="k">市場の状態</div>
-              <div class="v ${valueClass(p.status)}">${p.status}</div>
+              <div class="v ${valueClass(p.status)}">${p.status || '-'}</div>
             </div>
             <div class="mini">
               <div class="k">方向性</div>
-              <div class="v ${valueClass(p.bias)}">${p.bias}</div>
+              <div class="v ${valueClass(p.bias)}">${p.bias || '-'}</div>
             </div>
             <div class="mini">
               <div class="k">判定</div>
-              <div class="v">${p.levelLabel}</div>
+              <div class="v">${p.levelLabel || '-'}</div>
             </div>
             <div class="mini">
               <div class="k">戦略</div>
-              <div class="v">${p.strategy}</div>
+              <div class="v">${p.strategy || '-'}</div>
             </div>
           </div>
         </article>
       `).join('');
     }
 
+    function renderHistory(history){
+      const container = document.getElementById('history');
+      if(!container) return;
+
+      container.innerHTML = (history || []).slice(0, 7).map(day => `
+        <div class="history-item">
+          <div class="history-date">${day.date || '-'}</div>
+          <div class="history-main">${day.topPair || '-'} / ${day.bias || '-'}</div>
+        </div>
+      `).join('');
+    }
+
     function renderReports(reports){
       const list = document.getElementById('reportList');
-      list.innerHTML = reports.map(r => `
+      list.innerHTML = (reports || []).map(r => `
         <a class="report-item" href="${r.url}">
           <div class="report-date">${r.date}</div>
           <div class="report-title">${r.title}</div>
@@ -835,23 +884,20 @@
     }
 
     async function init(){
+      const cacheBuster = new Date().getTime();
+
       const [latestRes, historyRes, reportsRes] = await Promise.all([
-        fetch('./latest.json?' + new Date().getTime()),
-        fetch('./history.json?' + new Date().getTime()),
-        fetch('./reports.json?' + new Date().getTime())
-]);
-      const latest = await latestRes.json();
-      const history = await historyRes.json();
-      const reports = await reportsRes.json();
-      
+        fetch('./latest.json?' + cacheBuster),
+        fetch('./history.json?' + cacheBuster),
+        fetch('./reports.json?' + cacheBuster)
       ]);
 
       const latest = await latestRes.json();
+      const history = await historyRes.json();
       const reports = await reportsRes.json();
 
       document.getElementById('today').textContent = latest.date || '-';
       document.getElementById('heroTitle').innerHTML = latest.heroTitle || '読み込み失敗';
-      renderHistory(history);
       document.getElementById('topAlert').textContent = latest.topAlert || '-';
       document.getElementById('heroLead').textContent = latest.heroLead || '';
       document.getElementById('heroConclusion').innerHTML = latest.heroConclusion || '';
@@ -865,6 +911,8 @@
       quickBiasEl.className = 'quick-value ' + valueClass(latest.quick?.bias || '');
 
       renderPairs(latest.pairs || []);
+      renderHistory(history || []);
+      renderReports(reports || []);
 
       document.getElementById('summaryList').innerHTML =
         (latest.summary || []).map(s => `<div class="summary-item">${s}</div>`).join('');
@@ -873,8 +921,6 @@
         latest.latestReport?.description || '最新レポートはこちら';
       document.getElementById('latestReportLink').href =
         latest.latestReport?.url || '#';
-
-      renderReports(reports || []);
     }
 
     init().catch(err => {
