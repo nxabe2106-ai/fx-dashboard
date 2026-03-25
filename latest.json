@@ -1,16 +1,66 @@
 {
-  "USDJPY": {
-    "signal": "SELL",
-    "long": 78,
-    "short": 22,
-    "diff": 56,
-    "change_long": 12
+  "date": "2026.03.25",
+  "heroTitle": "今日の注目は <span class=\"bear\">USD/JPY ロング72%</span>。逆張りショートを最優先で監視。",
+  "topAlert": "+44pt",
+  "heroLead": "センチメントの偏りから今の市場の歪みを確認。",
+  "heroConclusion": "<strong>結論：</strong> USD/JPYはロング72%・スコア+44ptと強い偏り。逆張りSELLを最優先で監視。",
+  "quick": {
+    "topPair": "USD/JPY",
+    "bias": "SELL",
+    "second": "EUR/USD",
+    "wait": "GBP/USD"
   },
-  "CADJPY": {
-    "signal": "SELL",
-    "long": 74,
-    "short": 26,
-    "diff": 48,
-    "change_long": 7
+  "pairs": [
+    {
+      "name": "USD/JPY",
+      "label": "ドル円",
+      "long": 72,
+      "short": 28,
+      "diff": 44,
+      "level": "high",
+      "levelLabel": "High",
+      "status": "強いロング偏り",
+      "bias": "SELL",
+      "strategy": "ロング過多につき逆張りSELL監視。BBセットアップ確認後にエントリー検討。",
+      "trendStrength": "strong",
+      "signal": "初動SELL"
+    },
+    {
+      "name": "EUR/USD",
+      "label": "ユーロドル",
+      "long": 64,
+      "short": 36,
+      "diff": 28,
+      "level": "mid",
+      "levelLabel": "Medium",
+      "status": "ロング優勢",
+      "bias": "SELL",
+      "strategy": "ロング過多につき逆張りSELL監視。BBセットアップ確認後にエントリー検討。",
+      "trendStrength": "weak",
+      "signal": "WAIT"
+    },
+    {
+      "name": "GBP/USD",
+      "label": "ポンドドル",
+      "long": 56,
+      "short": 44,
+      "diff": 12,
+      "level": "low",
+      "levelLabel": "Low",
+      "status": "中立",
+      "bias": "SELL",
+      "strategy": "ロング過多につき逆張りSELL監視。BBセットアップ確認後にエントリー検討。",
+      "trendStrength": "weak",
+      "signal": "WAIT"
+    }
+  ],
+  "summary": [
+    "USD/JPYはロング72%・スコア+44pt。強いロング偏り。",
+    "EUR/USDはスコア+28pt。ロング優勢。",
+    "GBP/USDはスコア+12pt。中立。"
+  ],
+  "latestReport": {
+    "url": "./report-2026-03-25.html",
+    "description": "2026.03.25のFXセンチメント分析レポート。"
   }
 }
