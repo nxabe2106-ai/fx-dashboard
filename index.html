@@ -835,9 +835,11 @@
     }
 
     async function init(){
-      const [latestRes, reportsRes] = await Promise.all([
+      const [latestRes, historyRes, reportsRes] = await Promise.all([
         fetch('./latest.json?' + new Date().getTime()),
+        fetch('./history.json?' + new Date().getTime()),
         fetch('./reports.json?' + new Date().getTime())
+]);
       ]);
 
       const latest = await latestRes.json();
