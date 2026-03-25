@@ -1,0 +1,64 @@
+[
+  {
+    "date": "2026-03-25",
+    "topPair": "USDJPY",
+    "bias": "SELL",
+    "pairs": [
+      {
+        "name": "USDJPY",
+        "long": 78,
+        "short": 22,
+        "diff": 56,
+        "signal": "SELL初動",
+        "change_long": 12
+      },
+      {
+        "name": "CADJPY",
+        "long": 74,
+        "short": 26,
+        "diff": 48,
+        "signal": "SELL確認",
+        "change_long": 7
+      },
+      {
+        "name": "EURUSD",
+        "long": 35,
+        "short": 65,
+        "diff": 30,
+        "signal": "WAIT",
+        "change_long": -3
+      }
+    ]
+  },
+  {
+    "date": "2026-03-24",
+    "topPair": "CADJPY",
+    "bias": "SELL",
+    "pairs": [
+      {
+        "name": "USDJPY",
+        "long": 72,
+        "short": 28,
+        "diff": 44,
+        "signal": "WATCH",
+        "change_long": 3
+      },
+      {
+        "name": "CADJPY",
+        "long": 76,
+        "short": 24,
+        "diff": 52,
+        "signal": "SELL初動",
+        "change_long": 6
+      },
+      {
+        "name": "EURUSD",
+        "long": 40,
+        "short": 60,
+        "diff": 20,
+        "signal": "WAIT",
+        "change_long": -2
+      }
+    ]
+  }
+]
