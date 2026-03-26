@@ -1,23 +1,51 @@
 {
-  "USDJPY": {
-    "signal": "WAIT",
-    "long": 32,
-    "short": 68,
-    "diff": 36,
-    "change_long": -5
+  "date": "2026.03.26",
+  "heroTitle": "USDJPYセンチメント-36pt — 偏りを確認する局面",
+  "topAlert": "USD/JPY センチメント-36pt",
+  "heroLead": "3ペアのセンチメントデータを基に、市場参加者の偏りと逆張り視点での注目ポイントを整理しました。",
+  "heroConclusion": "現時点で最も注目すべきはUSD/JPY（スコア-36pt）。GBP/USDは次点で監視。EUR/USDは偏りが小さく静観優先。",
+  "quick": {
+    "topPair": "USD/JPY",
+    "bias": "WAIT",
+    "second": "GBP/USD",
+    "wait": "EUR/USD"
   },
-  "EURUSD": {
-    "signal": "WAIT",
-    "long": 59,
-    "short": 41,
-    "diff": 18,
-    "change_long": 6
-  },
-  "GBPUSD": {
-    "signal": "WAIT",
-    "long": 65,
-    "short": 35,
-    "diff": 30,
-    "change_long": -1
+  "pairs": [
+    {
+      "symbol": "USDJPY",
+      "signal": "WAIT",
+      "long": 32,
+      "short": 68,
+      "diff": 36,
+      "change_long": -5,
+      "comment": "USDJPYはロング32%とドル円で偏りが出ており、方向感を確認したい。"
+    },
+    {
+      "symbol": "EURUSD",
+      "signal": "WAIT",
+      "long": 59,
+      "short": 41,
+      "diff": 18,
+      "change_long": 6,
+      "comment": "ややロング優勢（59%）だが、まだ強い根拠には乏しい。"
+    },
+    {
+      "symbol": "GBPUSD",
+      "signal": "WAIT",
+      "long": 66,
+      "short": 34,
+      "diff": 32,
+      "change_long": 1,
+      "comment": "GBPUSDはロング66%とポンドドルで偏りが出ており、方向感を確認したい。"
+    }
+  ],
+  "summary": [
+    "最も注目度が高いのはUSD/JPY（ロング32%・-36pt）。",
+    "次点で監視したいのはGBP/USD（ロング66%・+32pt）。",
+    "現時点では様子見が適切なのはEUR/USD（ロング59%・+18pt）。"
+  ],
+  "latestReport": {
+    "description": "2026.03.26の詳細分析レポート",
+    "url": "./report-2026-03-26.html"
   }
 }
