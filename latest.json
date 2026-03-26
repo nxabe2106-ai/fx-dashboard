@@ -1,31 +1,31 @@
 {
-  "date": "2026.03.26",
-  "heroTitle": "【注目】USDJPY センチメント-36pt — 偏りを確認する局面",
-  "topAlert": "USD/JPY スコア-36pt がこの中で最大の偏り",
-  "heroLead": "主要3通貨ペアのセンチメントデータを基に、市場参加者の偏りと逆張り視点での注目ポイントを整理しました。",
-  "heroConclusion": "現時点で最も注目すべきはUSD/JPY（スコア-36pt）。GBP/USDは次点で監視。EUR/USDは偏りが小さく静観優先。",
+  "date": "2026-03-26",
+  "heroTitle": "市場は選別局面、USD/JPYは反発候補として注視",
+  "topAlert": "最優先監視: USDJPY / BUY候補",
+  "heroLead": "本日は方向感が揃わず、即時執行よりも選別監視が優先される地合いです。主要3通貨のうち、USD/JPYが最も条件に近い状態です。",
+  "heroConclusion": "無理な追随は避け、USD/JPYを中心にブレイク確認後の対応を優先したい局面です。",
   "quick": {
-    "topPair": "USD/JPY",
-    "bias": "WAIT",
-    "second": "GBP/USD",
-    "wait": "EUR/USD"
+    "market": "方向感混在",
+    "direction": "買い戻し候補を監視",
+    "judgement": "条件確認待ち",
+    "strategy": "ブレイク確認優先"
   },
   "pairs": [
     {
       "name": "USD/JPY",
       "symbol": "USDJPY",
       "label": "ドル円",
-      "signal": "WAIT",
+      "signal": "BUY",
       "long": 32,
       "short": 68,
       "diff": 36,
       "change_long": -5,
-      "level": "high",
-      "status": "やや偏り",
-      "bias": "WAIT",
-      "levelLabel": "中立寄り",
-      "strategy": "変化待ち",
-      "comment": "ショート優勢（ロング32%）。偏りがさらに拡大すればBUY監視へ移行。"
+      "level": "MID",
+      "status": "売り偏重が進み反発警戒が高まる",
+      "bias": "上方向への巻き戻し警戒",
+      "levelLabel": "中程度",
+      "strategy": "下落追随は避け、上抜け確認後の買い待ち",
+      "comment": "BUY条件は成立しているが、執行はブレイク確認後が前提。"
     },
     {
       "name": "EUR/USD",
@@ -36,12 +36,12 @@
       "short": 41,
       "diff": 18,
       "change_long": 6,
-      "level": "mid",
-      "status": "やや偏り",
-      "bias": "WAIT",
-      "levelLabel": "中立寄り",
-      "strategy": "ブレイク待ち",
-      "comment": "ややロング寄り（59%）だが根拠には乏しく、変化を待つ段階。"
+      "level": "WEAK",
+      "status": "優位性不足で監視継続",
+      "bias": "下方向への反落警戒",
+      "levelLabel": "弱い",
+      "strategy": "条件が揃うまで様子見継続",
+      "comment": "数値の偏りは見られるが、執行判断にはまだ材料不足。"
     },
     {
       "name": "GBP/USD",
@@ -52,21 +52,19 @@
       "short": 34,
       "diff": 32,
       "change_long": 1,
-      "level": "high",
-      "status": "やや偏り",
-      "bias": "WAIT",
-      "levelLabel": "慎重監視",
-      "strategy": "戻り待ち",
-      "comment": "ロング66%とやや偏りが出てきている。70%超えならSELL監視へ移行。"
+      "level": "WEAK",
+      "status": "偏りはあるが条件未成熟",
+      "bias": "下方向への反落警戒",
+      "levelLabel": "弱い",
+      "strategy": "ブレイク確認までは監視優先",
+      "comment": "買い比率は高いが、SELL成立には変化量が不足している。"
     }
   ],
-  "summary": [
-    "最も注目すべきはUSD/JPY（ロング32%・スコア-36pt）。",
-    "次点で監視したいのはGBP/USD（ロング66%・スコア+32pt）。",
-    "現時点で静観優先なのはEUR/USD（ロング59%・スコア+18pt）。"
-  ],
-  "latestReport": {
-    "description": "2026.03.26の詳細分析レポート",
-    "url": "./report-2026-03-26.html"
-  }
+  "summary": {
+    "topPair": "USDJPY",
+    "topSignal": "BUY",
+    "marketStatus": "買い戻し候補を監視",
+    "riskNote": "単独で条件成立は見られるが、全体としては選別対応が必要。"
+  },
+  "latestReport": "本日の主要3通貨は全体として方向感が揃わず、全面的な追随よりも選別対応が有効です。最優先はUSD/JPYで、売り偏重からの買い戻し候補として注目されます。EUR/USDは数値の偏りは見られるが、執行判断にはまだ材料不足。GBP/USDは買い比率は高いが、SELL成立には変化量が不足している。無理なエントリーを避け、ブレイク確認後の対応を優先したい局面です。"
 }
