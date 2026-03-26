@@ -1,18 +1,18 @@
 {
   "date": "2026.03.26",
-  "heroTitle": "本日のFXセンチメント分析",
-  "topAlert": "主要3通貨は全体的にWAIT優勢",
-  "heroLead": "USDJPYは売り偏重だが決定打には届かず、EURUSDとGBPUSDも方向感は限定的。今日は無理に追わず、偏りの変化待ちが基本。",
-  "heroConclusion": "現時点では様子見優勢。偏りの拡大やブレイク確認が入るまで待機。",
+  "heroTitle": "【注目】USDJPY センチメント-36pt — 偏りを確認する局面",
+  "topAlert": "USD/JPY スコア-36pt がこの中で最大の偏り",
+  "heroLead": "主要3通貨ペアのセンチメントデータを基に、市場参加者の偏りと逆張り視点での注目ポイントを整理しました。",
+  "heroConclusion": "現時点で最も注目すべきはUSD/JPY（スコア-36pt）。GBP/USDは次点で監視。EUR/USDは偏りが小さく静観優先。",
   "quick": {
-    "topPair": "USDJPY",
+    "topPair": "USD/JPY",
     "bias": "WAIT",
-    "second": "GBPUSD",
-    "wait": "EURUSD"
+    "second": "GBP/USD",
+    "wait": "EUR/USD"
   },
   "pairs": [
     {
-      "name": "USDJPY",
+      "name": "USD/JPY",
       "symbol": "USDJPY",
       "label": "ドル円",
       "signal": "WAIT",
@@ -20,15 +20,15 @@
       "short": 68,
       "diff": 36,
       "change_long": -5,
-      "level": "mid",
+      "level": "high",
       "status": "やや偏り",
       "bias": "WAIT",
       "levelLabel": "中立寄り",
       "strategy": "変化待ち",
-      "comment": "売り優勢だが、現時点では決定打不足。次の変化確認待ち。"
+      "comment": "ショート優勢（ロング32%）。偏りがさらに拡大すればBUY監視へ移行。"
     },
     {
-      "name": "EURUSD",
+      "name": "EUR/USD",
       "symbol": "EURUSD",
       "label": "ユーロドル",
       "signal": "WAIT",
@@ -36,37 +36,37 @@
       "short": 41,
       "diff": 18,
       "change_long": 6,
-      "level": "low",
-      "status": "均衡",
-      "bias": "WAIT",
-      "levelLabel": "様子見",
-      "strategy": "待機",
-      "comment": "買い優勢だが偏りは弱く、方向感はまだ不十分。"
-    },
-    {
-      "name": "GBPUSD",
-      "symbol": "GBPUSD",
-      "label": "ポンドドル",
-      "signal": "WAIT",
-      "long": 65,
-      "short": 35,
-      "diff": 30,
-      "change_long": -1,
       "level": "mid",
       "status": "やや偏り",
       "bias": "WAIT",
-      "levelLabel": "慎重監視",
+      "levelLabel": "中立寄り",
       "strategy": "ブレイク待ち",
-      "comment": "買い優勢だが加速感に欠け、現段階では監視優先。"
+      "comment": "ややロング寄り（59%）だが根拠には乏しく、変化を待つ段階。"
+    },
+    {
+      "name": "GBP/USD",
+      "symbol": "GBPUSD",
+      "label": "ポンドドル",
+      "signal": "WAIT",
+      "long": 66,
+      "short": 34,
+      "diff": 32,
+      "change_long": 1,
+      "level": "high",
+      "status": "やや偏り",
+      "bias": "WAIT",
+      "levelLabel": "慎重監視",
+      "strategy": "戻り待ち",
+      "comment": "ロング66%とやや偏りが出てきている。70%超えならSELL監視へ移行。"
     }
   ],
   "summary": [
-    "USDJPYは売り偏重だが、まだ確定シグナルには届かない。",
-    "EURUSDは偏りが弱く、現時点では様子見。",
-    "GBPUSDは買い優勢だが勢い不足で慎重監視。"
+    "最も注目すべきはUSD/JPY（ロング32%・スコア-36pt）。",
+    "次点で監視したいのはGBP/USD（ロング66%・スコア+32pt）。",
+    "現時点で静観優先なのはEUR/USD（ロング59%・スコア+18pt）。"
   ],
   "latestReport": {
-    "description": "本日の詳細分析メモ",
-    "url": "https://example.com"
+    "description": "2026.03.26の詳細分析レポート",
+    "url": "./report-2026-03-26.html"
   }
 }
