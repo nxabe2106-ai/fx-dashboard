@@ -156,10 +156,6 @@
       max-width:700px;
     }
 
-    .hero-title .bear{
-      color:#ff7f8f;
-    }
-
     .hero-lead{
       color:rgba(255,255,255,.76);
       margin-bottom:18px;
@@ -173,11 +169,12 @@
       border:1px solid rgba(244,184,196,.34);
       color:#ff97a6;
       font-family:var(--mono);
-      font-size:28px;
+      font-size:22px;
       font-weight:700;
       border-radius:12px;
       padding:12px 16px;
       margin-bottom:16px;
+      line-height:1.45;
     }
 
     .hero-conclusion{
@@ -389,6 +386,12 @@
       border-color:rgba(255,255,255,.08);
     }
 
+    .signal-chip.buy{
+      background:rgba(14,124,92,.18);
+      color:#7ee7b7;
+      border-color:rgba(126,231,183,.28);
+    }
+
     .badge{
       display:inline-flex;
       align-items:center;
@@ -437,19 +440,13 @@
       border-radius:999px;
       background:rgba(255,255,255,.08);
       overflow:hidden;
-      display:flex;
       margin-bottom:6px;
+      position:relative;
     }
 
     .bar .long{
       background:linear-gradient(90deg,#0e7c5c,#22c97a);
       height:100%;
-    }
-
-    .bar .short{
-      background:linear-gradient(90deg,#f4455a,#b91c3a);
-      height:100%;
-      flex:1;
     }
 
     .bar-nums{
@@ -702,12 +699,12 @@
         </div>
 
         <div class="quick-card">
-          <div class="quick-label">次点の対象</div>
+          <div class="quick-label">シグナル</div>
           <div class="quick-value warn" id="quickSecond">-</div>
         </div>
 
         <div class="quick-card">
-          <div class="quick-label">待機ペア</div>
+          <div class="quick-label">判定</div>
           <div class="quick-value wait" id="quickWait">-</div>
         </div>
       </div>
@@ -771,27 +768,38 @@
   </div>
 
   <script>
+    function normalizeLevel(level){
+      const lv = (level || '').toUpperCase();
+      if(lv === 'STRONG') return 'high';
+      if(lv === 'MID') return 'mid';
+      return 'low';
+    }
+
     function levelClass(level){
-      if(level === 'high') return 'high';
-      if(level === 'mid') return 'mid';
+      const lv = normalizeLevel(level);
+      if(lv === 'high') return 'high';
+      if(lv === 'mid') return 'mid';
       return 'low';
     }
 
     function badgeClass(level){
-      if(level === 'high') return 'danger';
-      if(level === 'mid') return 'caution';
+      const lv = normalizeLevel(level);
+      if(lv === 'high') return 'danger';
+      if(lv === 'mid') return 'caution';
       return 'neutral';
     }
 
     function badgeText(level){
-      if(level === 'high') return '高偏りゾーン';
-      if(level === 'mid') return 'やや偏り';
-      return '均衡';
+      const lv = normalizeLevel(level);
+      if(lv === 'high') return '高優先';
+      if(lv === 'mid') return '監視対象';
+      return '様子見';
     }
 
     function signalClass(signal){
-      if((signal || '').includes('初動')) return 'sell';
-      if((signal || '').includes('確認')) return 'confirm';
+      const s = (signal || '').toUpperCase();
+      if(s.includes('BUY')) return 'buy';
+      if(s.includes('SELL')) return 'sell';
       return 'wait';
     }
 
@@ -799,20 +807,41 @@
       const t = (text || '').toUpperCase();
       if(t.includes('BUY')) return 'buy';
       if(t.includes('SELL')) return 'sell';
-      if(t.includes('WATCH')) return 'warn';
+      if(t.includes('警戒')) return 'warn';
       if(t.includes('WAIT')) return 'wait';
       return '';
     }
 
+    function escapeHtml(str){
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function getTopPairName(latest){
+      const symbol = latest.summary?.topPair;
+      const pair = (latest.pairs || []).find(p => p.symbol === symbol);
+      return pair?.name || symbol || '-';
+    }
+
+    function getLatestReportLink(latest){
+      const date = String(latest.date || '').trim();
+      if(!date) return '#';
+      return `./report-${date}.html`;
+    }
+
     function renderPairs(pairs){
       const wrap = document.getElementById('pairCards');
-      wrap.innerHTML = pairs.map(p => `
+      wrap.innerHTML = (pairs || []).map(p => `
         <article class="pair-card ${levelClass(p.level)}">
           <div class="pair-top">
             <div>
-              <div class="pair-name">${p.name}</div>
-              <div class="pair-jp">${p.label || ''}</div>
-              <div class="signal-chip ${signalClass(p.signal)}">${p.signal || '-'}</div>
+              <div class="pair-name">${escapeHtml(p.name)}</div>
+              <div class="pair-jp">${escapeHtml(p.label || '')}</div>
+              <div class="signal-chip ${signalClass(p.signal)}">${escapeHtml(p.signal || '-')}</div>
             </div>
             <div class="percent-box">
               <span class="num">${p.long ?? '-'}%</span>
@@ -828,8 +857,7 @@
           </div>
 
           <div class="bar">
-            <div class="long" style="width:${p.long || 0}%"></div>
-            <div class="short"></div>
+            <div class="long" style="width:${Number(p.long) || 0}%"></div>
           </div>
 
           <div class="bar-nums">
@@ -841,19 +869,19 @@
           <div class="mini-grid">
             <div class="mini">
               <div class="k">市場の状態</div>
-              <div class="v ${valueClass(p.status)}">${p.status || '-'}</div>
+              <div class="v ${valueClass(p.status)}">${escapeHtml(p.status || '-')}</div>
             </div>
             <div class="mini">
               <div class="k">方向性</div>
-              <div class="v ${valueClass(p.bias)}">${p.bias || '-'}</div>
+              <div class="v ${valueClass(p.bias)}">${escapeHtml(p.bias || '-')}</div>
             </div>
             <div class="mini">
               <div class="k">判定</div>
-              <div class="v">${p.levelLabel || '-'}</div>
+              <div class="v">${escapeHtml(p.levelLabel || '-')}</div>
             </div>
             <div class="mini">
               <div class="k">戦略</div>
-              <div class="v">${p.strategy || '-'}</div>
+              <div class="v">${escapeHtml(p.strategy || '-')}</div>
             </div>
           </div>
         </article>
@@ -866,8 +894,8 @@
 
       container.innerHTML = (history || []).slice(0, 7).map(day => `
         <div class="history-item">
-          <div class="history-date">${day.date || '-'}</div>
-          <div class="history-main">${day.topPair || '-'} / ${day.bias || '-'}</div>
+          <div class="history-date">${escapeHtml(day.date || '-')}</div>
+          <div class="history-main">${escapeHtml(day.topPair || '-')} / ${escapeHtml(day.bias || '-')}</div>
         </div>
       `).join('');
     }
@@ -875,57 +903,84 @@
     function renderReports(reports){
       const list = document.getElementById('reportList');
       list.innerHTML = (reports || []).map(r => `
-        <a class="report-item" href="${r.url}">
-          <div class="report-date">${r.date}</div>
-          <div class="report-title">${r.title}</div>
-          <div class="report-desc">${r.description}</div>
+        <a class="report-item" href="${escapeHtml(r.url || '#')}">
+          <div class="report-date">${escapeHtml(r.date || '-')}</div>
+          <div class="report-title">${escapeHtml(r.title || '-')}</div>
+          <div class="report-desc">${escapeHtml(r.description || '')}</div>
         </a>
       `).join('');
+    }
+
+    async function safeJsonFetch(path){
+      const res = await fetch(path);
+      if(!res.ok){
+        throw new Error(`${path} の読み込みに失敗しました: ${res.status}`);
+      }
+      return res.json();
     }
 
     async function init(){
       const cacheBuster = new Date().getTime();
 
-      const [latestRes, historyRes, reportsRes] = await Promise.all([
-        fetch('./latest.json?' + cacheBuster),
-        fetch('./history.json?' + cacheBuster),
-        fetch('./reports.json?' + cacheBuster)
-      ]);
+      const latest = await safeJsonFetch('./latest.json?' + cacheBuster);
 
-      const latest = await latestRes.json();
-      const history = await historyRes.json();
-      const reports = await reportsRes.json();
+      let history = [];
+      let reports = [];
+
+      try {
+        history = await safeJsonFetch('./history.json?' + cacheBuster);
+      } catch (e) {
+        console.warn('history.json の読み込みをスキップ:', e);
+      }
+
+      try {
+        reports = await safeJsonFetch('./reports.json?' + cacheBuster);
+      } catch (e) {
+        console.warn('reports.json の読み込みをスキップ:', e);
+      }
 
       document.getElementById('today').textContent = latest.date || '-';
-      document.getElementById('heroTitle').innerHTML = latest.heroTitle || '読み込み失敗';
+      document.getElementById('heroTitle').textContent = latest.heroTitle || '読み込み失敗';
       document.getElementById('topAlert').textContent = latest.topAlert || '-';
       document.getElementById('heroLead').textContent = latest.heroLead || '';
-      document.getElementById('heroConclusion').innerHTML = latest.heroConclusion || '';
+      document.getElementById('heroConclusion').textContent = latest.heroConclusion || '';
 
-      document.getElementById('quickTopPair').textContent = latest.quick?.topPair || '-';
-      document.getElementById('quickBias').textContent = latest.quick?.bias || '-';
-      document.getElementById('quickSecond').textContent = latest.quick?.second || '-';
-      document.getElementById('quickWait').textContent = latest.quick?.wait || '-';
+      document.getElementById('quickTopPair').textContent = getTopPairName(latest);
+      document.getElementById('quickBias').textContent = latest.quick?.direction || '-';
+      document.getElementById('quickSecond').textContent = latest.summary?.topSignal || '-';
+      document.getElementById('quickWait').textContent = latest.quick?.judgement || '-';
 
+      const quickTopPairEl = document.getElementById('quickTopPair');
       const quickBiasEl = document.getElementById('quickBias');
-      quickBiasEl.className = 'quick-value ' + valueClass(latest.quick?.bias || '');
+      const quickSecondEl = document.getElementById('quickSecond');
+      const quickWaitEl = document.getElementById('quickWait');
+
+      quickTopPairEl.className = 'quick-value ' + valueClass(latest.summary?.topSignal || '');
+      quickBiasEl.className = 'quick-value ' + valueClass(latest.quick?.direction || '');
+      quickSecondEl.className = 'quick-value ' + valueClass(latest.summary?.topSignal || '');
+      quickWaitEl.className = 'quick-value wait';
 
       renderPairs(latest.pairs || []);
       renderHistory(history || []);
       renderReports(reports || []);
 
-      document.getElementById('summaryList').innerHTML =
-        (latest.summary || []).map(s => `<div class="summary-item">${s}</div>`).join('');
+      document.getElementById('summaryList').innerHTML = `
+        <div class="summary-item">最優先ペア：${escapeHtml(getTopPairName(latest))}</div>
+        <div class="summary-item">シグナル：${escapeHtml(latest.summary?.topSignal || '-')}</div>
+        <div class="summary-item">市場状態：${escapeHtml(latest.summary?.marketStatus || '-')}</div>
+        <div class="summary-item">リスク：${escapeHtml(latest.summary?.riskNote || '-')}</div>
+      `;
 
       document.getElementById('latestReportText').textContent =
-        latest.latestReport?.description || '最新レポートはこちら';
-      document.getElementById('latestReportLink').href =
-        latest.latestReport?.url || '#';
+        latest.latestReport || '最新レポートはこちら';
+
+      document.getElementById('latestReportLink').href = getLatestReportLink(latest);
     }
 
     init().catch(err => {
       console.error(err);
       document.getElementById('heroTitle').textContent = 'データの読み込みに失敗しました';
+      document.getElementById('topAlert').textContent = 'latest.json を確認してください';
     });
   </script>
 </body>
