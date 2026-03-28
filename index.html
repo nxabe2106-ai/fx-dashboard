@@ -902,10 +902,7 @@
 
     function renderReports(reports){
       const list = document.getElementById('reportList');
-      const reportArray = Array.isArray(reports)
-        ? reports
-        : reports?.reports || [];
-      list.innerHTML = reportArray.map(r => `
+      list.innerHTML = (reports || []).map(r => `
         <a class="report-item" href="${escapeHtml(r.url || '#')}">
           <div class="report-date">${escapeHtml(r.date || '-')}</div>
           <div class="report-title">${escapeHtml(r.title || '-')}</div>
