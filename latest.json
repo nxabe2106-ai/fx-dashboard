@@ -1,70 +1,70 @@
 {
-  "date": "2026-03-26",
-  "heroTitle": "市場は選別局面、USD/JPYは反発候補として注視",
-  "topAlert": "最優先監視: USDJPY / BUY候補",
+  "date": "2026-03-28",
+  "heroTitle": "主要3通貨は方向感待ち、変化の確認を優先する局面",
+  "topAlert": "全ペア条件未成立: 監視継続",
   "heroLead": "本日は方向感が揃わず、即時執行よりも選別監視が優先される地合いです。主要3通貨のうち、USD/JPYが最も条件に近い状態です。",
   "heroConclusion": "無理な追随は避け、USD/JPYを中心にブレイク確認後の対応を優先したい局面です。",
   "quick": {
-    "market": "方向感混在",
-    "direction": "買い戻し候補を監視",
-    "judgement": "条件確認待ち",
-    "strategy": "ブレイク確認優先"
+    "market": "方向感なし",
+    "direction": "様子見継続",
+    "judgement": "条件未到達",
+    "strategy": "変化待ち"
   },
   "pairs": [
     {
       "name": "USD/JPY",
       "symbol": "USDJPY",
       "label": "ドル円",
-      "signal": "BUY",
-      "long": 25,
-      "short": 75,
-      "diff": 50,
-      "change_long": -7,
-      "level": "STRONG",
-      "status": "売り偏重が進み反発警戒が高まる",
-      "bias": "上方向への巻き戻し警戒",
-      "levelLabel": "強い",
-      "strategy": "下落追随は避け、上抜け確認後の買い待ち",
-      "comment": "BUY条件は成立しているが、執行はブレイク確認後が前提。"
+      "signal": "WAIT",
+      "long": 24,
+      "short": 76,
+      "diff": 52,
+      "change_long": -1,
+      "level": "WEAK",
+      "status": "偏りはあるが条件未成熟",
+      "bias": "上方向への巻き戻し注意",
+      "levelLabel": "弱い",
+      "strategy": "ブレイク確認までは監視優先",
+      "comment": "売り比率は高いが、BUY成立には変化量が不足している。"
     },
     {
       "name": "EUR/USD",
       "symbol": "EURUSD",
       "label": "ユーロドル",
       "signal": "WAIT",
-      "long": 63,
-      "short": 37,
-      "diff": 26,
-      "change_long": 58,
+      "long": 57,
+      "short": 43,
+      "diff": 14,
+      "change_long": -6,
       "level": "WEAK",
-      "status": "偏りはあるが条件未成熟",
-      "bias": "下方向への反落警戒",
+      "status": "優位性不足で監視継続",
+      "bias": "方向感混在",
       "levelLabel": "弱い",
-      "strategy": "ブレイク確認までは監視優先",
-      "comment": "買い比率は高いが、SELL成立には変化量が不足している。"
+      "strategy": "条件が揃うまで様子見継続",
+      "comment": "数値の偏りは見られるが、執行判断にはまだ材料不足。"
     },
     {
       "name": "GBP/USD",
       "symbol": "GBPUSD",
       "label": "ポンドドル",
       "signal": "WAIT",
-      "long": 68,
-      "short": 32,
-      "diff": 36,
-      "change_long": 2,
+      "long": 48,
+      "short": 52,
+      "diff": 4,
+      "change_long": -20,
       "level": "WEAK",
-      "status": "偏りはあるが条件未成熟",
-      "bias": "下方向への反落警戒",
+      "status": "優位性不足で監視継続",
+      "bias": "方向感混在",
       "levelLabel": "弱い",
-      "strategy": "ブレイク確認までは監視優先",
-      "comment": "買い比率は高いが、SELL成立には変化量が不足している。"
+      "strategy": "条件が揃うまで様子見継続",
+      "comment": "数値の偏りは見られるが、執行判断にはまだ材料不足。"
     }
   ],
   "summary": {
     "topPair": "USDJPY",
-    "topSignal": "BUY",
+    "topSignal": "WAIT",
     "marketStatus": "方向感混在",
     "riskNote": "単独で条件成立は見られるが、全体としては選別対応が必要。"
   },
-  "latestReport": "本日の主要3通貨は全体として方向感が揃わず、全面的な追随よりも選別対応が有効です。最優先はUSD/JPYで、売り偏重からの買い戻し候補として注目されます。EUR/USDは買い比率は高いが、SELL成立には変化量が不足している。GBP/USDは買い比率は高いが、SELL成立には変化量が不足している。無理なエントリーを避け、ブレイク確認後の対応を優先したい局面です。"
+  "latestReport": "本日の主要3通貨は全体として方向感が揃わず、全面的な追随よりも選別対応が有効です。全ペアとも明確なシグナルはなく、条件変化を待つ段階です。EUR/USDは数値の偏りは見られるが、執行判断にはまだ材料不足。GBP/USDは数値の偏りは見られるが、執行判断にはまだ材料不足。無理なエントリーを避け、ブレイク確認後の対応を優先したい局面です。"
 }
