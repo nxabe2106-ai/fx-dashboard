@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tsurugi センチメント入力フォーム</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#111318;
+  --bg2:#1c2028;
+  --bg3:#252a35;
+  --bg4:#2e3444;
+  --ink:#f0eee8;
+  --ink2:#c8c4bc;
+  --ink3:#8a8880;
+  --gold:#f0d060;
+  --gold2:#ffe880;
+  --red:#ff6060;
+  --green:#50e8a0;
+  --blue:#60b8ff;
+  --border:#3a404e;
+  --border2:#4a5060;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  font-size:15px;
+  line-height:1.75;
+  min-height:100vh;
+}
+.page{max-width:720px;margin:0 auto;padding:36px 24px 80px;}
+
+/* ヘッダー */
+.title{font-size:20px;font-weight:900;color:var(--gold);margin-bottom:4px;letter-spacing:0.02em;}
+.sub{font-size:13px;color:var(--ink3);font-family:'Share Tech Mono',monospace;margin-bottom:28px;}
+
+/* グリッド */
+.pgrid{display:grid;grid-template-columns:96px 1fr 68px 68px 68px 68px;gap:8px;align-items:center;margin-bottom:16px;}
+.gh{
+  font-size:12px;
+  color:var(--ink2);
+  text-align:center;
+  font-family:'Share Tech Mono',monospace;
+  font-weight:600;
+  letter-spacing:0.04em;
+}
+.gh:first-child{text-align:left;}
+.pn{font-size:15px;font-weight:700;color:var(--gold);letter-spacing:0.03em;}
+
+/* 入力欄 */
+input[type=number]{
+  width:100%;
+  padding:8px 4px;
+  text-align:center;
+  font-size:15px;
+  background:var(--bg3);
+  color:var(--ink);
+  border:1px solid var(--border2);
+  border-radius:7px;
+  font-family:'Share Tech Mono',monospace;
+  transition:border-color 0.15s;
+}
+input[type=number]:focus{outline:none;border-color:var(--gold);background:var(--bg4);}
+input[type=number]::placeholder{color:var(--ink3);}
+
+/* 自動計算表示 */
+.av{
+  font-size:14px;
+  text-align:center;
+  color:var(--ink2);
+  font-family:'Share Tech Mono',monospace;
+  font-weight:600;
+}
+
+/* 日付 */
+.dr{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.date-dow{font-size:13px;color:var(--ink3);font-family:var(--mono);}
+.date-dow.dow-sat{color:var(--blue);}
+.date-dow.dow-sun{color:var(--red);}
+.today-badge{font-size:11px;padding:2px 8px;background:rgba(78,232,164,0.15);color:var(--green);border:1px solid var(--green);border-radius:4px;margin-left:4px;}
+.dr label{font-size:14px;color:var(--ink2);font-weight:600;}
+input[type=date]{
+  padding:8px 12px;
+  font-size:14px;
+  background:var(--bg3);
+  color:var(--ink);
+  border:1px solid var(--border2);
+  border-radius:7px;
+  font-family:'Share Tech Mono',monospace;
+}
+input[type=date]:focus{outline:none;border-color:var(--gold);}
+
+/* 生成ボタン */
+.gbtn{
+  width:100%;
+  padding:13px;
+  font-size:15px;
+  font-weight:700;
+  background:var(--gold);
+  color:#111;
+  border:none;
+  border-radius:9px;
+  cursor:pointer;
+  margin-bottom:20px;
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  letter-spacing:0.04em;
+  transition:background 0.15s;
+}
+.gbtn:hover{background:var(--gold2);}
+
+/* タイトル選択 */
+.tsbox{
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:9px;
+  padding:12px 16px;
+  margin-bottom:18px;
+  display:none;
+}
+.tslabel{
+  font-size:12px;
+  color:var(--ink2);
+  margin-bottom:9px;
+  font-family:'Share Tech Mono',monospace;
+  font-weight:600;
+  letter-spacing:0.04em;
+}
+.topt{display:flex;align-items:flex-start;gap:9px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+.topt:last-child{border-bottom:none;}
+.topt input{margin-top:3px;flex-shrink:0;cursor:pointer;accent-color:var(--gold);}
+.topt label{font-size:13px;line-height:1.65;color:var(--ink);cursor:pointer;}
+.topt:has(input:checked) label{color:var(--gold2);font-weight:700;}
+
+/* タブ */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border2);flex-wrap:wrap;margin-top:4px;}
+.tab{
+  font-size:12px;
+  padding:7px 12px;
+  border-radius:7px 7px 0 0;
+  border:1px solid transparent;
+  cursor:pointer;
+  color:var(--ink3);
+  background:transparent;
+  white-space:nowrap;
+  font-weight:500;
+  transition:color 0.15s;
+}
+.tab:hover{color:var(--ink2);}
+.tab.on{
+  border-color:var(--border2);
+  border-bottom-color:var(--bg2);
+  background:var(--bg2);
+  color:var(--gold);
+  font-weight:700;
+}
+
+/* タブコンテンツ */
+.tc{display:none;}
+.tc.on{display:block;}
+.obox{
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:0 9px 9px 9px;
+  padding:14px;
+  font-size:13px;
+  font-family:'Share Tech Mono',monospace;
+  white-space:pre-wrap;
+  word-break:break-all;
+  line-height:1.75;
+  color:var(--ink);
+  min-height:70px;
+  max-height:340px;
+  overflow-y:auto;
+}
+
+/* ボタン類 */
+.cbtn{
+  width:100%;
+  margin-top:6px;
+  padding:8px;
+  font-size:13px;
+  border:1px solid var(--border2);
+  border-radius:7px;
+  background:transparent;
+  color:var(--ink2);
+  cursor:pointer;
+  font-family:'Share Tech Mono',monospace;
+  font-weight:600;
+  transition:all 0.15s;
+}
+.cbtn:hover{background:var(--bg3);color:var(--ink);border-color:var(--border2);}
+.cbtn.done{color:var(--green);border-color:var(--green);}
+.dlbtn{
+  width:100%;
+  margin-top:6px;
+  padding:8px;
+  font-size:13px;
+  border:1px solid var(--gold);
+  border-radius:7px;
+  background:transparent;
+  color:var(--gold);
+  cursor:pointer;
+  font-family:'Share Tech Mono',monospace;
+  font-weight:600;
+  transition:background 0.15s;
+}
+.dlbtn:hover{background:rgba(240,208,96,0.12);}
+.ph{color:var(--ink3);font-family:'Zen Kaku Gothic New',sans-serif;font-size:14px;}
+/* DBテーブル */
+#db-table th{background:var(--bg3);color:var(--ink2);padding:7px 10px;text-align:left;border-bottom:1px solid var(--border2);white-space:nowrap;font-size:11px;letter-spacing:0.04em;}
+#db-table td{padding:6px 10px;border-bottom:1px solid var(--border);color:var(--ink);white-space:nowrap;}
+#db-table tr:hover td{background:var(--bg3);}
+.db-buy{color:var(--green);}
+.db-sell{color:var(--red);}
+.db-wait{color:var(--ink3);}
+.db-del-btn{background:transparent;border:none;color:var(--ink3);cursor:pointer;font-size:13px;padding:2px 6px;}
+.db-del-btn:hover{color:var(--red);}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="title">Tsurugi センチメント入力フォーム</div>
+<div class="sub">ロング% を入力するだけ — ショート・スコアは自動計算</div>
+
+<div class="dr">
+  <label>日付</label>
+  <input type="date" id="dt" tabindex="1">
+  <span id="date-dow-lbl" class="date-dow"></span>
+</div>
+
+<div class="pgrid">
+  <div class="gh">ペア</div><div class="gh">ロング%</div><div class="gh">ショート%</div><div class="gh">スコア</div><div class="gh" id="prev-date-lbl">前日%</div><div class="gh">前回比</div>
+  <div class="pn">USDJPY</div><input type="number" id="l0" min="0" max="100" placeholder="例:72" tabindex="2"><div class="av" id="s0">—</div><div class="av" id="c0">—</div><input type="number" id="prev0" readonly tabindex="-1" style="width:100%;padding:8px 4px;text-align:center;font-size:15px;background:var(--bg4);color:var(--ink3);border:1px solid var(--border);border-radius:7px;font-family:'Share Tech Mono',monospace;cursor:default;-webkit-user-select:none;"><div class="av" id="ch0">—</div>
+  <div class="pn">EURUSD</div><input type="number" id="l1" min="0" max="100" placeholder="例:47" tabindex="3"><div class="av" id="s1">—</div><div class="av" id="c1">—</div><input type="number" id="prev1" readonly tabindex="-1" style="width:100%;padding:8px 4px;text-align:center;font-size:15px;background:var(--bg4);color:var(--ink3);border:1px solid var(--border);border-radius:7px;font-family:'Share Tech Mono',monospace;cursor:default;-webkit-user-select:none;"><div class="av" id="ch1">—</div>
+  <div class="pn">GBPUSD</div><input type="number" id="l2" min="0" max="100" placeholder="例:38" tabindex="4"><div class="av" id="s2">—</div><div class="av" id="c2">—</div><input type="number" id="prev2" readonly tabindex="-1" style="width:100%;padding:8px 4px;text-align:center;font-size:15px;background:var(--bg4);color:var(--ink3);border:1px solid var(--border);border-radius:7px;font-family:'Share Tech Mono',monospace;cursor:default;-webkit-user-select:none;"><div class="av" id="ch2">—</div>
+</div>
+
+<button class="gbtn" onclick="onGenerate()" tabindex="5">生成する</button>
+
+<div class="tsbox" id="tsbox">
+  <div class="tslabel">レポートに使うタイトルを選んでね</div>
+  <div id="topts"></div>
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="switchTab(0)">latest.json</div>
+  <div class="tab" onclick="switchTab(1)">note本文</div>
+  <div class="tab" onclick="switchTab(2)">レポートHTML</div>
+  <div class="tab" onclick="switchTab(3)">X投稿</div>
+  <div class="tab" onclick="switchTab(4)">latest_ea.json</div>
+  <div class="tab" onclick="switchTab(5)">reports.json</div>
+  <div class="tab" onclick="switchTab(6)">history.json</div>
+  <div class="tab" onclick="switchTab(7)">📊 履歴DB</div>
+</div>
+<div class="tc on" id="tc0"><div class="obox" id="o0"><span class="ph">ロング%を入力して生成ボタンを押してください</span></div><button class="cbtn" onclick="copyOut(0)">コピー</button></div>
+<div class="tc" id="tc1"><div class="obox" id="o1"><span class="ph">ロング%を入力して生成ボタンを押してください</span></div><button class="cbtn" onclick="copyOut(1)">コピー</button></div>
+<div class="tc" id="tc2">
+  <div class="obox" id="o2"><span class="ph">ロング%を入力して生成ボタンを押してください</span></div>
+  <button class="cbtn" onclick="copyOut(2)">コピー</button>
+  <button class="dlbtn" onclick="downloadReport()">HTMLファイルとしてダウンロード</button>
+</div>
+<div class="tc" id="tc3"><div class="obox" id="o3"><span class="ph">ロング%を入力して生成ボタンを押してください</span></div><button class="cbtn" onclick="copyOut(3)">コピー</button></div>
+<div class="tc" id="tc4"><div class="obox" id="o4"><span class="ph">ロング%を入力して生成ボタンを押してください</span></div><button class="cbtn" onclick="copyOut(4)">コピー</button></div>
+<div class="tc" id="tc5"><div class="obox" id="o5"><span class="ph">ロング%を入力して生成ボタンを押してください</span></div><button class="cbtn" onclick="copyOut(5)">コピー</button></div>
+<div class="tc" id="tc6"><div class="obox" id="o6"><span class="ph">ロング%を入力して生成ボタンを押してください</span></div><button class="cbtn" onclick="copyOut(6)">コピー</button></div>
+<div class="tc" id="tc7">
+  <div id="db-toolbar" style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+    <button class="cbtn" onclick="dbExportCSV()" style="flex:1;min-width:120px;">⬇ CSV出力</button>
+    <button class="cbtn" onclick="dbExportJSON()" style="flex:1;min-width:120px;">⬇ JSON出力</button>
+  </div>
+  <div id="db-summary" style="font-size:12px;color:var(--ink3);margin-bottom:8px;font-family:var(--mono);"></div>
+  <div id="db-table-wrap" style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+    <div id="db-empty" style="color:var(--ink3);font-size:13px;padding:20px 0;text-align:center;">まだデータがありません。生成ボタンを押すと自動保存されます。</div>
+    <table id="db-table" style="display:none;width:100%;border-collapse:collapse;font-size:12px;font-family:var(--mono);">
+      <thead id="db-thead"></thead>
+      <tbody id="db-tbody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<script>
+// 日付初期値＆DBから当日・前日自動取得
+(function(){
+  var d = new Date();
+  var today = d.toISOString().slice(0,10);
+  document.getElementById('dt').value = today;
+  // 曜日表示を更新
+  updateDateLabel(today);
+  // DOMロード後に当日・前日データ取得
+  setTimeout(function(){
+    loadTodayFromDB(today);
+    loadPrevFromDB(today);
+  }, 50);
+})();
+
+// ===== 履歴DB（localStorage） =====
+var DB_KEY = 'tsurugi_sentiment_db';
+
+function dbLoad() {
+  try { return JSON.parse(localStorage.getItem(DB_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function dbSave(data) {
+  localStorage.setItem(DB_KEY, JSON.stringify(data));
+}
+function dbAdd(record) {
+  var data = dbLoad();
+  // 同日付なら上書き
+  var idx = data.findIndex ? data.findIndex(function(d){ return d.date === record.date; }) :
+    (function(){ for(var i=0;i<data.length;i++){if(data[i].date===record.date)return i;} return -1; })();
+  if(idx >= 0) data[idx] = record;
+  else data.unshift(record); // 新しい順
+  // 最大365件保持
+  if(data.length > 365) data = data.slice(0, 365);
+  dbSave(data);
+}
+function dbDelete(date) {
+  var data = dbLoad().filter(function(d){ return d.date !== date; });
+  dbSave(data);
+  dbRender();
+}
+function dbClear() {
+  if(!confirm('全データを削除しますか？')) return;
+  localStorage.removeItem(DB_KEY);
+  dbRender();
+}
+
+function dbRender() {
+  // 要素が存在しない場合（DBタブ非表示時）はスキップ
+  var summary = document.getElementById('db-summary');
+  var empty   = document.getElementById('db-empty');
+  var table   = document.getElementById('db-table');
+  var thead   = document.getElementById('db-thead');
+  var tbody   = document.getElementById('db-tbody');
+  if(!summary || !empty || !table) return;
+
+  var data = dbLoad();
+  summary.textContent = '保存件数: ' + data.length + '件 / 最大365件';
+
+  if(data.length === 0) {
+    empty.style.display = 'block';
+    table.style.display = 'none';
+    return;
+  }
+  empty.style.display = 'none';
+  table.style.display = 'table';
+
+  thead.innerHTML = '<tr>' +
+    '<th>日付</th>' +
+    '<th>USDJPY</th><th>L%</th><th>Δ</th>' +
+    '<th>EURUSD</th><th>L%</th><th>Δ</th>' +
+    '<th>GBPUSD</th><th>L%</th><th>Δ</th>' +
+    '<th></th>' +
+    '</tr>';
+
+  function sigClass(s){ return s==='BUY'?'db-buy':s==='SELL'?'db-sell':'db-wait'; }
+
+  tbody.innerHTML = data.map(function(d) {
+    var u=d.USDJPY, e=d.EURUSD, g=d.GBPUSD;
+    return '<tr>' +
+      '<td>'+d.date+'</td>' +
+      '<td class="'+sigClass(u.signal)+'">'+u.signal+'</td><td>'+u.long+'%</td><td>'+(u.change_long>=0?'+':'')+u.change_long+'</td>' +
+      '<td class="'+sigClass(e.signal)+'">'+e.signal+'</td><td>'+e.long+'%</td><td>'+(e.change_long>=0?'+':'')+e.change_long+'</td>' +
+      '<td class="'+sigClass(g.signal)+'">'+g.signal+'</td><td>'+g.long+'%</td><td>'+(g.change_long>=0?'+':'')+g.change_long+'</td>' +
+      '<td><button class="db-del-btn" onclick="dbDelete(\'' + d.date + '\')" >✕</button></td>' +
+      '</tr>';
+  }).join('');
+}
+
+function dbExportCSV() {
+  var data = dbLoad();
+  if(data.length === 0){ alert('データがありません'); return; }
+  var rows = ['date,USDJPY_signal,USDJPY_long,USDJPY_change,EURUSD_signal,EURUSD_long,EURUSD_change,GBPUSD_signal,GBPUSD_long,GBPUSD_change'];
+  data.forEach(function(d){
+    rows.push([d.date,d.USDJPY.signal,d.USDJPY.long,d.USDJPY.change_long,d.EURUSD.signal,d.EURUSD.long,d.EURUSD.change_long,d.GBPUSD.signal,d.GBPUSD.long,d.GBPUSD.change_long].join(','));
+  });
+  var blob = new Blob([rows.join('\n')], {type:'text/csv;charset=utf-8'});
+  var a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='tsurugi_sentiment.csv'; a.click();
+}
+
+function dbExportJSON() {
+  var data = dbLoad();
+  if(data.length === 0){ alert('データがありません'); return; }
+  var blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  var a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='tsurugi_sentiment.json'; a.click();
+}
+
+// 曜日表示
+function updateDateLabel(dateStr) {
+  var el = document.getElementById('date-dow-lbl');
+  if(!el || !dateStr) return;
+  var d = new Date(dateStr + 'T00:00:00');
+  var dows = ['日','月','火','水','木','金','土'];
+  var dow = dows[d.getDay()];
+  var cls = d.getDay()===0?'date-dow dow-sun':d.getDay()===6?'date-dow dow-sat':'date-dow';
+  el.className = cls;
+  el.textContent = '（' + dow + '）';
+}
+
+// 今日のDBデータを本日分欄に自動入力
+function loadTodayFromDB(dateStr) {
+  if(!dateStr) return;
+  var data = dbLoad();
+  var rec = null;
+  for(var i=0;i<data.length;i++){
+    if(data[i].date === dateStr){ rec = data[i]; break; }
+  }
+  if(!rec) return;
+  var pairs = ['USDJPY','EURUSD','GBPUSD'];
+  pairs.forEach(function(pair, i){
+    if(rec[pair] && rec[pair].long !== undefined){
+      var el = document.getElementById('l'+i);
+      if(!el) return;
+      el.value = rec[pair].long;
+      updCalc(i);
+    }
+  });
+  // バッジ表示
+  var lbl = document.getElementById('date-dow-lbl');
+  if(lbl){
+    var badge = document.createElement('span');
+    badge.className = 'today-badge';
+    badge.textContent = 'DB読込済';
+    badge.id = 'today-db-badge';
+    // 既存バッジ削除
+    var old = document.getElementById('today-db-badge');
+    if(old) old.remove();
+    lbl.parentNode.appendChild(badge);
+  }
+}
+
+// 日付変更時に前日データをDBから自動取得
+function loadPrevFromDB(dateStr) {
+  if(!dateStr) return;
+  var data = dbLoad();
+
+  // 入力日付の前日を計算
+  var d = new Date(dateStr);
+  d.setDate(d.getDate() - 1);
+  // 前日から最大7日前まで遡って最新のデータを探す
+  var prevRec = null;
+  for(var back = 1; back <= 7; back++) {
+    var dd = new Date(dateStr);
+    dd.setDate(dd.getDate() - back);
+    var key = dd.toISOString().slice(0,10);
+    var found = null;
+    for(var i=0;i<data.length;i++){
+      if(data[i].date === key){ found = data[i]; break; }
+    }
+    if(found){ prevRec = found; break; }
+  }
+
+  var pairs = ['USDJPY','EURUSD','GBPUSD'];
+  pairs.forEach(function(pair, i) {
+    var el = document.getElementById('prev'+i);
+    if(!el) return;
+    if(prevRec && prevRec[pair]) {
+      el.value = prevRec[pair].long;
+      el.style.color = 'var(--green)';
+      el.title = prevRec.date + 'のデータを自動取得';
+    } else {
+      el.value = '';
+      el.style.color = 'var(--ink3)';
+      el.title = 'DBにデータなし';
+    }
+    updChange(i);
+  });
+
+  // ラベルに取得元日付を表示
+  var lbl = document.getElementById('prev-date-lbl');
+  if(lbl) {
+    lbl.textContent = prevRec ? '前日(' + prevRec.date + ')' : '前日（DBなし）';
+    lbl.style.color = prevRec ? 'var(--green)' : 'var(--ink3)';
+  }
+}
+
+// 日付inputにイベントを設定
+document.getElementById('dt').addEventListener('change', function(){
+  var dateStr = this.value;
+  updateDateLabel(dateStr);
+  // 今日バッジをリセット
+  var badge = document.getElementById('today-db-badge');
+  if(badge) badge.remove();
+  // 本日分欄をリセット
+  for(var i=0;i<3;i++){
+    document.getElementById('l'+i).value='';
+    updCalc(i);
+  }
+  loadTodayFromDB(dateStr);
+  loadPrevFromDB(dateStr);
+});
+
+// 入力でリアルタイム計算
+function updCalc(idx) {
+  var lEl  = document.getElementById('l'+idx);
+  var sEl  = document.getElementById('s'+idx);
+  var cEl  = document.getElementById('c'+idx);
+  var chEl = document.getElementById('ch'+idx);
+  if(!lEl || !sEl || !cEl || !chEl) return;
+  var v = parseInt(lEl.value);
+  if(isNaN(v)){
+    sEl.textContent = '—';
+    cEl.textContent = '—';
+    chEl.textContent = '—';
+    return;
+  }
+  var s = 100-v, sc = v-s;
+  sEl.textContent = s+'%';
+  cEl.textContent = (sc>=0?'+':'')+sc;
+  updChange(idx);
+}
+function updChange(idx) {
+  var lEl  = document.getElementById('l'+idx);
+  var pEl  = document.getElementById('prev'+idx);
+  var chEl = document.getElementById('ch'+idx);
+  if(!lEl || !pEl || !chEl) return;
+  var cur  = parseInt(lEl.value);
+  var prev = parseInt(pEl.value);
+  if(isNaN(cur) || isNaN(prev)){
+    chEl.textContent = '—';
+    return;
+  }
+  var ch = cur - prev;
+  chEl.textContent = (ch>=0?'+':'')+ch;
+  chEl.style.color = ch > 0 ? 'var(--red)' : ch < 0 ? 'var(--green)' : 'var(--ink2)';
+}
+document.getElementById('l0').addEventListener('input', function(){ updCalc(0); });
+document.getElementById('l1').addEventListener('input', function(){ updCalc(1); });
+document.getElementById('l2').addEventListener('input', function(){ updCalc(2); });
+// prev は DB自動入力のためリスナー不要
+
+// タブ切り替え
+function switchTab(idx) {
+  var tabs = document.querySelectorAll('.tab');
+  var tcs = document.querySelectorAll('.tc');
+  for(var i=0;i<8;i++){
+    tabs[i].className = 'tab' + (i===idx?' on':'');
+    tcs[i].className = 'tc' + (i===idx?' on':'');
+  }
+  if(idx === 7) dbRender();
+}
+
+// コピー
+function copyOut(idx) {
+  var txt = document.getElementById('o'+idx).textContent;
+  navigator.clipboard.writeText(txt).then(function(){
+    var btns = document.querySelectorAll('.cbtn');
+    btns[idx].textContent = 'コピー完了！';
+    btns[idx].classList.add('done');
+    setTimeout(function(){ btns[idx].textContent = 'コピー'; btns[idx].classList.remove('done'); }, 2000);
+  });
+}
+
+// ダウンロード
+function downloadReport() {
+  var html = document.getElementById('o2').textContent;
+  if(!html || html.indexOf('ロング%を入力') >= 0) { alert('先に生成ボタンを押してください'); return; }
+  var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'report-' + (window._dtUrl||'report') + '.html';
+  a.click();
+}
+
+// ロジック
+function sgn(v){ return (v>=0?'+':'')+v; }
+function calcBias(l){ return l>=55?'SELL':l<=45?'WATCH':'WAIT'; }
+function calcSignal(l,b){
+  if(l>=70&&b==='SELL') return ['初動SELL','strong'];
+  if(l>=65&&b==='SELL') return ['確認SELL待ち','weak'];
+  return ['WAIT','weak'];
+}
+function calcStatus(s){
+  if(s>=30) return '強いロング偏り';
+  if(s>=15) return 'ロング優勢';
+  if(s<=-30) return '強いショート偏り';
+  if(s<=-15) return 'ショート優勢';
+  return '中立';
+}
+function calcLevel(d){
+  d = Math.abs(d);
+  if(d>=30) return ['high','High'];
+  if(d>=15) return ['mid','Medium'];
+  return ['low','Low'];
+}
+
+var NAMES = {USDJPY:'USD/JPY', EURUSD:'EUR/USD', GBPUSD:'GBP/USD'};
+var LABELS = {USDJPY:'ドル円', EURUSD:'ユーロドル', GBPUSD:'ポンドドル'};
+var PAIRS = ['USDJPY','EURUSD','GBPUSD'];
+var STRAT = {
+  SELL:'ロング過多につき逆張りSELL監視。BBセットアップ確認後にエントリー検討。',
+  WATCH:'ショート優勢につき逆張りBUY方向をWATCH。条件揃い次第で検討。',
+  WAIT:'偏りが小さく根拠が弱い。方向感が出るまで静観。'
+};
+var ENTRY = {
+  SELL:'BB +2σタッチ確認後、ミドル陰線確定でSellエントリー',
+  WATCH:'逆張りBUY方向。BB -2σ→ミドル陽線確定を待つ',
+  WAIT:'センチメント根拠薄。テクニカル・ファンダ優先'
+};
+
+function buildTitles(top) {
+  // スコアの正負でSELL/BUY視点を切り替え
+  var isBuy = top.score < 0;
+  var pct = isBuy ? top.srt : top.lng;
+  var side = isBuy ? 'ショート' : 'ロング';
+  var action = isBuy ? 'BUY' : 'SELL';
+  var pt = sgn(top.score);
+
+  // タイトル：BUY視点とSELL視点で表現を完全分岐
+  if(isBuy){
+    return [
+      '【注目】'+top.pair+'ロング'+top.lng+'% → ショート偏重、反転に備えるか',
+      top.pair+' センチメント'+pt+'pt｜ショート過多が示す逆張りBUYシグナル',
+      top.pair+' ショート'+top.srt+'%・'+pt+'pt｜売られすぎの兆候か',
+      top.pair+' スコア'+pt+'pt → ショート偏重、踏み上げリスクに注目',
+      '【違和感】'+top.pair+' ロング'+top.lng+'% → ショート過ぎ、逆張りBUYのチャンスか',
+      top.pair+' ショート偏重'+pt+'pt → '+top.status+'、反転前兆か'
+    ];
+  } else {
+    return [
+      '【警戒】'+top.pair+'ロング'+top.lng+'% → ロング過多、崩れに備えるか',
+      top.pair+' センチメント'+pt+'pt｜ロング過多が示す逆張りSELLシグナル',
+      top.pair+' ロング'+top.lng+'%・'+pt+'pt｜天井感が漂い始めた',
+      top.pair+' スコア'+pt+'pt で警戒ゾーン → ロング勢の巻き戻しに注目',
+      '【違和感】'+top.pair+' ロング'+top.lng+'% → 買い過ぎ、逆張りSELLのチャンスか',
+      top.pair+' ロング偏重'+pt+'pt → '+top.status+'、崩れ前兆か'
+    ];
+  }
+}
+
+function buildNote(pairs, top, dtUrl) {
+  // diffの大きい順に並べ替え
+  var sorted = pairs.slice().sort(function(a,b){ return Math.abs(b.score)-Math.abs(a.score); });
+  var p0 = sorted[0], p1 = sorted[1], p2 = sorted[2];
+
+  // 冒頭文：ロング比率の数値で判定
+  var opening, hook, mood, topNote;
+  if(p0.lng <= 30) {
+    // ショート過多（30%以下）→ 逆張りBUY視点
+    opening = p0.pair+'のロング比率は'+p0.lng+'%、センチメント・スコアは'+sgn(p0.score)+'pt。';
+    hook    = '売られすぎの兆候か。';
+    mood    = 'ショート偏重が強く、逆張りの観点では反転リスクを意識する局面です。';
+    topNote = '今回最も注目。';
+  } else if(p0.lng >= 70) {
+    // ロング過熱（70%以上）→ 逆張りSELL視点
+    opening = p0.pair+'のロング比率が'+p0.lng+'%に達し、センチメント・スコアは'+sgn(p0.score)+'pt。';
+    hook    = '買われすぎの兆候か。';
+    mood    = 'ロング偏重が強く、逆張りSELLの観点から反転リスクに注意が必要な局面です。';
+    topNote = '今回最も注目。';
+  } else if(p0.lng >= 55) {
+    opening = p0.pair+'のロング比率は'+p0.lng+'%、センチメント・スコアは'+sgn(p0.score)+'pt。';
+    hook    = 'ロング優勢が続いている。';
+    mood    = 'ややロング偏重の状態で、偏りが拡大した場合は逆張りSELLを意識する局面です。';
+    topNote = '今回最も注目。';
+  } else if(p0.lng <= 45) {
+    opening = p0.pair+'のロング比率は'+p0.lng+'%、センチメント・スコアは'+sgn(p0.score)+'pt。';
+    hook    = 'ショート優勢が続いている。';
+    mood    = 'ややショート偏重の状態で、偏りが拡大した場合は逆張りBUYを意識する局面です。';
+    topNote = '今回最も注目。';
+  } else {
+    opening = p0.pair+'のロング比率は'+p0.lng+'%、センチメント・スコアは'+sgn(p0.score)+'pt。';
+    hook    = '';
+    mood    = '偏りは小さく、方向感が出るまで静観が基本です。';
+    topNote = '';
+  }
+
+  var hookLine = hook ? hook+'\n\n' : '';
+
+  return opening+'\n\n'+hookLine+mood+'\n\n'+
+    '■ 結論\n\n'+
+    '▼ '+p0.pair+'：'+p0.bias+'（ロング'+p0.lng+'% / '+sgn(p0.score)+'pt）\n'+
+    (topNote ? topNote+'\n' : '')+
+    p0.strategy+'\n\n'+
+    '▼ '+p1.pair+'：'+p1.bias+'（ロング'+p1.lng+'% / '+sgn(p1.score)+'pt）\n'+p1.strategy+'\n\n'+
+    '▼ '+p2.pair+'：'+p2.bias+'（ロング'+p2.lng+'% / '+sgn(p2.score)+'pt）\n'+p2.strategy+'\n\n'+
+    '---\n\n'+
+    '⚠️ 本記事は個人的な取り組みの記録であり、投資を勧誘するものではありません。FXには元本割れのリスクがあります。運用は必ず自己判断・自己責任でお願いします。\n※本分析はMyfxbookを参考にしたセンチメントデータを用いた検証段階のロジックです。\n実トレード結果とは一致しない場合があります。\n今後、検証を継続しながら精度を高めていきます。\n現在、Tsurugi式ロジックのEA化を進めています。\n検証結果がまとまり次第、公開予定です。\n\n▼ 完全版レポートはこちら\nhttps://nxabe2106-ai.github.io/fx-dashboard/report-'+dtUrl+'.html\n\n▼ Tsurugi式ロジックを自動化したい方へ\nMT5用EAを開発中。完成次第Xで公開します。\nフォローはこちら → https://x.com/omochi2106\n\n'+
+    '#FX #ドル円 #為替 #トレード #投資 #デイトレード';
+}
+
+function buildHistoryJson(pairs, dtFmt) {
+  // signal判定（ダッシュボード仕様と同じ）
+  function histSignal(lng, diff, ch) {
+    if(lng <= 35 && diff >= 30 && ch <= -5) return 'BUY';
+    if(lng >= 65 && diff >= 30 && ch >= 5)  return 'SELL';
+    return 'WAIT';
+  }
+  function histLevel(sig, lng, diff, ch) {
+    if(sig==='BUY'  && lng<=30 && diff>=40 && ch<=-7) return 'STRONG';
+    if(sig==='SELL' && lng>=70 && diff>=40 && ch>=7)  return 'STRONG';
+    if(sig==='BUY'  || sig==='SELL') return 'MID';
+    return 'WEAK';
+  }
+
+  // pairsArr構築
+  var pairsArr = pairs.map(function(pp) {
+    var i       = PAIRS.indexOf(pp.pair);
+    var prevVal = parseInt(document.getElementById('prev'+i).value);
+    var ch      = isNaN(prevVal) ? 0 : pp.lng - prevVal;
+    var sig     = histSignal(pp.lng, pp.diff, ch);
+    var lv      = histLevel(sig, pp.lng, pp.diff, ch);
+    return { symbol:pp.pair, name:NAMES[pp.pair], signal:sig, level:lv, diff:pp.diff, change_long:ch };
+  });
+
+  // topPair選定（signal>level>diff>|change_long|）
+  var topPA = pairsArr.slice().sort(function(a, b) {
+    var sigScore = function(s){ return s==='BUY'||s==='SELL'?10:0; };
+    var lvScore  = function(l){ return l==='STRONG'?3:l==='MID'?2:1; };
+    var sa = sigScore(a.signal) + lvScore(a.level) + a.diff/100 + Math.abs(a.change_long)/1000;
+    var sb = sigScore(b.signal) + lvScore(b.level) + b.diff/100 + Math.abs(b.change_long)/1000;
+    return sb - sa;
+  })[0];
+
+  var obj = {
+    date:    dtFmt.replace(/\./g, '-'),
+    topPair: topPA.name,
+    bias:    topPA.signal
+  };
+
+  return JSON.stringify(obj, null, 2);
+}
+
+function buildReportsJson(pairs, sorted, dtFmt, dtUrl) {
+  // topPair選定（signal>level>diff>|change_long|）
+  function getTopPA(pairsArr) {
+    return pairsArr.slice().sort(function(a, b) {
+      var sigScore = function(s){ return s==='BUY'||s==='SELL'?10:0; };
+      var lvScore  = function(l){ return l==='STRONG'?3:l==='MID'?2:1; };
+      var sa = sigScore(a.signal) + lvScore(a.level) + a.diff/100 + Math.abs(a.change_long)/1000;
+      var sb = sigScore(b.signal) + lvScore(b.level) + b.diff/100 + Math.abs(b.change_long)/1000;
+      return sb - sa;
+    })[0];
+  }
+
+  // signal判定（ダッシュボード仕様と同じ）
+  function repSignal(lng, diff, ch) {
+    if(lng <= 35 && diff >= 30 && ch <= -5) return 'BUY';
+    if(lng >= 65 && diff >= 30 && ch >= 5)  return 'SELL';
+    return 'WAIT';
+  }
+  function repLevel(sig, lng, diff, ch) {
+    if(sig==='BUY'  && lng<=30 && diff>=40 && ch<=-7) return 'STRONG';
+    if(sig==='SELL' && lng>=70 && diff>=40 && ch>=7)  return 'STRONG';
+    if(sig==='BUY'  || sig==='SELL') return 'MID';
+    return 'WEAK';
+  }
+
+  // pairsArrを構築
+  var pairsArr = pairs.map(function(pp) {
+    var i       = PAIRS.indexOf(pp.pair);
+    var prevVal = parseInt(document.getElementById('prev'+i).value);
+    var ch      = isNaN(prevVal) ? 0 : pp.lng - prevVal;
+    var sig     = repSignal(pp.lng, pp.diff, ch);
+    var lv      = repLevel(sig, pp.lng, pp.diff, ch);
+    return { symbol:pp.pair, name:NAMES[pp.pair], signal:sig, level:lv, diff:pp.diff, change_long:ch, lng:pp.lng };
+  });
+
+  var topPA  = getTopPA(pairsArr);
+  var others = pairsArr.filter(function(p){ return p.symbol !== topPA.symbol; });
+  var dateISO = dtFmt.replace(/\./g, '-');
+
+  // title生成
+  function repTitle(topName, topSig) {
+    if(topSig === 'BUY')  return topName+'を最優先監視、買い戻し候補を注視';
+    if(topSig === 'SELL') return topName+'を最優先監視、売り戻し候補を注視';
+    return topName+'を最優先監視、方向感待ち';
+  }
+
+  // description生成（80〜120文字・誇張なし・実務的）
+  // diffの大きい方 → 条件未成熟（より偏りに近い）
+  // diffの小さい方 → 優位性不足（偏りが小さく根拠薄）
+  function repDesc(topPA, others) {
+    var topName = topPA.name;
+    var sig     = topPA.signal;
+    // diffの大きい順に並べる
+    var sorted2 = others.slice().sort(function(a,b){ return b.diff - a.diff; });
+    var oHigh   = sorted2[0].name;  // diff大 → 条件未成熟
+    var oLow    = sorted2[1].name;  // diff小 → 優位性不足
+
+    if(sig === 'BUY') {
+      return '市場は選別局面。'+topName+'は売り偏重からの反発候補として注目。'+
+             oHigh+'は条件未成熟、'+oLow+'は優位性不足で様子見。';
+    }
+    if(sig === 'SELL') {
+      return '市場は選別局面。'+topName+'は買い偏重からの反落候補として注目。'+
+             oHigh+'は条件未成熟、'+oLow+'は優位性不足で様子見。';
+    }
+    return '市場は方向感待ち。'+topName+'が最優先ペアだが、全体としては条件確認を優先したい局面。';
+  }
+
+  var obj = {
+    date:        dateISO,
+    title:       repTitle(topPA.name, topPA.signal),
+    description: repDesc(topPA, others),
+    url:         './report-'+dtUrl+'.html'
+  };
+
+  return JSON.stringify(obj, null, 2);
+}
+
+function buildDashboardJson(pairs, sorted, top, second, wait_p, dtFmt, dtUrl) {
+
+  // ===== signal判定 =====
+  // BUY : long<=35 & diff>=30 & change_long<=-5
+  // SELL: long>=65 & diff>=30 & change_long>=5
+  // WAIT: 上記以外
+  function dashSignal(lng, diff, ch) {
+    if(lng <= 35 && diff >= 30 && ch <= -5) return 'BUY';
+    if(lng >= 65 && diff >= 30 && ch >= 5)  return 'SELL';
+    return 'WAIT';
+  }
+
+  // ===== level判定 =====
+  // STRONG: BUY(long<=30&diff>=40&ch<=-7) / SELL(long>=70&diff>=40&ch>=7)
+  // MID   : BUYまたはSELL条件を満たすもの
+  // WEAK  : WAIT（偏りあり・条件未成熟）
+  function dashLevel(sig, lng, diff, ch) {
+    if(sig === 'BUY'  && lng <= 30 && diff >= 40 && ch <= -7) return 'STRONG';
+    if(sig === 'SELL' && lng >= 70 && diff >= 40 && ch >= 7)  return 'STRONG';
+    if(sig === 'BUY'  || sig === 'SELL') return 'MID';
+    return 'WEAK';
+  }
+
+  // ===== levelLabel =====
+  function dashLevelLabel(level) {
+    if(level === 'STRONG') return '強い';
+    if(level === 'MID')    return '中程度';
+    return '弱い';
+  }
+
+  // ===== status（signalと連動した意味のある文） =====
+  function dashStatus(sig, diff) {
+    if(sig === 'BUY')  return '売り偏重が進み反発警戒が高まる';
+    if(sig === 'SELL') return '買い偏重が進み反落警戒が高まる';
+    if(diff >= 25)     return '偏りはあるが条件未成熟';
+    return '優位性不足で監視継続';
+  }
+
+  // ===== bias（signalのコピーではなく方向感の短文） =====
+  function dashBias(sig, lng, diff) {
+    if(sig === 'BUY')  return '上方向への巻き戻し警戒';
+    if(sig === 'SELL') return '下方向への巻き戻し警戒';
+    // WAIT: diffが大きい場合のみ方向感を示す
+    if(diff >= 25 && lng >= 55) return '下方向への反落警戒';
+    if(diff >= 25 && lng <= 45) return '上方向への巻き戻し注意';
+    return '方向感混在';  // diff<25は方向感混在
+  }
+
+  // ===== strategy（固定テンプレ） =====
+  // 禁止: 強い上昇 / 爆上げ / 確実 / 今すぐエントリー
+  function dashStrategy(sig, diff) {
+    if(sig === 'BUY')  return '下落追随は避け、上抜け確認後の買い待ち';
+    if(sig === 'SELL') return '上昇追随は避け、下抜け確認後の売り待ち';
+    if(diff >= 25)     return 'ブレイク確認までは監視優先';
+    return '条件が揃うまで様子見継続';
+  }
+
+  // ===== comment（signal状態と整合） =====
+  function dashComment(sig, lng, diff, ch) {
+    var srt = 100 - lng;
+    if(sig === 'BUY') {
+      if(diff >= 40) return 'BUY条件は成立しているが、執行はブレイク確認後が前提。';
+      return 'BUY条件は成立しているが、執行はブレイク確認後が前提。';
+    }
+    if(sig === 'SELL') {
+      if(diff >= 40) return 'SELL条件は成立しているが、執行はブレイク確認後が前提。';
+      return 'SELL条件は成立しているが、執行はブレイク確認後が前提。';
+    }
+    // WAIT
+    if(diff >= 25 && lng >= 55) return '買い比率は高いが、SELL成立には変化量が不足している。';
+    if(diff >= 25 && lng <= 45) return '売り比率は高いが、BUY成立には変化量が不足している。';
+    return '数値の偏りは見られるが、執行判断にはまだ材料不足。';
+  }
+
+  // ===== heroTitle（簡潔・自然・実務的・煽りなし） =====
+  function dashHeroTitle(topSig, topName, sorted) {
+    var allWait = sorted.every(function(pp){ return dashSignal(pp.lng, pp.diff, isNaN(parseInt(document.getElementById('prev'+PAIRS.indexOf(pp.pair)).value)) ? 0 : pp.lng - parseInt(document.getElementById('prev'+PAIRS.indexOf(pp.pair)).value)) === 'WAIT'; });
+    if(topSig === 'BUY')  return '市場は選別局面、'+topName+'は反発候補として注視';
+    if(topSig === 'SELL') return '市場は選別局面、'+topName+'は反落候補として注視';
+    return '主要3通貨は方向感待ち、変化の確認を優先する局面';
+  }
+
+  // ===== topAlert（行動指針型） =====
+  function dashTopAlert(topSig, topSymbol) {
+    if(topSig === 'BUY')  return '最優先監視: '+topSymbol+' / BUY候補';
+    if(topSig === 'SELL') return '最優先監視: '+topSymbol+' / SELL候補';
+    return '全ペア条件未成立: 監視継続';
+  }
+
+  // ===== quick（市場全体要約） =====
+  function dashQuick(topSig, sorted) {
+    var hasSig = sorted.some(function(pp){
+      var i = PAIRS.indexOf(pp.pair);
+      var prev = parseInt(document.getElementById('prev'+i).value);
+      var ch = isNaN(prev) ? 0 : pp.lng - prev;
+      var s = dashSignal(pp.lng, pp.diff, ch);
+      return s === 'BUY' || s === 'SELL';
+    });
+    if(topSig === 'BUY')  return { market:'方向感混在', direction:'買い戻し候補を監視', judgement:'条件確認待ち', strategy:'ブレイク確認優先' };
+    if(topSig === 'SELL') return { market:'方向感混在', direction:'売り戻し候補を監視', judgement:'条件確認待ち', strategy:'ブレイク確認優先' };
+    return { market:'方向感なし', direction:'様子見継続', judgement:'条件未到達', strategy:'変化待ち' };
+  }
+
+  // ===== summary（オブジェクト形式・短く） =====
+  function dashSummary(topSig, topSymbol, sorted) {
+    var ms = topSig === 'BUY' ? '方向感混在' : topSig === 'SELL' ? '方向感混在' : '方向感混在';
+    return {
+      topPair:      topSymbol,
+      topSignal:    topSig,
+      marketStatus: ms,
+      riskNote:     '単独で条件成立は見られるが、全体としては選別対応が必要。'
+    };
+  }
+
+  // ===== latestReport（文字列・3〜5文・全体観→注目→補足→行動方針） =====
+  function dashLatestReport(topSig, topName, pairsArr) {
+    var intro = '本日の主要3通貨は全体として方向感が揃わず、全面的な追随よりも選別対応が有効です。';
+    var focus = '';
+    if(topSig === 'BUY')
+      focus = '最優先は'+topName+'で、売り偏重からの買い戻し候補として注目されます。';
+    else if(topSig === 'SELL')
+      focus = '最優先は'+topName+'で、買い偏重からの売り戻し候補として注目されます。';
+    else
+      focus = '全ペアとも明確なシグナルはなく、条件変化を待つ段階です。';
+    var others = pairsArr.filter(function(pp){ return pp.symbol !== pairsArr[0].symbol; }).map(function(pp){
+      return pp.name+'は'+pp.comment;
+    }).join('');
+    var close = '無理なエントリーを避け、ブレイク確認後の対応を優先したい局面です。';
+    return intro + focus + others + close;
+  }
+
+  // ===== メイン処理 =====
+  var pairsArr = pairs.map(function(pp) {
+    var i       = PAIRS.indexOf(pp.pair);
+    var prevVal = parseInt(document.getElementById('prev'+i).value);
+    var ch      = isNaN(prevVal) ? 0 : pp.lng - prevVal;
+    var sig     = dashSignal(pp.lng, pp.diff, ch);
+    var lv      = dashLevel(sig, pp.lng, pp.diff, ch);
+    return {
+      name:        NAMES[pp.pair],
+      symbol:      pp.pair,
+      label:       LABELS[pp.pair],
+      signal:      sig,
+      long:        pp.lng,
+      short:       100 - pp.lng,
+      diff:        pp.diff,
+      change_long: ch,
+      level:       lv,
+      status:      dashStatus(sig, pp.diff),
+      bias:        dashBias(sig, pp.lng, pp.diff),
+      levelLabel:  dashLevelLabel(lv),
+      strategy:    dashStrategy(sig, pp.diff),
+      comment:     dashComment(sig, pp.lng, pp.diff, ch)
+    };
+  });
+
+  // topPair選定（signal>level>diff>|change_long|）
+  var sortedForTop = pairsArr.slice().sort(function(a, b) {
+    var sigScore = function(s){ return s==='BUY'||s==='SELL'?10:0; };
+    var lvScore  = function(l){ return l==='STRONG'?3:l==='MID'?2:1; };
+    var sa = sigScore(a.signal) + lvScore(a.level) + a.diff/100 + Math.abs(a.change_long)/1000;
+    var sb = sigScore(b.signal) + lvScore(b.level) + b.diff/100 + Math.abs(b.change_long)/1000;
+    return sb - sa;
+  });
+  var topPA  = sortedForTop[0];
+  var topSig = topPA.signal;
+
+  // date は YYYY-MM-DD 形式（ファイル名・JS処理と整合）
+  var dateISO = dtFmt.replace(/\./g, '-');
+
+  var obj = {
+    date:           dateISO,
+    heroTitle:      dashHeroTitle(topSig, topPA.name, sorted),
+    topAlert:       dashTopAlert(topSig, topPA.symbol),
+    heroLead:       '本日は方向感が揃わず、即時執行よりも選別監視が優先される地合いです。主要3通貨のうち、'+topPA.name+'が最も条件に近い状態です。',
+    heroConclusion: '無理な追随は避け、'+topPA.name+'を中心にブレイク確認後の対応を優先したい局面です。',
+    quick:          dashQuick(topSig, sorted),
+    pairs:          pairsArr,
+    summary:        dashSummary(topSig, topPA.symbol, sorted),
+    latestReport:   dashLatestReport(topSig, topPA.name, pairsArr)
+  };
+
+  return JSON.stringify(obj, null, 2);
+}
+
+
+
+function buildX(pairs, sorted, dtFmt, dtUrl) {
+  var p = pairs, top = sorted[0], second = sorted[1], wait = sorted[2];
+  return '【パターンA】\n'+
+    '🚨 '+top.pair+'ロング'+top.lng+'%・スコア'+sgn(top.score)+'pt\n'+
+    '偏りが警戒ゾーンに突入。\n\n'+
+    '→ ロング過多 ＝ 損切り連鎖リスク\n'+
+    '→ 逆張り'+top.bias+'、初動を見逃すな\n\n'+
+    second.pair+'は'+second.status+'でWATCH中。\n'+
+    wait.pair+'は'+wait.status+'で静観。\n\n'+
+    '詳細 → https://nxabe2106-ai.github.io/fx-dashboard/report-'+dtUrl+'.html\n\n'+
+    '#FX #ドル円\n\n---\n\n'+
+    '【パターンB】\n📊 今日のセンチメント【'+dtFmt+'】\n\n'+
+    p[0].pair+' ロング'+p[0].lng+'%（'+sgn(p[0].score)+'pt）→ '+p[0].signal+'\n'+
+    p[1].pair+' ロング'+p[1].lng+'%（'+sgn(p[1].score)+'pt）→ '+p[1].signal+'\n'+
+    p[2].pair+' ロング'+p[2].lng+'%（'+sgn(p[2].score)+'pt）→ '+p[2].signal+'\n\n'+
+    top.pair+'の偏りが突出。反転タイミングを狙うなら今が監視どき。\n\n'+
+    'レポート → https://nxabe2106-ai.github.io/fx-dashboard/report-'+dtUrl+'.html\n\n'+
+    '#FX #ドル円';
+}
+
+function buildReport(title, pairs, sorted, dtFmt, dtUrl) {
+  var top = sorted[0], p = pairs;
+
+  function cardClass(pp){
+    if(pp.bias==='SELL' && pp.level==='high') return 'high-bull';
+    if(pp.bias==='SELL' && pp.level==='mid') return 'mid-bull';
+    if(pp.bias==='WATCH') return 'mid-bull';
+    return 'balanced';
+  }
+  function badgeInfo(pp){
+    if(pp.bias==='SELL' && pp.level==='high') return {cls:'badge-danger', txt:'⚠ 高偏りゾーン'};
+    if(pp.bias==='SELL' && pp.level==='mid') return {cls:'badge-caution', txt:'△ やや偏り'};
+    if(pp.bias==='WATCH') return {cls:'badge-caution', txt:'△ ショート優勢'};
+    return {cls:'badge-neutral', txt:'○ ほぼ均衡'};
+  }
+  function chipClass(pp){
+    if(pp.bias==='SELL' && pp.level==='high') return 'chip-danger';
+    if(pp.bias==='SELL' || pp.bias==='WATCH') return 'chip-caution';
+    return 'chip-neutral';
+  }
+  function calloutInfo(pp){
+    if(pp.bias==='SELL') return {cls:'bear-callout', icon:'⚠️'};
+    if(pp.bias==='WATCH') return {cls:'warn-callout', icon:'🔍'};
+    return {cls:'bull-callout', icon:'✅'};
+  }
+  function valClass(pp){
+    if(pp.bias==='SELL') return 'bear';
+    if(pp.bias==='WATCH') return 'warn';
+    return '';
+  }
+  function scenario(pp){
+    if(pp.bias==='SELL') return '円高（ドル安）方向への反転';
+    if(pp.bias==='WATCH') return 'ショートスクイーズ方向への反転';
+    return '現時点では不向き';
+  }
+  function direction(pp){
+    if(pp.bias==='SELL') return 'Sell バイアス（逆張り）';
+    if(pp.bias==='WATCH') return 'Buy バイアス（逆張りWATCH）';
+    return '中立 → トレンド待ち';
+  }
+  function analysis(pp){
+    var diff = Math.abs(pp.score);
+    if(pp.bias==='SELL' && diff >= 30) return '<strong>'+NAMES[pp.pair]+' 分析：ロング'+pp.lng+'%は「警戒信号」</strong><br>'+
+      '市場参加者の'+pp.lng+'%がロングに傾いています。逆張りSELLを検討すべき水準です。大多数がすでにロングを保有しているということは、新規の買い手が減少し、ポジション解消が起きやすい状態です。<br><br>'+
+      '<strong>初心者向けポイント：</strong><br>「まだまだ上がる！」という雰囲気が広がっているときほど、プロは天井を疑います。BBの位置とSMA方向を必ず確認しましょう。';
+    if(pp.bias==='SELL' && diff >= 15) return '<strong>'+NAMES[pp.pair]+' 分析：ロング優勢・SELL監視フェーズ</strong><br>'+
+      'ロング'+pp.lng+'%とやや偏りが出ています。逆張りSELLの予備監視フェーズです。偏りが65%超に拡大した場合に本格的なSELL監視へ切り替えます。<br><br>BBセットアップが揃うまでは見送り優先。';
+    if(pp.bias==='SELL' && diff < 15) return '<strong>'+NAMES[pp.pair]+' 分析：「注視未満の中立圏」</strong><br>'+
+      'ロング'+pp.lng+'%ですが偏りはまだ小さく、現時点では明確な逆張り根拠としては弱い水準です。追加でロング偏重が進むか、BBセットアップが揃うかを確認したいフェーズです。<br><br>'+
+      '<strong>初心者向けポイント：</strong><br>センチメントが少し偏っただけでは、すぐに反転するとは限りません。偏りの拡大を確認してから判断しましょう。';
+    if(pp.bias==='WATCH' && diff >= 30) return '<strong>'+NAMES[pp.pair]+' 分析：ショート偏重で逆張りBUY候補</strong><br>'+
+      'ロング'+pp.lng+'%（ショート'+pp.srt+'%）とショート偏重の状態です。「売られすぎ」ゾーンに近く、逆張りBUYを意識するフェーズ。BB -2σ到達とミドルライン陽線確定を待ちます。';
+    if(pp.bias==='WATCH' && diff < 30) return '<strong>'+NAMES[pp.pair]+' 分析：ショート優勢だが偏りは中程度</strong><br>'+
+      'ロング'+pp.lng+'%とやや偏りはあります。逆張りBUY方向を意識しつつ、追加の偏り拡大を待つフェーズです。';
+    return '<strong>'+NAMES[pp.pair]+' 分析：中立域・静観</strong><br>'+
+      'ロング'+pp.lng+'%は中立域です。センチメント面での逆張り根拠は弱く、テクニカル分析とファンダメンタルズを優先するのが得策です。方向感が出るまで静観。';
+  }
+  function summaryPt(pp, i){
+    var diff=Math.abs(pp.score);
+    var pri=i===0?'今回最も注目。':i===1?'次点として監視。':'優先度は低め。';
+    if(pp.bias==='SELL'&&diff>=30) return '<span class="hl-bear"><strong>'+NAMES[pp.pair]+'</strong></span>はロング'+pp.lng+'%・スコア'+sgn(pp.score)+'pt。'+pri+'逆張りSELL監視。BBセットアップ確認後にエントリー検討。';
+    if(pp.bias==='SELL'&&diff<30)  return '<strong>'+NAMES[pp.pair]+'</strong>はロング'+pp.lng+'%・スコア'+sgn(pp.score)+'pt。偏りはまだ小さめ。'+pri+'WAIT〜SELL監視。偏りが拡大したら再評価。';
+    if(pp.bias==='WATCH'&&diff>=30) return '<span class="hl-warn"><strong>'+NAMES[pp.pair]+'</strong></span>はショート'+pp.srt+'%・スコア'+sgn(pp.score)+'pt。'+pri+'逆張りBUY方向をWATCH。BBセットアップ確認後にエントリー検討。';
+    if(pp.bias==='WATCH'&&diff<30)  return '<strong>'+NAMES[pp.pair]+'</strong>はショート'+pp.srt+'%・スコア'+sgn(pp.score)+'pt。偏りは中程度。'+pri+'逆張りBUY方向を意識しつつ追加偏り待ち。';
+    return '<strong>'+NAMES[pp.pair]+'</strong>は'+sgn(pp.score)+'ptで中立域。'+pri+'センチメント面での優位性は低く、テクニカル・ファンダ優先で判断。';
+  }
+  function dirClass(pp){ return pp.bias==='SELL'?'dir-sell':pp.bias==='WATCH'?'dir-buy':'dir-wait'; }
+  function dirLabel(pp, i){
+    var diff = Math.abs(pp.score);
+    if(pp.bias==='SELL' && diff>=30) return i===0?'SELL 優先':'SELL 候補';
+    if(pp.bias==='SELL' && diff<30) return 'WAIT〜SELL 監視';
+    if(pp.bias==='WATCH' && diff>=30) return 'BUY WATCH';
+    if(pp.bias==='WATCH' && diff<30) return 'WATCH（弱め）';
+    return 'WAIT（待機）';
+  }
+  function dotClass(i){ return i===0?'dot-high':i===1?'dot-medium':'dot-low'; }
+  function pri(i){ return i===0?'高':i===1?'中':'低'; }
+
+  var pairBlocks = p.map(function(pp){
+    var bi = badgeInfo(pp), ci = calloutInfo(pp), vc = valClass(pp);
+    return '<div class="pair-card '+cardClass(pp)+'">\n'+
+      '<div class="pair-top"><div>\n'+
+      '<div class="pair-name">'+NAMES[pp.pair]+'　'+LABELS[pp.pair]+'</div>\n'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">\n'+
+      '<span class="pair-badge '+bi.cls+'">'+bi.txt+'</span>\n'+
+      '<span class="score-chip '+chipClass(pp)+'">偏り '+sgn(pp.score)+'pt</span>\n'+
+      '</div></div>\n'+
+      '<div style="text-align:right;">\n'+
+      '<div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--bull)">'+pp.lng+'%</div>\n'+
+      '<div style="font-size:10px;color:var(--ink3);letter-spacing:0.1em;">LONG</div>\n'+
+      '</div></div>\n'+
+      '<div class="sent-bar-wrap">\n'+
+      '<div class="sent-bar-labels"><span class="bull-lbl">▲ LONG（買い）</span><span class="bear-lbl">SHORT（売り）▼</span></div>\n'+
+      '<div class="sent-bar"><div class="sent-bar-fill">\n'+
+      '<div class="sent-fill-bull" style="width:'+pp.lng+'%;background:linear-gradient(90deg,#0e7c5c,#22c97a);"></div>\n'+
+      '<div class="sent-fill-bear" style="background:linear-gradient(90deg,#f4455a,#b91c3a);"></div>\n'+
+      '</div></div>\n'+
+      '<div class="sent-bar-nums"><span class="sent-num bull">'+pp.lng+'%</span><span class="sent-diff">差：'+pp.diff+'ポイント</span><span class="sent-num bear">'+pp.srt+'%</span></div>\n'+
+      '</div>\n'+
+      '<div class="analysis-grid">\n'+
+      '<div class="analysis-cell"><div class="cell-label">市場の状態</div><div class="cell-val '+vc+'">'+pp.status+'</div></div>\n'+
+      '<div class="analysis-cell"><div class="cell-label">偏り判定</div><div class="cell-val '+vc+'">'+pp.levelLabel+'（'+sgn(pp.score)+'pt）</div></div>\n'+
+      '<div class="analysis-cell"><div class="cell-label">逆張りシナリオ</div><div class="cell-val">'+scenario(pp)+'</div></div>\n'+
+      '<div class="analysis-cell"><div class="cell-label">方向性</div><div class="cell-val '+vc+'">'+direction(pp)+'</div></div>\n'+
+      '</div></div>\n'+
+      '<div class="callout '+ci.cls+'"><div class="callout-icon">'+ci.icon+'</div>\n'+
+      '<div class="callout-body">'+analysis(pp)+'</div></div>';
+  }).join('\n');
+
+  var rankRows = sorted.map(function(pp,i){
+    var dc = i===0?'dot-high':i===1?'dot-medium':'dot-low';
+    var bc = i===0?'badge-danger':i===1?'badge-caution':'badge-neutral';
+    var bt = i===0?'要注意 ⚠':i===1?'注視 △':'均衡 ○';
+    var sc_color = i===0?'var(--bear)':i===1?'var(--warn)':'var(--ink3)';
+    return '<tr><td><span class="priority-dot '+dc+'"></span>'+(i+1)+'位</td>'+
+      '<td class="pair-col">'+NAMES[pp.pair]+'</td>'+
+      '<td><span style="color:var(--bull);font-weight:700;font-family:var(--mono)">'+pp.lng+'%</span></td>'+
+      '<td><span style="font-family:var(--mono);font-weight:700;color:'+sc_color+'">'+sgn(pp.score)+'pt</span></td>'+
+      '<td><span class="pair-badge '+bc+'" style="font-size:10px;padding:2px 7px;">'+bt+'</span></td></tr>';
+  }).join('\n');
+
+  var stratRows4 = sorted.map(function(pp,i){
+    return '<tr><td class="pair-col">'+NAMES[pp.pair]+'</td>'+
+      '<td>'+pp.status+'（'+sgn(pp.score)+'pt）</td>'+
+      '<td class="'+dirClass(pp)+'">'+dirLabel(pp,i)+'</td>'+
+      '<td>'+ENTRY[pp.bias]+'</td></tr>';
+  }).join('\n');
+
+  var stratRows6 = sorted.map(function(pp,i){
+    return '<tr><td class="pair-col">'+NAMES[pp.pair]+'</td>'+
+      '<td><span class="priority-dot '+dotClass(i)+'"></span>'+pri(i)+'</td>'+
+      '<td class="'+dirClass(pp)+'">'+pp.bias+'</td>'+
+      '<td>'+ENTRY[pp.bias]+'</td>'+
+      '<td>センチメント偏り（'+pp.lng+'/'+pp.srt+'）。'+pp.status+'</td></tr>';
+  }).join('\n');
+
+  var sumPts = sorted.map(function(pp,i){
+    return '<div class="summary-point"><div class="sp-num">0'+(i+1)+'</div><div class="sp-text">'+summaryPt(pp,i)+'</div></div>';
+  }).join('\n');
+  sumPts += '\n<div class="summary-point"><div class="sp-num">0'+(sorted.length+1)+'</div><div class="sp-text">センチメントは「いつ反転するかのタイミング」を教えてくれません。Tsurugi式のセットアップ（±2σ→ミドル確定）が揃ったときに初めて動くのが鉄則です。</div></div>';
+  sumPts += '\n<div class="summary-point"><div class="sp-num">0'+(sorted.length+2)+'</div><div class="sp-text">3ペア共通で重要指標（FOMC・雇用統計・PMI）の前後30分・4時間前はポジション禁止。センチメントがどれだけ偏っていても、指標ブロック中は静観する。</div></div>';
+
+  var CSS = ':root{--bg:#f8f7f4;--bg2:#f0ede8;--bg3:#e8e3dc;--ink:#1a1714;--ink2:#4a4540;--ink3:#8a837a;--bull:#0e7c5c;--bull-bg:#edf7f3;--bear:#b91c3a;--bear-bg:#fdf1f3;--warn:#b45309;--warn-bg:#fef8ed;--accent:#1a3a8f;--accent-bg:#eef2fb;--border:#d8d1c8;--head:"Rajdhani",sans-serif;--body:"Zen Kaku Gothic New",sans-serif;--mono:"Share Tech Mono",monospace;}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.8;font-size:15px;}.page{max-width:780px;margin:0 auto;padding:40px 24px 80px;}.article-header{border-bottom:2px solid var(--ink);padding-bottom:28px;margin-bottom:36px;}.article-meta{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}.meta-tag{font-family:var(--head);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding:3px 10px;border-radius:2px;border:1px solid;}.tag-analysis{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}.tag-fx{border-color:var(--ink3);color:var(--ink3);background:var(--bg2);}.tag-date{color:var(--ink3);font-size:12px;font-family:var(--mono);margin-left:auto;}.article-title{font-family:var(--body);font-size:clamp(22px,4vw,32px);font-weight:900;line-height:1.35;letter-spacing:-0.01em;color:var(--ink);margin-bottom:14px;}.article-title .bear{color:var(--bear);}.article-lead{font-size:14px;color:var(--ink2);line-height:1.9;border-left:3px solid var(--border);padding-left:16px;}.overview-box{background:var(--ink);color:#f0ede8;border-radius:8px;padding:24px 28px;margin-bottom:36px;position:relative;overflow:hidden;}.overview-label{font-family:var(--head);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,237,232,0.5);margin-bottom:10px;}.overview-text{font-size:14px;line-height:1.95;color:rgba(240,237,232,0.88);}.overview-text strong{color:#fff;font-weight:700;}.overview-highlight{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:1px 7px;font-family:var(--mono);font-size:13px;}.section{margin-bottom:44px;}.section-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border);}.section-num{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--ink3);width:28px;height:28px;border:1.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.section-title{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:0.02em;}.pair-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden;}.pair-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;}.pair-card.high-bull::before{background:var(--bear);}.pair-card.mid-bull::before{background:var(--warn);}.pair-card.balanced::before{background:var(--ink3);}.pair-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px;}.pair-name{font-family:var(--head);font-size:26px;font-weight:700;letter-spacing:0.05em;color:var(--ink);}.pair-badge{font-family:var(--head);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:3px;margin-top:4px;}.badge-danger{background:var(--bear-bg);color:var(--bear);border:1px solid #f4b8c4;}.badge-caution{background:var(--warn-bg);color:var(--warn);border:1px solid #f5d49a;}.badge-neutral{background:var(--bg2);color:var(--ink3);border:1px solid var(--border);}.sent-bar-wrap{margin-bottom:16px;}.sent-bar-labels{display:flex;justify-content:space-between;font-family:var(--head);font-size:11px;font-weight:600;letter-spacing:0.08em;margin-bottom:5px;}.sent-bar-labels .bull-lbl{color:var(--bull);}.sent-bar-labels .bear-lbl{color:var(--bear);}.sent-bar{height:10px;border-radius:5px;background:var(--bg3);overflow:hidden;}.sent-bar-fill{height:100%;border-radius:5px;display:flex;}.sent-fill-bull{height:100%;border-radius:5px 0 0 5px;}.sent-fill-bear{height:100%;border-radius:0 5px 5px 0;flex:1;}.sent-bar-nums{display:flex;justify-content:space-between;margin-top:4px;}.sent-num{font-family:var(--mono);font-size:13px;font-weight:600;}.sent-num.bull{color:var(--bull);}.sent-num.bear{color:var(--bear);}.sent-diff{font-family:var(--mono);font-size:11px;color:var(--ink3);}.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}.analysis-cell{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px 14px;}.analysis-cell .cell-label{font-family:var(--head);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px;}.analysis-cell .cell-val{font-size:13px;font-weight:500;color:var(--ink);line-height:1.6;}.analysis-cell .cell-val.bull{color:var(--bull);font-weight:700;}.analysis-cell .cell-val.bear{color:var(--bear);font-weight:700;}.analysis-cell .cell-val.warn{color:var(--warn);font-weight:700;}.callout{border-radius:6px;padding:14px 18px;margin:20px 0;font-size:13.5px;line-height:1.85;display:flex;gap:12px;align-items:flex-start;}.callout-icon{font-size:18px;flex-shrink:0;line-height:1.5;}.callout-body{flex:1;}.callout-body strong{font-weight:700;}.callout.bear-callout{background:var(--bear-bg);border:1px solid #f4b8c4;color:#7c1028;}.callout.bull-callout{background:var(--bull-bg);border:1px solid #9ed8c0;color:#0a5a40;}.callout.warn-callout{background:var(--warn-bg);border:1px solid #f5d49a;color:#7c3d08;}.callout.info-callout{background:var(--accent-bg);border:1px solid #b8c8f0;color:#1a2f6a;}.knowledge-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin:20px 0;}.knowledge-box .kb-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:6px;}.knowledge-box ul{list-style:none;display:flex;flex-direction:column;gap:7px;}.knowledge-box li{font-size:13px;color:var(--ink2);padding-left:16px;position:relative;}.knowledge-box li::before{content:"›";position:absolute;left:0;color:var(--ink3);font-weight:700;}.strategy-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px;}.strategy-table th{background:var(--ink);color:#f0ede8;font-family:var(--head);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:9px 12px;text-align:left;font-weight:600;}.strategy-table th:first-child{border-radius:6px 0 0 0;}.strategy-table th:last-child{border-radius:0 6px 0 0;}.strategy-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--ink2);vertical-align:top;}.strategy-table tr:nth-child(even) td{background:var(--bg);}.strategy-table tr:last-child td{border-bottom:none;}.strategy-table .pair-col{font-family:var(--head);font-size:14px;font-weight:700;color:var(--ink);}.strategy-table .dir-sell{color:var(--bear);font-weight:700;}.strategy-table .dir-buy{color:var(--bull);font-weight:700;}.strategy-table .dir-wait{color:var(--ink3);}.priority-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;}.dot-high{background:var(--bear);}.dot-medium{background:var(--warn);}.dot-low{background:var(--ink3);}.summary-box{background:linear-gradient(135deg,#1a1714,#2a2420);color:#f0ede8;border-radius:10px;padding:30px 32px;margin-bottom:36px;}.summary-box .sb-title{font-family:var(--head);font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,237,232,0.45);margin-bottom:14px;}.summary-points{display:flex;flex-direction:column;gap:12px;}.summary-point{display:flex;gap:14px;align-items:flex-start;}.sp-num{font-family:var(--head);font-size:11px;font-weight:700;color:rgba(240,237,232,0.35);width:20px;flex-shrink:0;padding-top:2px;}.sp-text{font-size:14px;line-height:1.75;color:rgba(240,237,232,0.88);}.sp-text strong{color:#fff;}.sp-text .hl-bear{color:#f4a0ae;}.sp-text .hl-bull{color:#88dcb8;}.sp-text .hl-warn{color:#fcd58a;}.article-footer{border-top:1px solid var(--border);padding-top:24px;margin-top:8px;}.footer-disclaimer{font-size:12px;color:var(--ink3);line-height:1.8;background:var(--bg2);border-radius:6px;padding:14px 18px;}.footer-sig{margin-top:20px;text-align:right;font-family:var(--head);font-size:13px;color:var(--ink3);letter-spacing:0.06em;}.score-chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:12px;padding:2px 8px;border-radius:3px;border:1px solid;}.chip-danger{color:var(--bear);border-color:#f4b8c4;background:var(--bear-bg);}.chip-caution{color:var(--warn);border-color:#f5d49a;background:var(--warn-bg);}.chip-neutral{color:var(--ink3);border-color:var(--border);background:var(--bg2);}';
+
+  return '<!DOCTYPE html>\n<html lang="ja">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'+
+    '<title>⚔️ Tsurugi FX センチメント分析レポート</title>\n'+
+    '<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">\n'+
+    '<style>\n'+CSS+'\n</style>\n</head>\n<body>\n<div class="page">\n\n'+
+    '<header class="article-header">\n'+
+    '<div class="article-meta"><span class="meta-tag tag-analysis">FX Analysis</span><span class="meta-tag tag-fx">Sentiment</span><!-- DATE_START --><span class="tag-date">'+dtFmt+'</span><!-- DATE_END --></div>\n'+
+    '<!-- TITLE_START -->\n<h1 class="article-title"><span class="bear">'+title+'</span><br><span style="font-size:0.72em;font-weight:500;color:var(--ink2)">― クロス円3ペア センチメント分析レポート ―</span></h1>\n<!-- TITLE_END -->\n'+
+    '<!-- LEAD_START -->\n<p class="article-lead">USDJPY・EURUSD・GBPUSDの最新センチメントデータを基に、市場参加者の偏りと逆張りトレードの可能性を分析します。ポジション比率が一方向に偏っているとき、プロのトレーダーは何を考えているのか。初心者の方にも理解できるよう、丁寧に解説します。</p>\n<!-- LEAD_END -->\n'+
+    '</header>\n\n'+
+    '<div class="overview-box"><div class="overview-label">Executive Summary</div>\n<!-- EXEC_SUMMARY_START -->\n'+
+    (function(){
+      var ex;
+      if(top.lng<=30){
+        ex='今回最大の注目は<strong>'+NAMES[top.pair]+'（'+LABELS[top.pair]+'）</strong>です。'+
+          'ロング比率は<span class=\"overview-highlight\">'+top.lng+'%</span>、ショート偏重（<span class=\"overview-highlight\">'+sgn(top.score)+'pt</span>）へと大きく傾いています。'+
+          'この水準は「売られすぎゾーン」に近く、逆張りの観点では<strong>反転（上昇）リスクを意識する局面</strong>です。'+
+          '<br><br><strong>結論：</strong> 現時点で最優先なのは'+NAMES[top.pair]+'の逆張りBUY監視。ただし単独エントリーは禁止。BBセットアップ確認後のみ判断。';
+      } else if(top.lng>=70){
+        ex='今回最大の注目は<strong>'+NAMES[top.pair]+'（'+LABELS[top.pair]+'）</strong>です。'+
+          'ロング比率が<span class=\"overview-highlight\">'+top.lng+'%</span>を占め、ロング偏重（<span class=\"overview-highlight\">'+sgn(top.score)+'pt</span>）へと大きく傾いています。'+
+          'この水準は「買われすぎゾーン」に近く、逆張りの観点では<strong>反転（下落）リスクを意識する局面</strong>です。'+
+          '<br><br><strong>結論：</strong> 現時点で最優先なのは'+NAMES[top.pair]+'の逆張りSELL監視。ただし単独エントリーは禁止。BBセットアップ確認後のみ判断。';
+      } else {
+        ex='今回の3ペア分析で最も注目すべきは<strong>'+NAMES[top.pair]+'（'+LABELS[top.pair]+'）</strong>です。'+
+          'ロングポジションが<span class=\"overview-highlight\">'+top.lng+'%</span>を占め、スコアは<span class=\"overview-highlight\">'+sgn(top.score)+'pt</span>。'+
+          'これほどの偏りは<strong>逆張りの観点から要警戒ゾーン</strong>です。'+
+          '<br><br><strong>結論：</strong>現時点で最も優位性が高いのは'+NAMES[top.pair]+'の逆張り'+top.bias+'戦略。ただし単独エントリーは禁止。BBセットアップ確認後のみ判断。';
+      }
+      return '<div class=\"overview-text\">'+ex+'</div>';
+    }())+'\n<!-- EXEC_SUMMARY_END -->\n</div>\n\n'+
+    '<section class="section"><div class="section-head"><div class="section-num">1</div><div class="section-title">そもそも「センチメント」とは？ ― 初心者向け解説</div></div>\n'+
+    '<p style="margin-bottom:14px;color:var(--ink2);">FXにおけるセンチメントとは、<strong>「今この瞬間、どれだけのトレーダーが買い（ロング）に賭け、どれだけが売り（ショート）に賭けているか」</strong>を示す指標です。</p>\n'+
+    '<div class="knowledge-box"><div class="kb-title">📚 センチメントの読み方 — 基本ルール</div><ul>'+
+    '<li><strong>ロング比率が高い（70%超）</strong> → 「みんなが買い」。買いの余力が少なくなり、反転リスクが高い状態</li>'+
+    '<li><strong>均衡（45〜55%）</strong> → どちらにも動きやすい。トレンドフォローに向く</li>'+
+    '<li><strong>ショート比率が高い（70%超）</strong> → 「みんなが売り」。逆に上昇リスクに注意</li>'+
+    '<li>センチメント単体では売買シグナルにならない。他の指標・価格アクションと組み合わせて使う</li>'+
+    '</ul></div>\n'+
+    '<div class="callout info-callout"><div class="callout-icon">💡</div><div class="callout-body"><strong>なぜ「みんなが買っているのに上がりにくい」のか？</strong><br>多くの参加者がすでにロングを持っているということは、「これから新たに買う人が少ない」状態です。相場は新規の買い手がいなければ上昇できません。逆に、ロング勢が損切りや利確を始めると、一気に売りが殺到して急落することがあります。これが「逆張り」の根拠です。</div></div>\n'+
+    '</section>\n\n'+
+    '<section class="section"><div class="section-head"><div class="section-num">2</div><div class="section-title">通貨ペアごとの詳細分析</div></div>\n'+
+    pairBlocks+'\n</section>\n\n'+
+    '<section class="section"><div class="section-head"><div class="section-num">3</div><div class="section-title">偏りが強いペアのランキング</div></div>\n'+
+    '<!-- RANKING_TABLE_START -->\n'+
+    '<table class="strategy-table"><thead><tr><th>順位</th><th>ペア</th><th>ロング比率</th><th>偏り幅</th><th>判定</th></tr></thead><tbody>'+rankRows+'</tbody></table>\n'+
+    '<!-- RANKING_TABLE_END -->\n'+
+    '<div class="callout info-callout" style="margin-top:18px;"><div class="callout-icon">📌</div><div class="callout-body"><strong>一般的な偏りの目安：</strong>偏り幅 ±30pt以上で逆張り候補として意識されます。ただし、単独シグナルとして使わず、価格アクションと組み合わせることが重要です。</div></div>\n'+
+    '</section>\n\n'+
+    '<section class="section"><div class="section-head"><div class="section-num">4</div><div class="section-title">逆張り視点でのトレード考察</div></div>\n'+
+    '<p style="color:var(--ink2);margin-bottom:18px;">逆張りはセンチメントの偏りだけで仕掛けるものではありません。以下に「何が揃ったら初めて動けるか」を整理します。</p>\n'+
+    '<!-- SETUP_BOX_START -->\n'+
+    '<div class="knowledge-box" style="margin-bottom:18px;"><div class="kb-title">⚔ Tsurugi式 × センチメント 逆張りの組み合わせ</div><ul>'+
+    (function(){var t;if(top.lng<=30)t='逆張りBUYを意識しやすい環境（ショートスクイーズ警戒）';else if(top.lng>=70)t='逆張りSELLを意識しやすい環境（ロング崩れ警戒）';else t=top.bias+'圧力が高まりやすい環境';return '<li><strong>センチメント偏り（'+NAMES[top.pair]+' '+sgn(top.score)+'pt）</strong> → '+t+'</li>';}())+
+    '<li><strong>D1・H4の方向確認</strong> → 上位足環境と整合を取る</li>'+
+    '<li><strong>BBセットアップ</strong> → +2σ → -2σ → ミドルライン確定を確認</li>'+
+    '<li><strong>センチメントが逆張り根拠を強化</strong> → 偏り解消の動きを狙う</li>'+
+    '</ul></div>\n<!-- SETUP_BOX_END -->\n'+
+    '<!-- STRATEGY_TABLE_START -->\n'+
+    '<table class="strategy-table"><thead><tr><th>ペア</th><th>センチメント根拠</th><th>推奨方向</th><th>条件（追加確認事項）</th></tr></thead><tbody>'+stratRows4+'</tbody></table>\n'+
+    '<!-- STRATEGY_TABLE_END -->\n'+
+    '<div class="callout warn-callout" style="margin-top:18px;"><div class="callout-icon">🛡️</div><div class="callout-body"><strong>逆張りで必ず守ること：</strong><br>偏りが高い ≠ 今すぐ反転する、ではありません。必ずSLを設定し、資金の1%以内のリスクに抑えましょう。</div></div>\n'+
+    '</section>\n\n'+
+    '<section class="section"><div class="section-head"><div class="section-num">5</div><div class="section-title">総合コメント</div></div>\n'+
+    '<!-- SUMMARY_POINTS_START -->\n'+
+    '<div class="summary-box"><div class="sb-title">⚔ Tsurugi Analysis — Summary</div><div class="summary-points">'+sumPts+'</div></div>\n'+
+    '<!-- SUMMARY_POINTS_END -->\n</section>\n\n'+
+    '<section class="section"><div class="section-head"><div class="section-num">6</div><div class="section-title">今後の戦略まとめ</div></div>\n'+
+    '<!-- FINAL_STRATEGY_START -->\n'+
+    '<table class="strategy-table"><thead><tr><th>ペア</th><th>優先度</th><th>方向</th><th>トリガー</th><th>根拠</th></tr></thead><tbody>'+stratRows6+'</tbody></table>\n'+
+    '<!-- FINAL_STRATEGY_END -->\n'+
+    '<!-- EVENT_BOX_START -->\n'+
+    '<div class="callout info-callout" style="margin-top:18px;"><div class="callout-icon">🗓️</div><div class="callout-body"><strong>直近の注意指標：</strong><br>・2026/03/24 22:45 JST ― 米PMI製造業速報（3月）<br>・2026/04/03 21:30 JST ― 米雇用統計（3月）<br>・2026/04/30 03:00 JST ― 米FOMC政策金利<br><br>これらの4時間前にはポジションを解消し、前後30分はエントリー禁止です。</div></div>\n'+
+    '<!-- EVENT_BOX_END -->\n</section>\n\n'+
+    '<footer class="article-footer">\n'+
+    '<div style="margin-top:20px;padding:16px;background:#111;color:#fff;border-radius:6px;"><strong>▼ Tsurugi式ロジックを自動化したい方へ</strong><br>MT5用EAを開発中。完成次第Xで公開します。<br>フォローはこちら → <a href="https://x.com/omochi2106" style="color:#1d9bf0;">https://x.com/omochi2106</a></div>\n'+
+    '<div class="footer-disclaimer">⚠️ 本記事は個人的な取り組みの記録であり、投資を勧誘するものではありません。FXには元本割れのリスクがあります。運用は必ず自己判断・自己責任でお願いします。<br>※本分析はMyfxbookを参考にしたセンチメントデータを用いた検証段階のロジックです。<br>実トレード結果とは一致しない場合があります。<br>今後、検証を継続しながら精度を高めていきます。<br>現在、Tsurugi式ロジックのEA化を進めています。<br>検証結果がまとまり次第、公開予定です。</div>\n'+
+    '<div class="footer-sig">⚔️ Tsurugi Analysis Report — Tsurugi式ロジック</div>\n'+
+    '</footer>\n\n</div>\n</body>\n</html>';
+}
+
+// メイン生成
+function onGenerate() {
+  var dtRaw = document.getElementById('dt').value;
+  if(!dtRaw) { alert('日付を入力してください'); return; }
+  var dtFmt = dtRaw.replace(/-/g,'.');
+  var dtUrl = dtRaw;
+  window._dtUrl = dtUrl;
+
+  var pairs = PAIRS.map(function(pair, i){
+    var lng = parseInt(document.getElementById('l'+i).value)||0;
+    var srt = 100-lng, score = lng-srt, diff = Math.abs(score);
+    var lv = calcLevel(score);
+    var bias = calcBias(lng);
+    var sig = calcSignal(lng, bias);
+    var status = calcStatus(score);
+    return {
+      pair:pair, lng:lng, srt:srt, score:score, diff:diff,
+      level:lv[0], levelLabel:lv[1], bias:bias,
+      signal:sig[0], trendStrength:sig[1], status:status,
+      strategy:STRAT[bias]
+    };
+  });
+
+  var sorted = pairs.slice().sort(function(a,b){ return b.diff-a.diff; });
+  var top = sorted[0], second = sorted[1], wait = sorted[2], wait_p = sorted[2];
+  var p = pairs;
+
+  var titles = buildTitles(top);
+
+  // タイトル選択表示
+  var box = document.getElementById('tsbox');
+  var cont = document.getElementById('topts');
+  cont.innerHTML = '';
+  titles.forEach(function(t, i){
+    var d = document.createElement('div');
+    d.className = 'topt';
+    d.innerHTML = '<input type="radio" name="nt" id="nt'+i+'" value="'+i+'"'+(i===0?' checked':'')+'><label for="nt'+i+'">'+(i+1)+'. '+t+'</label>';
+    d.querySelector('input').addEventListener('change', function(){
+      var html = buildReport(titles[parseInt(this.value)], pairs, sorted, dtFmt, dtUrl);
+      document.getElementById('o2').textContent = html;
+    });
+    cont.appendChild(d);
+  });
+  box.style.display = 'block';
+
+  // EA用signal判定（v3.11仕様）
+  function calcEASignal(lng, diff, change_long) {
+    if(lng >= 65 && diff >= 30 && change_long >= 5)  return 'SELL';
+    if(lng <= 35 && diff >= 30 && change_long <= -5) return 'BUY';
+    return 'WAIT';
+  }
+
+  // change_long はフォームに入力欄がないため0固定（手動で編集可能）
+  // 今後 change_long 入力欄を追加する場合はここを変更
+  // EA用JSON（Tsurugi EA v3.11 標準フォーマット）
+  var eaJson = {};
+  pairs.forEach(function(pp, i) {
+    var prevVal = parseInt(document.getElementById('prev'+i).value);
+    var chVal   = isNaN(prevVal) ? 0 : pp.lng - prevVal;
+    var sig = calcEASignal(pp.lng, pp.diff, chVal);
+    eaJson[pp.pair] = {
+      signal:      sig,
+      long:        pp.lng,
+      short:       pp.srt,
+      diff:        pp.diff,
+      change_long: chVal
+    };
+  });
+
+  document.getElementById('o0').textContent = buildDashboardJson(pairs, sorted, top, second, wait_p, dtFmt, dtUrl);
+  document.getElementById('o1').textContent = buildNote(pairs, top, dtUrl);
+  document.getElementById('o2').textContent = buildReport(titles[0], pairs, sorted, dtFmt, dtUrl);
+  document.getElementById('o3').textContent = buildX(pairs, sorted, dtFmt, dtUrl);
+  document.getElementById('o4').textContent = JSON.stringify(eaJson, null, 2);
+  document.getElementById('o5').textContent = buildReportsJson(pairs, sorted, dtFmt, dtUrl);
+  document.getElementById('o6').textContent = buildHistoryJson(pairs, dtFmt);
+
+  // 履歴DBに自動保存
+  function calcEASig(lng, diff, ch){ if(lng>=65&&diff>=30&&ch>=5)return'SELL'; if(lng<=35&&diff>=30&&ch<=-5)return'BUY'; return'WAIT'; }
+  var dbRecord = { date: dtUrl };
+  PAIRS.forEach(function(pair, i){
+    var prevVal = parseInt(document.getElementById('prev'+i).value);
+    var ch = isNaN(prevVal) ? 0 : pairs[i].lng - prevVal;
+    dbRecord[pair] = {
+      signal:      calcEASig(pairs[i].lng, pairs[i].diff, ch),
+      long:        pairs[i].lng,
+      short:       pairs[i].srt,
+      diff:        pairs[i].diff,
+      change_long: ch
+    };
+  });
+  dbAdd(dbRecord);
+  // dbRender() はDBタブを開いた時に自動実行されるため不要
+
+}
+</script>
+</body>
+</html>
