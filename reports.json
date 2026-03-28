@@ -1,6 +1,32 @@
-{
-  "date": "2026-03-28",
-  "title": "USD/JPYを最優先監視、方向感待ち",
-  "description": "市場は方向感待ち。USD/JPYが最優先ペアだが、全体としては条件確認を優先したい局面。",
-  "url": "./report-2026-03-28.html"
-}
+[
+  {
+    "date": "2026-03-28",
+    "title": "USD/JPYを最優先監視、方向感待ち",
+    "description": "市場は方向感待ち。USD/JPYが最優先ペアだが、全体としては条件確認を優先したい局面。",
+    "url": "./report-2026-03-28.html"
+  },
+  {
+    "date": "2026-03-27",
+    "title": "USD/JPYを最優先監視、買い戻し候補を注視",
+    "description": "市場は選別局面。USD/JPYは売り偏重からの反発候補として注目。GBP/USDは条件未成熟、EUR/USDは優位性不足で様子見。",
+    "url": "./report-2026-03-27.html"
+  },
+  {
+    "date": "2026-03-26",
+    "title": "USD/JPYを最優先監視、買い戻し候補を注視",
+    "description": "市場は選別局面。USD/JPYは売り偏重からの反発候補として注目。GBP/USDは条件未成熟、EUR/USDは優位性不足で様子見。",
+    "url": "./report-2026-03-26.html"
+  },
+  {
+    "date": "2026-03-25",
+    "title": "GBP/USDを最優先監視、方向感待ち",
+    "description": "市場は方向感待ち。GBP/USDが最優先ペアだが、全体としては条件確認を優先したい局面。",
+    "url": "./report-2026-03-25.html"
+  },
+  {
+    "date": "2026-03-24",
+    "title": "USD/JPYを最優先監視、方向感待ち",
+    "description": "市場は方向感待ち。USD/JPYが最優先ペアだが、全体としては条件確認を優先したい局面。",
+    "url": "./report-2026-03-24.html"
+  }
+]
