@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚔️ Tsurugi FX センチメント分析レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8f7f4;--bg2:#f0ede8;--bg3:#e8e3dc;--ink:#1a1714;--ink2:#4a4540;--ink3:#8a837a;--bull:#0e7c5c;--bull-bg:#edf7f3;--bear:#b91c3a;--bear-bg:#fdf1f3;--warn:#b45309;--warn-bg:#fef8ed;--accent:#1a3a8f;--accent-bg:#eef2fb;--border:#d8d1c8;--head:"Rajdhani",sans-serif;--body:"Zen Kaku Gothic New",sans-serif;--mono:"Share Tech Mono",monospace;}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.8;font-size:15px;}.page{max-width:780px;margin:0 auto;padding:40px 24px 80px;}.article-header{border-bottom:2px solid var(--ink);padding-bottom:28px;margin-bottom:36px;}.article-meta{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}.meta-tag{font-family:var(--head);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;padding:3px 10px;border-radius:2px;border:1px solid;}.tag-analysis{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}.tag-fx{border-color:var(--ink3);color:var(--ink3);background:var(--bg2);}.tag-date{color:var(--ink3);font-size:12px;font-family:var(--mono);margin-left:auto;}.article-title{font-family:var(--body);font-size:clamp(22px,4vw,32px);font-weight:900;line-height:1.35;letter-spacing:-0.01em;color:var(--ink);margin-bottom:14px;}.article-title .bear{color:var(--bear);}.article-lead{font-size:14px;color:var(--ink2);line-height:1.9;border-left:3px solid var(--border);padding-left:16px;}.overview-box{background:var(--ink);color:#f0ede8;border-radius:8px;padding:24px 28px;margin-bottom:36px;position:relative;overflow:hidden;}.overview-label{font-family:var(--head);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,237,232,0.5);margin-bottom:10px;}.overview-text{font-size:14px;line-height:1.95;color:rgba(240,237,232,0.88);}.overview-text strong{color:#fff;font-weight:700;}.overview-highlight{display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:3px;padding:1px 7px;font-family:var(--mono);font-size:13px;}.section{margin-bottom:44px;}.section-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border);}.section-num{font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--ink3);width:28px;height:28px;border:1.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}.section-title{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:0.02em;}.pair-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden;}.pair-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;}.pair-card.high-bull::before{background:var(--bear);}.pair-card.mid-bull::before{background:var(--warn);}.pair-card.balanced::before{background:var(--ink3);}.pair-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px;}.pair-name{font-family:var(--head);font-size:26px;font-weight:700;letter-spacing:0.05em;color:var(--ink);}.pair-badge{font-family:var(--head);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:3px;margin-top:4px;}.badge-danger{background:var(--bear-bg);color:var(--bear);border:1px solid #f4b8c4;}.badge-caution{background:var(--warn-bg);color:var(--warn);border:1px solid #f5d49a;}.badge-neutral{background:var(--bg2);color:var(--ink3);border:1px solid var(--border);}.sent-bar-wrap{margin-bottom:16px;}.sent-bar-labels{display:flex;justify-content:space-between;font-family:var(--head);font-size:11px;font-weight:600;letter-spacing:0.08em;margin-bottom:5px;}.sent-bar-labels .bull-lbl{color:var(--bull);}.sent-bar-labels .bear-lbl{color:var(--bear);}.sent-bar{height:10px;border-radius:5px;background:var(--bg3);overflow:hidden;}.sent-bar-fill{height:100%;border-radius:5px;display:flex;}.sent-fill-bull{height:100%;border-radius:5px 0 0 5px;}.sent-fill-bear{height:100%;border-radius:0 5px 5px 0;flex:1;}.sent-bar-nums{display:flex;justify-content:space-between;margin-top:4px;}.sent-num{font-family:var(--mono);font-size:13px;font-weight:600;}.sent-num.bull{color:var(--bull);}.sent-num.bear{color:var(--bear);}.sent-diff{font-family:var(--mono);font-size:11px;color:var(--ink3);}.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}.analysis-cell{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px 14px;}.analysis-cell .cell-label{font-family:var(--head);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px;}.analysis-cell .cell-val{font-size:13px;font-weight:500;color:var(--ink);line-height:1.6;}.analysis-cell .cell-val.bull{color:var(--bull);font-weight:700;}.analysis-cell .cell-val.bear{color:var(--bear);font-weight:700;}.analysis-cell .cell-val.warn{color:var(--warn);font-weight:700;}.callout{border-radius:6px;padding:14px 18px;margin:20px 0;font-size:13.5px;line-height:1.85;display:flex;gap:12px;align-items:flex-start;}.callout-icon{font-size:18px;flex-shrink:0;line-height:1.5;}.callout-body{flex:1;}.callout-body strong{font-weight:700;}.callout.bear-callout{background:var(--bear-bg);border:1px solid #f4b8c4;color:#7c1028;}.callout.bull-callout{background:var(--bull-bg);border:1px solid #9ed8c0;color:#0a5a40;}.callout.warn-callout{background:var(--warn-bg);border:1px solid #f5d49a;color:#7c3d08;}.callout.info-callout{background:var(--accent-bg);border:1px solid #b8c8f0;color:#1a2f6a;}.knowledge-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:20px 22px;margin:20px 0;}.knowledge-box .kb-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:6px;}.knowledge-box ul{list-style:none;display:flex;flex-direction:column;gap:7px;}.knowledge-box li{font-size:13px;color:var(--ink2);padding-left:16px;position:relative;}.knowledge-box li::before{content:"›";position:absolute;left:0;color:var(--ink3);font-weight:700;}.strategy-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px;}.strategy-table th{background:var(--ink);color:#f0ede8;font-family:var(--head);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:9px 12px;text-align:left;font-weight:600;}.strategy-table th:first-child{border-radius:6px 0 0 0;}.strategy-table th:last-child{border-radius:0 6px 0 0;}.strategy-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--ink2);vertical-align:top;}.strategy-table tr:nth-child(even) td{background:var(--bg);}.strategy-table tr:last-child td{border-bottom:none;}.strategy-table .pair-col{font-family:var(--head);font-size:14px;font-weight:700;color:var(--ink);}.strategy-table .dir-sell{color:var(--bear);font-weight:700;}.strategy-table .dir-buy{color:var(--bull);font-weight:700;}.strategy-table .dir-wait{color:var(--ink3);}.priority-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;}.dot-high{background:var(--bear);}.dot-medium{background:var(--warn);}.dot-low{background:var(--ink3);}.summary-box{background:linear-gradient(135deg,#1a1714,#2a2420);color:#f0ede8;border-radius:10px;padding:30px 32px;margin-bottom:36px;}.summary-box .sb-title{font-family:var(--head);font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,237,232,0.45);margin-bottom:14px;}.summary-points{display:flex;flex-direction:column;gap:12px;}.summary-point{display:flex;gap:14px;align-items:flex-start;}.sp-num{font-family:var(--head);font-size:11px;font-weight:700;color:rgba(240,237,232,0.35);width:20px;flex-shrink:0;padding-top:2px;}.sp-text{font-size:14px;line-height:1.75;color:rgba(240,237,232,0.88);}.sp-text strong{color:#fff;}.sp-text .hl-bear{color:#f4a0ae;}.sp-text .hl-bull{color:#88dcb8;}.sp-text .hl-warn{color:#fcd58a;}.article-footer{border-top:1px solid var(--border);padding-top:24px;margin-top:8px;}.footer-disclaimer{font-size:12px;color:var(--ink3);line-height:1.8;background:var(--bg2);border-radius:6px;padding:14px 18px;}.footer-sig{margin-top:20px;text-align:right;font-family:var(--head);font-size:13px;color:var(--ink3);letter-spacing:0.06em;}.score-chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:12px;padding:2px 8px;border-radius:3px;border:1px solid;}.chip-danger{color:var(--bear);border-color:#f4b8c4;background:var(--bear-bg);}.chip-caution{color:var(--warn);border-color:#f5d49a;background:var(--warn-bg);}.chip-neutral{color:var(--ink3);border-color:var(--border);background:var(--bg2);}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="article-header">
+<div class="article-meta"><span class="meta-tag tag-analysis">FX Analysis</span><span class="meta-tag tag-fx">Sentiment</span><!-- DATE_START --><span class="tag-date">2026.04.09</span><!-- DATE_END --></div>
+<!-- TITLE_START -->
+<h1 class="article-title"><span class="bear">【注目】EURUSDロング33% → ショート偏重、反転に備えるか</span><br><span style="font-size:0.72em;font-weight:500;color:var(--ink2)">― クロス円3ペア センチメント分析レポート ―</span></h1>
+<!-- TITLE_END -->
+<!-- LEAD_START -->
+<p class="article-lead">USDJPY・EURUSD・GBPUSDの最新センチメントデータを基に、市場参加者の偏りと逆張りトレードの可能性を分析します。ポジション比率が一方向に偏っているとき、プロのトレーダーは何を考えているのか。初心者の方にも理解できるよう、丁寧に解説します。</p>
+<!-- LEAD_END -->
+</header>
+
+<div class="overview-box"><div class="overview-label">Executive Summary</div>
+<!-- EXEC_SUMMARY_START -->
+<div class="overview-text">今回の3ペア分析で最も注目すべきは<strong>EUR/USD（ユーロドル）</strong>です。ロングポジションが<span class="overview-highlight">33%</span>を占め、スコアは<span class="overview-highlight">-34pt</span>。これほどの偏りは<strong>逆張りの観点から要警戒ゾーン</strong>です。<br><br><strong>結論：</strong>現時点で最も優位性が高いのはEUR/USDの逆張りWATCH戦略。ただし単独エントリーは禁止。BBセットアップ確認後のみ判断。</div>
+<!-- EXEC_SUMMARY_END -->
+</div>
+
+<section class="section"><div class="section-head"><div class="section-num">1</div><div class="section-title">そもそも「センチメント」とは？ ― 初心者向け解説</div></div>
+<p style="margin-bottom:14px;color:var(--ink2);">FXにおけるセンチメントとは、<strong>「今この瞬間、どれだけのトレーダーが買い（ロング）に賭け、どれだけが売り（ショート）に賭けているか」</strong>を示す指標です。</p>
+<div class="knowledge-box"><div class="kb-title">📚 センチメントの読み方 — 基本ルール</div><ul><li><strong>ロング比率が高い（70%超）</strong> → 「みんなが買い」。買いの余力が少なくなり、反転リスクが高い状態</li><li><strong>均衡（45〜55%）</strong> → どちらにも動きやすい。トレンドフォローに向く</li><li><strong>ショート比率が高い（70%超）</strong> → 「みんなが売り」。逆に上昇リスクに注意</li><li>センチメント単体では売買シグナルにならない。他の指標・価格アクションと組み合わせて使う</li></ul></div>
+<div class="callout info-callout"><div class="callout-icon">💡</div><div class="callout-body"><strong>なぜ「みんなが買っているのに上がりにくい」のか？</strong><br>多くの参加者がすでにロングを持っているということは、「これから新たに買う人が少ない」状態です。相場は新規の買い手がいなければ上昇できません。逆に、ロング勢が損切りや利確を始めると、一気に売りが殺到して急落することがあります。これが「逆張り」の根拠です。</div></div>
+</section>
+
+<section class="section"><div class="section-head"><div class="section-num">2</div><div class="section-title">通貨ペアごとの詳細分析</div></div>
+<div class="pair-card mid-bull">
+<div class="pair-top"><div>
+<div class="pair-name">USD/JPY　ドル円</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+<span class="pair-badge badge-caution">△ ショート優勢</span>
+<span class="score-chip chip-caution">偏り -16pt</span>
+</div></div>
+<div style="text-align:right;">
+<div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--bull)">42%</div>
+<div style="font-size:10px;color:var(--ink3);letter-spacing:0.1em;">LONG</div>
+</div></div>
+<div class="sent-bar-wrap">
+<div class="sent-bar-labels"><span class="bull-lbl">▲ LONG（買い）</span><span class="bear-lbl">SHORT（売り）▼</span></div>
+<div class="sent-bar"><div class="sent-bar-fill">
+<div class="sent-fill-bull" style="width:42%;background:linear-gradient(90deg,#0e7c5c,#22c97a);"></div>
+<div class="sent-fill-bear" style="background:linear-gradient(90deg,#f4455a,#b91c3a);"></div>
+</div></div>
+<div class="sent-bar-nums"><span class="sent-num bull">42%</span><span class="sent-diff">差：16ポイント</span><span class="sent-num bear">58%</span></div>
+</div>
+<div class="analysis-grid">
+<div class="analysis-cell"><div class="cell-label">市場の状態</div><div class="cell-val warn">ショート優勢</div></div>
+<div class="analysis-cell"><div class="cell-label">偏り判定</div><div class="cell-val warn">Medium（-16pt）</div></div>
+<div class="analysis-cell"><div class="cell-label">逆張りシナリオ</div><div class="cell-val">ショートスクイーズ方向への反転</div></div>
+<div class="analysis-cell"><div class="cell-label">方向性</div><div class="cell-val warn">Buy バイアス（逆張りWATCH）</div></div>
+</div></div>
+<div class="callout warn-callout"><div class="callout-icon">🔍</div>
+<div class="callout-body"><strong>USD/JPY 分析：ショート優勢だが偏りは中程度</strong><br>ロング42%とやや偏りはあります。逆張りBUY方向を意識しつつ、追加の偏り拡大を待つフェーズです。</div></div>
+<div class="pair-card mid-bull">
+<div class="pair-top"><div>
+<div class="pair-name">EUR/USD　ユーロドル</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+<span class="pair-badge badge-caution">△ ショート優勢</span>
+<span class="score-chip chip-caution">偏り -34pt</span>
+</div></div>
+<div style="text-align:right;">
+<div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--bull)">33%</div>
+<div style="font-size:10px;color:var(--ink3);letter-spacing:0.1em;">LONG</div>
+</div></div>
+<div class="sent-bar-wrap">
+<div class="sent-bar-labels"><span class="bull-lbl">▲ LONG（買い）</span><span class="bear-lbl">SHORT（売り）▼</span></div>
+<div class="sent-bar"><div class="sent-bar-fill">
+<div class="sent-fill-bull" style="width:33%;background:linear-gradient(90deg,#0e7c5c,#22c97a);"></div>
+<div class="sent-fill-bear" style="background:linear-gradient(90deg,#f4455a,#b91c3a);"></div>
+</div></div>
+<div class="sent-bar-nums"><span class="sent-num bull">33%</span><span class="sent-diff">差：34ポイント</span><span class="sent-num bear">67%</span></div>
+</div>
+<div class="analysis-grid">
+<div class="analysis-cell"><div class="cell-label">市場の状態</div><div class="cell-val warn">強いショート偏り</div></div>
+<div class="analysis-cell"><div class="cell-label">偏り判定</div><div class="cell-val warn">High（-34pt）</div></div>
+<div class="analysis-cell"><div class="cell-label">逆張りシナリオ</div><div class="cell-val">ショートスクイーズ方向への反転</div></div>
+<div class="analysis-cell"><div class="cell-label">方向性</div><div class="cell-val warn">Buy バイアス（逆張りWATCH）</div></div>
+</div></div>
+<div class="callout warn-callout"><div class="callout-icon">🔍</div>
+<div class="callout-body"><strong>EUR/USD 分析：ショート偏重で逆張りBUY候補</strong><br>ロング33%（ショート67%）とショート偏重の状態です。「売られすぎ」ゾーンに近く、逆張りBUYを意識するフェーズ。BB -2σ到達とミドルライン陽線確定を待ちます。</div></div>
+<div class="pair-card balanced">
+<div class="pair-top"><div>
+<div class="pair-name">GBP/USD　ポンドドル</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+<span class="pair-badge badge-neutral">○ ほぼ均衡</span>
+<span class="score-chip chip-neutral">偏り -8pt</span>
+</div></div>
+<div style="text-align:right;">
+<div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--bull)">46%</div>
+<div style="font-size:10px;color:var(--ink3);letter-spacing:0.1em;">LONG</div>
+</div></div>
+<div class="sent-bar-wrap">
+<div class="sent-bar-labels"><span class="bull-lbl">▲ LONG（買い）</span><span class="bear-lbl">SHORT（売り）▼</span></div>
+<div class="sent-bar"><div class="sent-bar-fill">
+<div class="sent-fill-bull" style="width:46%;background:linear-gradient(90deg,#0e7c5c,#22c97a);"></div>
+<div class="sent-fill-bear" style="background:linear-gradient(90deg,#f4455a,#b91c3a);"></div>
+</div></div>
+<div class="sent-bar-nums"><span class="sent-num bull">46%</span><span class="sent-diff">差：8ポイント</span><span class="sent-num bear">54%</span></div>
+</div>
+<div class="analysis-grid">
+<div class="analysis-cell"><div class="cell-label">市場の状態</div><div class="cell-val ">中立</div></div>
+<div class="analysis-cell"><div class="cell-label">偏り判定</div><div class="cell-val ">Low（-8pt）</div></div>
+<div class="analysis-cell"><div class="cell-label">逆張りシナリオ</div><div class="cell-val">現時点では不向き</div></div>
+<div class="analysis-cell"><div class="cell-label">方向性</div><div class="cell-val ">中立 → トレンド待ち</div></div>
+</div></div>
+<div class="callout bull-callout"><div class="callout-icon">✅</div>
+<div class="callout-body"><strong>GBP/USD 分析：中立域・静観</strong><br>ロング46%は中立域です。センチメント面での逆張り根拠は弱く、テクニカル分析とファンダメンタルズを優先するのが得策です。方向感が出るまで静観。</div></div>
+</section>
+
+<section class="section"><div class="section-head"><div class="section-num">3</div><div class="section-title">偏りが強いペアのランキング</div></div>
+<!-- RANKING_TABLE_START -->
+<table class="strategy-table"><thead><tr><th>順位</th><th>ペア</th><th>ロング比率</th><th>偏り幅</th><th>判定</th></tr></thead><tbody><tr><td><span class="priority-dot dot-high"></span>1位</td><td class="pair-col">EUR/USD</td><td><span style="color:var(--bull);font-weight:700;font-family:var(--mono)">33%</span></td><td><span style="font-family:var(--mono);font-weight:700;color:var(--bear)">-34pt</span></td><td><span class="pair-badge badge-danger" style="font-size:10px;padding:2px 7px;">要注意 ⚠</span></td></tr>
+<tr><td><span class="priority-dot dot-medium"></span>2位</td><td class="pair-col">USD/JPY</td><td><span style="color:var(--bull);font-weight:700;font-family:var(--mono)">42%</span></td><td><span style="font-family:var(--mono);font-weight:700;color:var(--warn)">-16pt</span></td><td><span class="pair-badge badge-caution" style="font-size:10px;padding:2px 7px;">注視 △</span></td></tr>
+<tr><td><span class="priority-dot dot-low"></span>3位</td><td class="pair-col">GBP/USD</td><td><span style="color:var(--bull);font-weight:700;font-family:var(--mono)">46%</span></td><td><span style="font-family:var(--mono);font-weight:700;color:var(--ink3)">-8pt</span></td><td><span class="pair-badge badge-neutral" style="font-size:10px;padding:2px 7px;">均衡 ○</span></td></tr></tbody></table>
+<!-- RANKING_TABLE_END -->
+<div class="callout info-callout" style="margin-top:18px;"><div class="callout-icon">📌</div><div class="callout-body"><strong>一般的な偏りの目安：</strong>偏り幅 ±30pt以上で逆張り候補として意識されます。ただし、単独シグナルとして使わず、価格アクションと組み合わせることが重要です。</div></div>
+</section>
+
+<section class="section"><div class="section-head"><div class="section-num">4</div><div class="section-title">逆張り視点でのトレード考察</div></div>
+<p style="color:var(--ink2);margin-bottom:18px;">逆張りはセンチメントの偏りだけで仕掛けるものではありません。以下に「何が揃ったら初めて動けるか」を整理します。</p>
+<!-- SETUP_BOX_START -->
+<div class="knowledge-box" style="margin-bottom:18px;"><div class="kb-title">⚔ Tsurugi式 × センチメント 逆張りの組み合わせ</div><ul><li><strong>センチメント偏り（EUR/USD -34pt）</strong> → WATCH圧力が高まりやすい環境</li><li><strong>D1・H4の方向確認</strong> → 上位足環境と整合を取る</li><li><strong>BBセットアップ</strong> → +2σ → -2σ → ミドルライン確定を確認</li><li><strong>センチメントが逆張り根拠を強化</strong> → 偏り解消の動きを狙う</li></ul></div>
+<!-- SETUP_BOX_END -->
+<!-- STRATEGY_TABLE_START -->
+<table class="strategy-table"><thead><tr><th>ペア</th><th>センチメント根拠</th><th>推奨方向</th><th>条件（追加確認事項）</th></tr></thead><tbody><tr><td class="pair-col">EUR/USD</td><td>強いショート偏り（-34pt）</td><td class="dir-buy">BUY WATCH</td><td>逆張りBUY方向。BB -2σ→ミドル陽線確定を待つ</td></tr>
+<tr><td class="pair-col">USD/JPY</td><td>ショート優勢（-16pt）</td><td class="dir-buy">WATCH（弱め）</td><td>逆張りBUY方向。BB -2σ→ミドル陽線確定を待つ</td></tr>
+<tr><td class="pair-col">GBP/USD</td><td>中立（-8pt）</td><td class="dir-wait">WAIT（待機）</td><td>センチメント根拠薄。テクニカル・ファンダ優先</td></tr></tbody></table>
+<!-- STRATEGY_TABLE_END -->
+<div class="callout warn-callout" style="margin-top:18px;"><div class="callout-icon">🛡️</div><div class="callout-body"><strong>逆張りで必ず守ること：</strong><br>偏りが高い ≠ 今すぐ反転する、ではありません。必ずSLを設定し、資金の1%以内のリスクに抑えましょう。</div></div>
+</section>
+
+<section class="section"><div class="section-head"><div class="section-num">5</div><div class="section-title">総合コメント</div></div>
+<!-- SUMMARY_POINTS_START -->
+<div class="summary-box"><div class="sb-title">⚔ Tsurugi Analysis — Summary</div><div class="summary-points"><div class="summary-point"><div class="sp-num">01</div><div class="sp-text"><span class="hl-warn"><strong>EUR/USD</strong></span>はショート67%・スコア-34pt。今回最も注目。逆張りBUY方向をWATCH。BBセットアップ確認後にエントリー検討。</div></div>
+<div class="summary-point"><div class="sp-num">02</div><div class="sp-text"><strong>USD/JPY</strong>はショート58%・スコア-16pt。偏りは中程度。次点として監視。逆張りBUY方向を意識しつつ追加偏り待ち。</div></div>
+<div class="summary-point"><div class="sp-num">03</div><div class="sp-text"><strong>GBP/USD</strong>は-8ptで中立域。優先度は低め。センチメント面での優位性は低く、テクニカル・ファンダ優先で判断。</div></div>
+<div class="summary-point"><div class="sp-num">04</div><div class="sp-text">センチメントは「いつ反転するかのタイミング」を教えてくれません。Tsurugi式のセットアップ（±2σ→ミドル確定）が揃ったときに初めて動くのが鉄則です。</div></div>
+<div class="summary-point"><div class="sp-num">05</div><div class="sp-text">3ペア共通で重要指標（FOMC・雇用統計・PMI）の前後30分・4時間前はポジション禁止。センチメントがどれだけ偏っていても、指標ブロック中は静観する。</div></div></div></div>
+<!-- SUMMARY_POINTS_END -->
+</section>
+
+<section class="section"><div class="section-head"><div class="section-num">6</div><div class="section-title">今後の戦略まとめ</div></div>
+<!-- FINAL_STRATEGY_START -->
+<table class="strategy-table"><thead><tr><th>ペア</th><th>優先度</th><th>方向</th><th>トリガー</th><th>根拠</th></tr></thead><tbody><tr><td class="pair-col">EUR/USD</td><td><span class="priority-dot dot-high"></span>高</td><td class="dir-buy">WATCH</td><td>逆張りBUY方向。BB -2σ→ミドル陽線確定を待つ</td><td>センチメント偏り（33/67）。強いショート偏り</td></tr>
+<tr><td class="pair-col">USD/JPY</td><td><span class="priority-dot dot-medium"></span>中</td><td class="dir-buy">WATCH</td><td>逆張りBUY方向。BB -2σ→ミドル陽線確定を待つ</td><td>センチメント偏り（42/58）。ショート優勢</td></tr>
+<tr><td class="pair-col">GBP/USD</td><td><span class="priority-dot dot-low"></span>低</td><td class="dir-wait">WAIT</td><td>センチメント根拠薄。テクニカル・ファンダ優先</td><td>センチメント偏り（46/54）。中立</td></tr></tbody></table>
+<!-- FINAL_STRATEGY_END -->
+<!-- EVENT_BOX_START -->
+<div class="callout info-callout" style="margin-top:18px;"><div class="callout-icon">🗓️</div><div class="callout-body"><strong>直近の注意指標：</strong><br>・2026/03/24 22:45 JST ― 米PMI製造業速報（3月）<br>・2026/04/03 21:30 JST ― 米雇用統計（3月）<br>・2026/04/30 03:00 JST ― 米FOMC政策金利<br><br>これらの4時間前にはポジションを解消し、前後30分はエントリー禁止です。</div></div>
+<!-- EVENT_BOX_END -->
+</section>
+
+<footer class="article-footer">
+<div style="margin-top:20px;padding:16px;background:#111;color:#fff;border-radius:6px;"><strong>▼ Tsurugi式ロジックを自動化したい方へ</strong><br>MT5用EAを開発中。完成次第Xで公開します。<br>フォローはこちら → <a href="https://x.com/omochi2106" style="color:#1d9bf0;">https://x.com/omochi2106</a></div>
+<div class="footer-disclaimer">⚠️ 本記事は個人的な取り組みの記録であり、投資を勧誘するものではありません。FXには元本割れのリスクがあります。運用は必ず自己判断・自己責任でお願いします。<br>※本分析はMyfxbookを参考にしたセンチメントデータを用いた検証段階のロジックです。<br>実トレード結果とは一致しない場合があります。<br>今後、検証を継続しながら精度を高めていきます。<br>現在、Tsurugi式ロジックのEA化を進めています。<br>検証結果がまとまり次第、公開予定です。</div>
+<div class="footer-sig">⚔️ Tsurugi Analysis Report — Tsurugi式ロジック</div>
+</footer>
+
+</div>
+</body>
+</html>

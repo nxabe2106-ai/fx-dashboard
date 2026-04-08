@@ -1,9 +1,9 @@
 {
-  "date": "2026-04-07",
+  "date": "2026-04-09",
   "heroTitle": "主要3通貨は方向感待ち、変化の確認を優先する局面",
   "topAlert": "全ペア条件未成立: 監視継続",
-  "heroLead": "本日は方向感が揃わず、即時執行よりも選別監視が優先される地合いです。主要3通貨のうち、USD/JPYが最も条件に近い状態です。",
-  "heroConclusion": "無理な追随は避け、USD/JPYを中心にブレイク確認後の対応を優先したい局面です。",
+  "heroLead": "本日は方向感が揃わず、即時執行よりも選別監視が優先される地合いです。主要3通貨のうち、EUR/USDが最も条件に近い状態です。",
+  "heroConclusion": "無理な追随は避け、EUR/USDを中心にブレイク確認後の対応を優先したい局面です。",
   "quick": {
     "market": "方向感なし",
     "direction": "様子見継続",
@@ -16,26 +16,10 @@
       "symbol": "USDJPY",
       "label": "ドル円",
       "signal": "WAIT",
-      "long": 36,
-      "short": 64,
-      "diff": 28,
-      "change_long": -1,
-      "level": "WEAK",
-      "status": "偏りはあるが条件未成熟",
-      "bias": "上方向への巻き戻し注意",
-      "levelLabel": "弱い",
-      "strategy": "ブレイク確認までは監視優先",
-      "comment": "売り比率は高いが、BUY成立には変化量が不足している。"
-    },
-    {
-      "name": "EUR/USD",
-      "symbol": "EURUSD",
-      "label": "ユーロドル",
-      "signal": "WAIT",
-      "long": 44,
-      "short": 56,
-      "diff": 12,
-      "change_long": 1,
+      "long": 42,
+      "short": 58,
+      "diff": 16,
+      "change_long": -7,
       "level": "WEAK",
       "status": "優位性不足で監視継続",
       "bias": "方向感混在",
@@ -44,14 +28,30 @@
       "comment": "数値の偏りは見られるが、執行判断にはまだ材料不足。"
     },
     {
+      "name": "EUR/USD",
+      "symbol": "EURUSD",
+      "label": "ユーロドル",
+      "signal": "WAIT",
+      "long": 33,
+      "short": 67,
+      "diff": 34,
+      "change_long": 5,
+      "level": "WEAK",
+      "status": "偏りはあるが条件未成熟",
+      "bias": "上方向への巻き戻し注意",
+      "levelLabel": "弱い",
+      "strategy": "ブレイク確認までは監視優先",
+      "comment": "売り比率は高いが、BUY成立には変化量が不足している。"
+    },
+    {
       "name": "GBP/USD",
       "symbol": "GBPUSD",
       "label": "ポンドドル",
       "signal": "WAIT",
-      "long": 60,
-      "short": 40,
-      "diff": 20,
-      "change_long": 2,
+      "long": 46,
+      "short": 54,
+      "diff": 8,
+      "change_long": 6,
       "level": "WEAK",
       "status": "優位性不足で監視継続",
       "bias": "方向感混在",
@@ -61,10 +61,10 @@
     }
   ],
   "summary": {
-    "topPair": "USDJPY",
+    "topPair": "EURUSD",
     "topSignal": "WAIT",
     "marketStatus": "方向感混在",
     "riskNote": "単独で条件成立は見られるが、全体としては選別対応が必要。"
   },
-  "latestReport": "本日の主要3通貨は全体として方向感が揃わず、全面的な追随よりも選別対応が有効です。全ペアとも明確なシグナルはなく、条件変化を待つ段階です。EUR/USDは数値の偏りは見られるが、執行判断にはまだ材料不足。GBP/USDは数値の偏りは見られるが、執行判断にはまだ材料不足。無理なエントリーを避け、ブレイク確認後の対応を優先したい局面です。"
+  "latestReport": "本日の主要3通貨は全体として方向感が揃わず、全面的な追随よりも選別対応が有効です。全ペアとも明確なシグナルはなく、条件変化を待つ段階です。EUR/USDは売り比率は高いが、BUY成立には変化量が不足している。GBP/USDは数値の偏りは見られるが、執行判断にはまだ材料不足。無理なエントリーを避け、ブレイク確認後の対応を優先したい局面です。"
 }
