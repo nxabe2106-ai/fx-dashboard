@@ -1,23 +1,23 @@
 {
   "USDJPY": {
-    "signal": "BUY",
+    "signal": "WAIT",
     "long": 35,
     "short": 65,
     "diff": 30,
-    "change_long": -6
+    "change_long": -1
   },
   "EURUSD": {
     "signal": "WAIT",
-    "long": 22,
-    "short": 78,
-    "diff": 56,
-    "change_long": 4
+    "long": 38,
+    "short": 62,
+    "diff": 24,
+    "change_long": 14
   },
   "GBPUSD": {
     "signal": "WAIT",
-    "long": 39,
-    "short": 61,
-    "diff": 22,
-    "change_long": 0
+    "long": 40,
+    "short": 60,
+    "diff": 20,
+    "change_long": 1
   }
 }
