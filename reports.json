@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-04-29",
+    "title": "GBP/USDを最優先監視、買い戻し候補を注視",
+    "description": "市場は選別局面。GBP/USDは売り偏重からの反発候補として注目。EUR/USDは条件未成熟、USD/JPYは優位性不足で様子見。",
+    "url": "./report-2026-04-29.html"
+  },
+  {
     "date": "2026-04-27",
     "title": "EUR/USDを最優先監視、買い戻し候補を注視",
     "description": "市場は選別局面。EUR/USDは売り偏重からの反発候補として注目。USD/JPYは条件未成熟、GBP/USDは優位性不足で様子見。",
@@ -52,11 +58,5 @@
     "title": "EUR/USDを最優先監視、方向感待ち",
     "description": "市場は方向感待ち。EUR/USDが最優先ペアだが、全体としては条件確認を優先したい局面。",
     "url": "./report-2026-04-10.html"
-  },
-  {
-    "date": "2026-04-09",
-    "title": "EUR/USDを最優先監視、方向感待ち",
-    "description": "市場は方向感待ち。EUR/USDが最優先ペアだが、全体としては条件確認を優先したい局面。",
-    "url": "./report-2026-04-09.html"
   }
 ]
