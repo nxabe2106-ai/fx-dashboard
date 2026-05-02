@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-05-02",
+    "topPair": "GBP/USD",
+    "bias": "WAIT"
+  },
+  {
     "date": "2026-05-01",
     "topPair": "GBP/USD",
     "bias": "BUY"
